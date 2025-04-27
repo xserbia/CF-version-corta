@@ -1,1 +1,168 @@
-// JS principal irá aquí
+// --- Financial Evaluator Short - script.js ---
+
+let data = {};
+
+function procesarResultados() {
+  data = capturarDatos();
+  mostrarResultados();
+  document.getElementById("formularioContainer").style.display = "none";
+  document.getElementById("resultadosContainer").style.display = "block";
+  mostrarGraficoGastos();
+}
+
+function capturarDatos() {
+  const form = document.getElementById("calculadoraFormulario");
+  const datos = {};
+  Array.from(form.elements).forEach(el => {
+    if (el.name) {
+      datos[el.name] = el.type === "checkbox" ? el.checked : parseFloat(el.value) || 0;
+    }
+  });
+  return datos;
+}
+
+function mostrarResultado(id) {
+  document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
+  document.getElementById(id).style.display = "block";
+
+  document.querySelectorAll(".nav-res").forEach(btn => btn.classList.remove("active"));
+  const current = Array.from(document.querySelectorAll(".nav-res")).find(btn => btn.textContent.includes(id[0].toUpperCase()));
+  if (current) current.classList.add("active");
+}
+
+function mostrarGraficoGastos() {
+  const ctx = document.getElementById('graficoGastos').getContext('2d');
+
+  if (window.graficoGastosInstance) {
+    window.graficoGastosInstance.destroy();
+  }
+
+  window.graficoGastosInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Deuda', 'Gastos esenciales', 'Seguros', 'Ahorro'],
+      datasets: [{
+        data: [
+          data.deuda_hipotecaria + data.deuda_consumo + data.otras_deudas,
+          data.gastos_esenciales,
+          data.seguro_vida + data.seguro_medico + data.seguro_incapacidad + data.seguro_hogar + data.seguro_auto,
+          data.aporte_anual_retiro || 0
+        ],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'bottom' }
+      }
+    }
+  });
+}
+
+function mostrarResultados() {
+  mostrarFlujo();
+  mostrarDeuda();
+  mostrarPatrimonio();
+  mostrarSeguridad();
+  mostrarRiesgo();
+  mostrarPatrimonial();
+  mostrarRetiro();
+  mostrarEstres();
+}
+
+// --- Resultados por sección ---
+
+function mostrarFlujo() {
+  const ingreso = data.salario + data.negocio + data.otros_ingresos;
+  const gastos = data.gastos_totales;
+  const superavit = ingreso - gastos;
+  const tasaAhorro = superavit / ingreso;
+  const emojiAhorro = tasaAhorro > 0.15 ? '✅' : tasaAhorro > 0 ? '⚠️' : '🚨';
+
+  document.getElementById("flujo").innerHTML = `
+    <h3>🅰️ A. Flujo</h3>
+    <p>Ingreso anual: $${ingreso.toLocaleString()}</p>
+    <p>Gastos anuales: $${gastos.toLocaleString()}</p>
+    <p>Superávit anual: $${superavit.toLocaleString()} ${emojiAhorro}</p>
+  `;
+}
+
+function mostrarDeuda() {
+  const deudaTotal = data.deuda_hipotecaria + data.deuda_consumo + data.otras_deudas;
+  document.getElementById("deuda").innerHTML = `
+    <h3>🅱️ B. Deuda</h3>
+    <p>Total deudas: $${deudaTotal.toLocaleString()}</p>
+  `;
+}
+
+function mostrarPatrimonio() {
+  const activos = data.cuentas_bancarias + data.inversiones_no_retiro + data.cuentas_retiro + data.valor_propiedades + data.valor_otros_activos;
+  const pasivos = data.deuda_hipotecaria + data.deuda_consumo + data.otras_deudas;
+  const patrimonio = activos - pasivos;
+
+  document.getElementById("patrimonio").innerHTML = `
+    <h3>🅲 Patrimonio</h3>
+    <p>Activos: $${activos.toLocaleString()}</p>
+    <p>Pasivos: $${pasivos.toLocaleString()}</p>
+    <p>Patrimonio neto: $${patrimonio.toLocaleString()}</p>
+  `;
+}
+
+function mostrarSeguridad() {
+  const activosInversion = data.inversiones_no_retiro + data.cuentas_retiro;
+  const activosTotales = data.cuentas_bancarias + data.inversiones_no_retiro + data.cuentas_retiro + data.valor_propiedades + data.valor_otros_activos;
+  const porcentajeInversion = (activosInversion / activosTotales) * 100;
+
+  const emojiInversion = porcentajeInversion >= 50 ? '✅' : porcentajeInversion >= 30 ? '⚠️' : '🚨';
+
+  document.getElementById("seguridad").innerHTML = `
+    <h3>🅳 Seguridad</h3>
+    <p>Activos de inversión: $${activosInversion.toLocaleString()} (${porcentajeInversion.toFixed(1)}%) ${emojiInversion}</p>
+  `;
+}
+
+function mostrarRiesgo() {
+  const reservaEmergencia = data.cuentas_bancarias / (data.gastos_esenciales / 12);
+  const emojiReserva = reservaEmergencia > 6 ? '✅' : reservaEmergencia > 3 ? '⚠️' : '🚨';
+
+  document.getElementById("riesgo").innerHTML = `
+    <h3>🅴 Manejo de riesgo</h3>
+    <p>Meses de reserva: ${reservaEmergencia.toFixed(1)} meses ${emojiReserva}</p>
+  `;
+}
+
+function mostrarPatrimonial() {
+  const documentos = [
+    { nombre: "Trust", tiene: data.tiene_trust },
+    { nombre: "Testamento", tiene: data.tiene_testamento },
+    { nombre: "Directiva médica", tiene: data.tiene_directiva_medica },
+    { nombre: "Poder legal", tiene: data.tiene_poder_legal }
+  ];
+  const tiene = documentos.filter(d => d.tiene).map(d => d.nombre).join(", ") || "Ninguno registrado";
+
+  document.getElementById("planificacion").innerHTML = `
+    <h3>🅵 Patrimonial</h3>
+    <p>Documentos disponibles: ${tiene}</p>
+  `;
+}
+
+function mostrarRetiro() {
+  const edadActual = data.edad_actual;
+  const edadRetiro = data.edad_retiro;
+  const anosRestantes = edadRetiro - edadActual;
+  const ingresoSeguro = data.seguro_social_ingreso;
+  const ahorroNecesario = ingresoSeguro * 20; // Simplificación rápida
+
+  document.getElementById("retiro").innerHTML = `
+    <h3>🅶 Retiro</h3>
+    <p>Años hasta retiro: ${anosRestantes}</p>
+    <p>Ahorro necesario aproximado: $${ahorroNecesario.toLocaleString()}</p>
+  `;
+}
+
+function mostrarEstres() {
+  document.getElementById("estres").innerHTML = `
+    <h3>🅷 Estrés financiero</h3>
+    <p>Simulación: En proceso (versión simplificada no aplica caída de activos todavía).</p>
+  `;
+}
