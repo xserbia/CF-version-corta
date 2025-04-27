@@ -8,109 +8,164 @@
   <script src="script.js"></script>
 </head>
 <body>
-
 <div id="formularioContainer">
   <form id="calculadoraFormulario">
 
-    <fieldset>
-      <legend>Ingresos</legend>
-      <label>Salario anual</label>
-      <input type="number" name="salario">
-      <label>Ingresos de negocio</label>
-      <input type="number" name="negocio">
-      <label>Otros ingresos</label>
-      <input type="number" name="otros_ingresos">
-    </fieldset>
+    <!-- Paso 1: Ingresos y Ahorros -->
+    <div class="step active" id="stepIngresos">
+      <fieldset>
+        <legend><strong>1. Ingresos y ahorros</strong></legend>
 
-    <fieldset>
-      <legend>Gastos</legend>
-      <label>Gastos esenciales anuales</label>
-      <input type="number" name="gastos_esenciales">
-      <label>Gastos totales anuales</label>
-      <input type="number" name="gastos_totales">
-    </fieldset>
+        <label>Ingreso anual bruto 
+          <span class="tooltip" title="Incluye salario, bonos, ingresos por negocio, dividendos, renta y otros ingresos, antes de impuestos.">🛈</span>
+        </label><br>
+        <input type="number" name="ingreso_bruto" required><br><br>
 
-    <fieldset>
-      <legend>Activos</legend>
-      <label>Cuentas bancarias</label>
-      <input type="number" name="cuentas_bancarias">
-      <label>Inversiones no retiro</label>
-      <input type="number" name="inversiones_no_retiro">
-      <label>Cuentas de retiro</label>
-      <input type="number" name="cuentas_retiro">
-      <label>Valor de propiedades</label>
-      <input type="number" name="valor_propiedades">
-      <label>Valor de otros activos</label>
-      <input type="number" name="valor_otros_activos">
-    </fieldset>
+        <h4>Ahorros (anual)</h4>
+        <label>Aporte personal a retiro<br><input type="number" name="aporte_personal_retiro"></label><br><br>
+        <label>Aporte del empleador a retiro<br><input type="number" name="aporte_empleador_retiro"></label><br><br>
+        <label>Otros ahorros<br><input type="number" name="otros_ahorros"></label><br><br>
 
-    <fieldset>
-      <legend>Pasivos</legend>
-      <label>Deuda hipotecaria</label>
-      <input type="number" name="deuda_hipotecaria">
-      <label>Deuda de consumo</label>
-      <input type="number" name="deuda_consumo">
-      <label>Otras deudas</label>
-      <input type="number" name="otras_deudas">
-    </fieldset>
+      </fieldset>
+      <div class="nav-buttons">
+        <button type="button" onclick="guardarDatosYAvanzar('stepGastos')">Siguiente</button>
+      </div>
+    </div>
 
-    <fieldset>
-      <legend>Seguros</legend>
-      <label><input type="checkbox" name="seguro_vida"> Seguro de vida</label><br>
-      <label><input type="checkbox" name="seguro_medico"> Seguro médico</label><br>
-      <label><input type="checkbox" name="seguro_incapacidad"> Seguro de incapacidad</label><br>
-      <label><input type="checkbox" name="seguro_hogar"> Seguro de hogar</label><br>
-      <label><input type="checkbox" name="seguro_auto"> Seguro de auto</label><br>
-    </fieldset>
+    <!-- Paso 2: Gastos -->
+    <div class="step" id="stepGastos">
+      <fieldset>
+        <legend><strong>2. Gastos</strong></legend>
 
-    <fieldset>
-      <legend>Retiro</legend>
-      <label>Edad actual</label>
-      <input type="number" name="edad_actual">
-      <label>Edad de retiro deseada</label>
-      <input type="number" name="edad_retiro">
-      <label>Ingreso estimado seguro social (anual)</label>
-      <input type="number" name="seguro_social_ingreso">
-    </fieldset>
+        <label>Pago anual por deudas 
+          <span class="tooltip" title="Incluye hipoteca, préstamos de auto, personales, estudiantiles y tarjetas de crédito.">🛈</span>
+        </label><br>
+        <input type="number" name="pago_deudas"><br><br>
 
-    <fieldset>
-      <legend>Patrimonio</legend>
-      <label><input type="checkbox" name="tiene_trust"> Trust</label><br>
-      <label><input type="checkbox" name="tiene_testamento"> Testamento</label><br>
-      <label><input type="checkbox" name="tiene_directiva_medica"> Directiva médica</label><br>
-      <label><input type="checkbox" name="tiene_poder_legal"> Poder legal</label><br>
-    </fieldset>
+        <label>Gastos diarios esenciales 
+          <span class="tooltip" title="Incluye supermercado, transporte, telecomunicaciones, servicios públicos y mantenimiento básico.">🛈</span>
+        </label><br>
+        <input type="number" name="gastos_diarios"><br><br>
 
-    <button type="button" onclick="procesarResultados()">Calcular Evaluación</button>
+        <label>Impuestos anuales 
+          <span class="tooltip" title="Incluye impuestos federales, estatales, locales, propiedad y auto.">🛈</span>
+        </label><br>
+        <input type="number" name="impuestos_anuales"><br><br>
+
+        <label>Seguros anuales 
+          <span class="tooltip" title="Incluye seguro médico, de vida, de propiedad, de auto, y otros seguros relevantes.">🛈</span>
+        </label><br>
+        <input type="number" name="seguros_anuales"><br><br>
+
+      </fieldset>
+      <div class="nav-buttons">
+        <button type="button" onclick="prevStep('stepIngresos')">Anterior</button>
+        <button type="button" onclick="guardarDatosYAvanzar('stepActivos')">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Paso 3: Activos -->
+    <div class="step" id="stepActivos">
+      <fieldset>
+        <legend><strong>3. Activos</strong></legend>
+
+        <label>Efectivo y similares<br><input type="number" name="efectivo_similar"></label><br><br>
+        <label>Cuentas de inversión (no retiro)<br><input type="number" name="cuentas_inversion"></label><br><br>
+        <label>Cuentas de retiro<br><input type="number" name="cuentas_retiro"></label><br><br>
+        <label>Propiedades (vivienda y alquiler)<br><input type="number" name="valor_propiedades"></label><br><br>
+        <label>Otros activos (vehículos, joyas, metales, muebles, etc.)<br><input type="number" name="otros_activos"></label><br><br>
+
+      </fieldset>
+      <div class="nav-buttons">
+        <button type="button" onclick="prevStep('stepGastos')">Anterior</button>
+        <button type="button" onclick="guardarDatosYAvanzar('stepPasivos')">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Paso 4: Pasivos -->
+    <div class="step" id="stepPasivos">
+      <fieldset>
+        <legend><strong>4. Pasivos</strong></legend>
+
+        <label>Deuda de tarjetas de crédito<br><input type="number" name="deuda_tarjetas"></label><br><br>
+        <label>Hipoteca o préstamo de vivienda<br><input type="number" name="deuda_hipotecaria"></label><br><br>
+        <label>Deuda comercial<br><input type="number" name="deuda_comercial"></label><br><br>
+        <label>Préstamos de vehículos<br><input type="number" name="deuda_vehiculos"></label><br><br>
+        <label>Deuda estudiantil<br><input type="number" name="deuda_estudios"></label><br><br>
+        <label>Otras deudas<br><input type="number" name="deuda_otros"></label><br><br>
+
+      </fieldset>
+      <div class="nav-buttons">
+        <button type="button" onclick="prevStep('stepActivos')">Anterior</button>
+        <button type="button" onclick="guardarDatosYAvanzar('stepSegurosHerencia')">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Paso 5: Seguros y Herencia -->
+    <div class="step" id="stepSegurosHerencia">
+      <fieldset>
+        <legend><strong>5. Seguros y planificación patrimonial</strong></legend>
+
+        <h4>Seguros:</h4>
+        <label><input type="checkbox" name="seguro_vida"> Seguro de vida</label><br>
+        <label><input type="checkbox" name="seguro_salud"> Seguro de salud</label><br>
+        <label><input type="checkbox" name="seguro_incapacidad"> Seguro de incapacidad</label><br>
+        <label><input type="checkbox" name="seguro_ltc"> Seguro de cuidado a largo plazo</label><br>
+        <label><input type="checkbox" name="seguro_propiedad"> Seguro de propiedad</label><br>
+        <label><input type="checkbox" name="seguro_auto"> Seguro de auto</label><br>
+        <label><input type="checkbox" name="seguro_umbrella"> Seguro umbrella</label><br><br>
+
+        <h4>Documentos de herencia:</h4>
+        <label><input type="checkbox" name="trust"> Trust</label><br>
+        <label><input type="checkbox" name="will"> Testamento</label><br>
+        <label><input type="checkbox" name="advance_medical_directive"> Directiva médica anticipada</label><br>
+        <label><input type="checkbox" name="power_of_attorney"> Poder legal</label><br>
+        <label><input type="checkbox" name="beneficiary_designation"> Designación de beneficiarios</label><br>
+        <label><input type="checkbox" name="property_deeds"> Títulos de propiedad</label><br>
+
+      </fieldset>
+      <div class="nav-buttons">
+        <button type="button" onclick="prevStep('stepPasivos')">Anterior</button>
+        <button type="button" onclick="guardarDatosYAvanzar('stepRetiro')">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Paso 6: Retiro -->
+    <div class="step" id="stepRetiro">
+      <fieldset>
+        <legend><strong>6. Planificación de retiro</strong></legend>
+
+        <label>Edad actual<br><input type="number" name="edad" required></label><br><br>
+        <label>Edad deseada de retiro<br><input type="number" name="edad_retiro" required></label><br><br>
+
+        <label>Tasa esperada de acumulación (%) 
+          <span class="tooltip" title="Porcentaje de crecimiento esperado de tus inversiones antes de retiro. Default: 9.64%">🛈</span>
+        </label><br>
+        <input type="number" name="tasa_acumulacion" step="0.01" value="9.64"><br><br>
+
+        <label>Inflación estimada (%) 
+          <span class="tooltip" title="Tasa de inflación esperada que afectará el costo de vida. Default: 3%">🛈</span>
+        </label><br>
+        <input type="number" name="inflacion_esperada" step="0.01" value="3"><br><br>
+
+        <label>Tasa estimada durante retiro (%) 
+          <span class="tooltip" title="Tasa de crecimiento esperada después de jubilarse. Default sugerido: 4%">🛈</span>
+        </label><br>
+        <input type="number" name="tasa_retiro" step="0.01" value="4"><br><br>
+
+        <!-- La tasa de reemplazo va oculta -->
+        <input type="hidden" name="porcentaje_reemplazo" value="70">
+
+      </fieldset>
+      <div class="nav-buttons">
+        <button type="button" onclick="prevStep('stepSegurosHerencia')">Anterior</button>
+        <button type="submit">Calcular</button>
+      </div>
+    </div>
 
   </form>
 </div>
 
-<div id="resultadosContainer" style="display:none;">
-  <h2>Resultados de tu evaluación financiera</h2>
-
-  <div id="navResultados">
-    <div class="nav-res" onclick="mostrarResultado('flujo')">🅰️ Flujo</div>
-    <div class="nav-res" onclick="mostrarResultado('deuda')">🅱️ Deuda</div>
-    <div class="nav-res" onclick="mostrarResultado('patrimonio')">🅲 Patrimonio</div>
-    <div class="nav-res" onclick="mostrarResultado('seguridad')">🅳 Seguridad</div>
-    <div class="nav-res" onclick="mostrarResultado('riesgo')">🅴 Riesgo</div>
-    <div class="nav-res" onclick="mostrarResultado('planificacion')">🅵 Patrimonial</div>
-    <div class="nav-res" onclick="mostrarResultado('retiro')">🅶 Retiro</div>
-    <div class="nav-res" onclick="mostrarResultado('estres')">🅷 Estrés</div>
-  </div>
-
-  <canvas id="graficoGastos" width="300" height="300"></canvas>
-
-  <div id="flujo" class="resultado-categoria"></div>
-  <div id="deuda" class="resultado-categoria" style="display:none;"></div>
-  <div id="patrimonio" class="resultado-categoria" style="display:none;"></div>
-  <div id="seguridad" class="resultado-categoria" style="display:none;"></div>
-  <div id="riesgo" class="resultado-categoria" style="display:none;"></div>
-  <div id="planificacion" class="resultado-categoria" style="display:none;"></div>
-  <div id="retiro" class="resultado-categoria" style="display:none;"></div>
-  <div id="estres" class="resultado-categoria" style="display:none;"></div>
-</div>
 
 <script src="script.js"></script>
 </body>
