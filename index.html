@@ -3,18 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Financial Evaluator Short</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js"></script>
+  <title>Calculadora Financiera - Inputs</title>
+  <style>
+    /* 🌟 Estilos navegación top */
+    .top-navigation {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      padding: 10px 18px;
+      border: 2px solid #2563eb;
+      background-color: white;
+      color: #2563eb;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .nav-btn.active {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    .nav-btn:hover {
+      background-color: #1d4ed8;
+      color: white;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .tooltip {
+      cursor: help;
+      border-bottom: 1px dotted black;
+    }
+
+    @media (max-width: 600px) {
+      .top-navigation {
+        overflow-x: auto;
+        padding: 5px;
+      }
+      .nav-btn {
+        flex: 0 0 auto;
+        font-size: 0.85rem;
+        white-space: nowrap;
+      }
+    }
+  </style>
 </head>
 <body>
+
+<div id="topNav" class="top-navigation">
+  <button class="nav-btn active" onclick="irASeccion('stepIngresos')">Ingresos</button>
+  <button class="nav-btn" onclick="irASeccion('stepGastos')">Gastos</button>
+  <button class="nav-btn" onclick="irASeccion('stepActivos')">Activos</button>
+  <button class="nav-btn" onclick="irASeccion('stepPasivos')">Pasivos</button>
+  <button class="nav-btn" onclick="irASeccion('stepSegurosHerencia')">Seguros y Herencia</button>
+  <button class="nav-btn" onclick="irASeccion('stepRetiro')">Retiro</button>
+</div>
+
+<!-- Formulario principal -->
 <div id="formularioContainer">
   <form id="calculadoraFormulario">
 
     <!-- Paso 1: Ingresos y Ahorros -->
     <div class="step active" id="stepIngresos">
       <fieldset>
-        <legend><strong>1. Ingresos y ahorros</strong></legend>
+        <legend><strong>1. Ingresos y Ahorros</strong></legend>
 
         <label>Ingreso anual bruto 
           <span class="tooltip" title="Incluye salario, bonos, ingresos por negocio, dividendos, renta y otros ingresos, antes de impuestos.">🛈</span>
@@ -104,7 +176,7 @@
     <!-- Paso 5: Seguros y Herencia -->
     <div class="step" id="stepSegurosHerencia">
       <fieldset>
-        <legend><strong>5. Seguros y planificación patrimonial</strong></legend>
+        <legend><strong>5. Seguros y Planificación Patrimonial</strong></legend>
 
         <h4>Seguros:</h4>
         <label><input type="checkbox" name="seguro_vida"> Seguro de vida</label><br>
@@ -133,7 +205,7 @@
     <!-- Paso 6: Retiro -->
     <div class="step" id="stepRetiro">
       <fieldset>
-        <legend><strong>6. Planificación de retiro</strong></legend>
+        <legend><strong>6. Planificación de Retiro</strong></legend>
 
         <label>Edad actual<br><input type="number" name="edad" required></label><br><br>
         <label>Edad deseada de retiro<br><input type="number" name="edad_retiro" required></label><br><br>
@@ -153,7 +225,7 @@
         </label><br>
         <input type="number" name="tasa_retiro" step="0.01" value="4"><br><br>
 
-        <!-- La tasa de reemplazo va oculta -->
+        <!-- Tasa de reemplazo escondida -->
         <input type="hidden" name="porcentaje_reemplazo" value="70">
 
       </fieldset>
@@ -166,7 +238,32 @@
   </form>
 </div>
 
+<script>
+function irASeccion(stepId) {
+  document.querySelectorAll('.step').forEach(div => div.classList.remove('active'));
+  document.getElementById(stepId).classList.add('active');
 
-<script src="script.js"></script>
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  const buttons = document.querySelectorAll('.nav-btn');
+  const index = {
+    stepIngresos: 0,
+    stepGastos: 1,
+    stepActivos: 2,
+    stepPasivos: 3,
+    stepSegurosHerencia: 4,
+    stepRetiro: 5
+  }[stepId];
+  if (buttons[index]) buttons[index].classList.add('active');
+}
+
+function guardarDatosYAvanzar(stepId) {
+  irASeccion(stepId);
+}
+
+function prevStep(stepId) {
+  irASeccion(stepId);
+}
+</script>
+
 </body>
 </html>
