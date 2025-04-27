@@ -4,69 +4,111 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora Financiera - Inputs</title>
-  <style>
-    /* 🌟 Estilos navegación top */
+<style>
+  /* 🌟 Estilos generales + navegación top + tooltips modernos */
+
+  body {
+    font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  .top-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+
+  .nav-btn {
+    padding: 10px 18px;
+    border: 2px solid #2563eb;
+    background-color: white;
+    color: #2563eb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .nav-btn.active {
+    background-color: #2563eb;
+    color: white;
+  }
+
+  .nav-btn:hover {
+    background-color: #1d4ed8;
+    color: white;
+  }
+
+  .step {
+    display: none;
+  }
+
+  .step.active {
+    display: block;
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  /* 🎈 Estilos modernos para tooltips */
+  .tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #2563eb;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8rem;
+  }
+
+  .tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #2563eb transparent transparent transparent;
+  }
+
+  @media (max-width: 600px) {
     .top-navigation {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 20px;
-      gap: 10px;
+      overflow-x: auto;
+      padding: 5px;
     }
-
     .nav-btn {
-      padding: 10px 18px;
-      border: 2px solid #2563eb;
-      background-color: white;
-      color: #2563eb;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
+      flex: 0 0 auto;
+      font-size: 0.85rem;
+      white-space: nowrap;
     }
+  }
+</style>
 
-    .nav-btn.active {
-      background-color: #2563eb;
-      color: white;
-    }
-
-    .nav-btn:hover {
-      background-color: #1d4ed8;
-      color: white;
-    }
-
-    .step {
-      display: none;
-    }
-
-    .step.active {
-      display: block;
-    }
-
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-
-    .tooltip {
-      cursor: help;
-      border-bottom: 1px dotted black;
-    }
-
-    @media (max-width: 600px) {
-      .top-navigation {
-        overflow-x: auto;
-        padding: 5px;
-      }
-      .nav-btn {
-        flex: 0 0 auto;
-        font-size: 0.85rem;
-        white-space: nowrap;
-      }
-    }
-  </style>
 </head>
 <body>
 
