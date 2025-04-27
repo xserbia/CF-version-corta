@@ -1,1 +1,117 @@
-<!-- HTML principal irá aquí -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Evaluator Short</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div id="formularioContainer">
+  <form id="calculadoraFormulario">
+
+    <fieldset>
+      <legend>Ingresos</legend>
+      <label>Salario anual</label>
+      <input type="number" name="salario">
+      <label>Ingresos de negocio</label>
+      <input type="number" name="negocio">
+      <label>Otros ingresos</label>
+      <input type="number" name="otros_ingresos">
+    </fieldset>
+
+    <fieldset>
+      <legend>Gastos</legend>
+      <label>Gastos esenciales anuales</label>
+      <input type="number" name="gastos_esenciales">
+      <label>Gastos totales anuales</label>
+      <input type="number" name="gastos_totales">
+    </fieldset>
+
+    <fieldset>
+      <legend>Activos</legend>
+      <label>Cuentas bancarias</label>
+      <input type="number" name="cuentas_bancarias">
+      <label>Inversiones no retiro</label>
+      <input type="number" name="inversiones_no_retiro">
+      <label>Cuentas de retiro</label>
+      <input type="number" name="cuentas_retiro">
+      <label>Valor de propiedades</label>
+      <input type="number" name="valor_propiedades">
+      <label>Valor de otros activos</label>
+      <input type="number" name="valor_otros_activos">
+    </fieldset>
+
+    <fieldset>
+      <legend>Pasivos</legend>
+      <label>Deuda hipotecaria</label>
+      <input type="number" name="deuda_hipotecaria">
+      <label>Deuda de consumo</label>
+      <input type="number" name="deuda_consumo">
+      <label>Otras deudas</label>
+      <input type="number" name="otras_deudas">
+    </fieldset>
+
+    <fieldset>
+      <legend>Seguros</legend>
+      <label><input type="checkbox" name="seguro_vida"> Seguro de vida</label><br>
+      <label><input type="checkbox" name="seguro_medico"> Seguro médico</label><br>
+      <label><input type="checkbox" name="seguro_incapacidad"> Seguro de incapacidad</label><br>
+      <label><input type="checkbox" name="seguro_hogar"> Seguro de hogar</label><br>
+      <label><input type="checkbox" name="seguro_auto"> Seguro de auto</label><br>
+    </fieldset>
+
+    <fieldset>
+      <legend>Retiro</legend>
+      <label>Edad actual</label>
+      <input type="number" name="edad_actual">
+      <label>Edad de retiro deseada</label>
+      <input type="number" name="edad_retiro">
+      <label>Ingreso estimado seguro social (anual)</label>
+      <input type="number" name="seguro_social_ingreso">
+    </fieldset>
+
+    <fieldset>
+      <legend>Patrimonio</legend>
+      <label><input type="checkbox" name="tiene_trust"> Trust</label><br>
+      <label><input type="checkbox" name="tiene_testamento"> Testamento</label><br>
+      <label><input type="checkbox" name="tiene_directiva_medica"> Directiva médica</label><br>
+      <label><input type="checkbox" name="tiene_poder_legal"> Poder legal</label><br>
+    </fieldset>
+
+    <button type="button" onclick="procesarResultados()">Calcular Evaluación</button>
+
+  </form>
+</div>
+
+<div id="resultadosContainer" style="display:none;">
+  <h2>Resultados de tu evaluación financiera</h2>
+
+  <div id="navResultados">
+    <div class="nav-res" onclick="mostrarResultado('flujo')">🅰️ Flujo</div>
+    <div class="nav-res" onclick="mostrarResultado('deuda')">🅱️ Deuda</div>
+    <div class="nav-res" onclick="mostrarResultado('patrimonio')">🅲 Patrimonio</div>
+    <div class="nav-res" onclick="mostrarResultado('seguridad')">🅳 Seguridad</div>
+    <div class="nav-res" onclick="mostrarResultado('riesgo')">🅴 Riesgo</div>
+    <div class="nav-res" onclick="mostrarResultado('planificacion')">🅵 Patrimonial</div>
+    <div class="nav-res" onclick="mostrarResultado('retiro')">🅶 Retiro</div>
+    <div class="nav-res" onclick="mostrarResultado('estres')">🅷 Estrés</div>
+  </div>
+
+  <canvas id="graficoGastos" width="300" height="300"></canvas>
+
+  <div id="flujo" class="resultado-categoria"></div>
+  <div id="deuda" class="resultado-categoria" style="display:none;"></div>
+  <div id="patrimonio" class="resultado-categoria" style="display:none;"></div>
+  <div id="seguridad" class="resultado-categoria" style="display:none;"></div>
+  <div id="riesgo" class="resultado-categoria" style="display:none;"></div>
+  <div id="planificacion" class="resultado-categoria" style="display:none;"></div>
+  <div id="retiro" class="resultado-categoria" style="display:none;"></div>
+  <div id="estres" class="resultado-categoria" style="display:none;"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
