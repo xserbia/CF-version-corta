@@ -159,96 +159,99 @@
   <form id="calculadoraFormulario">
 
     <!-- 1. Ingresos -->
-    <div class="step active" id="stepIngresos">
-      <fieldset>
-        <legend>Ingresos y ahorros</legend>
+<div class="step" id="stepIngresos">
+  <fieldset>
+    <legend>Ingresos y Ahorros</legend>
 
-        <label>Ingreso anual bruto
-          <span class="tooltip" title="Incluye salario, bonos, ingresos de negocio, dividendos, rentas, etc., antes de impuestos.">🛈</span>
-        </label>
-        <input type="number" name="ingreso_bruto" required>
+    <label>Ingreso anual bruto
+      <span class="tooltip" title="Suma total de ingresos antes de impuestos: salario, negocio, bonos, dividendos, rentas, etc.">🛈</span>
+    </label>
+    <input type="number" name="ingreso_bruto" required onblur="validarCampo(this)">
 
-        <label>Aporte personal a retiro
-          <span class="tooltip" title="Lo que contribuyes en un año en una o varias cuentas de retiro.">🛈</span>
-        </label>
-        <input type="number" name="aporte_personal_retiro">
+    <h4>Ahorros anuales:</h4>
 
-        <label>Aporte del empleador a retiro
-          <span class="tooltip" title="Si tu empleador o negocio aporta dinero a tu cuenta de retiro ponlo aquí.">🛈</span>
-        </label>
-        <input type="number" name="aporte_empleador_retiro">
+    <label>Aporte personal a retiro
+      <span class="tooltip" title="Aporte que realizas de tu salario hacia tu fondo de retiro 401k, IRA, o similar.">🛈</span>
+    </label>
+    <input type="number" name="aporte_personal_retiro" onblur="validarCampo(this)">
 
-        <label>Otros ahorros
-          <span class="tooltip" title="Lo que pones en cuenta de ahorro, reserva de emergencia, etc.">🛈</span>
-        </label>
-        <input type="number" name="otros_ahorros">
-      </fieldset>
-      <div class="nav-buttons">
-        <button type="button" onclick="guardarDatosYAvanzar('stepGastos')">Siguiente</button>
-      </div>
-    </div>
+    <label>Aporte del empleador a retiro
+      <span class="tooltip" title="Aporte que tu empleador realiza a tu fondo de retiro, si aplica.">🛈</span>
+    </label>
+    <input type="number" name="aporte_empleador_retiro" onblur="validarCampo(this)">
+
+    <label>Otros ahorros
+      <span class="tooltip" title="Cualquier otra forma de ahorro anual: ahorro bancario, fondos de emergencia, etc.">🛈</span>
+    </label>
+    <input type="number" name="otros_ahorros" onblur="validarCampo(this)">
+
+  </fieldset>
+  <div class="nav-buttons">
+    <button type="button" onclick="guardarDatosYAvanzar('stepGastos')">Siguiente</button>
+  </div>
+</div>
 
     <!-- 2. Gastos -->
-    <div class="step" id="stepGastos">
-      <fieldset>
-        <legend>Gastos anuales</legend>
+<div class="step" id="stepGastos">
+  <fieldset>
+    <legend>Gastos Anuales</legend>
 
-        <label>Pago por deudas
-          <span class="tooltip" title="Suma de pagos anuales por hipotecas, préstamos, tarjetas, etc.">🛈</span>
-        </label>
-        <input type="number" name="pago_deudas">
+    <label>Pago por deudas
+      <span class="tooltip" title="Pagos anuales de hipotecas, préstamos personales, automotrices, educativos y tarjetas de crédito.">🛈</span>
+    </label>
+    <input type="number" name="pago_deudas" required onblur="validarCampo(this)">
 
-        <label>Gastos diarios esenciales
-          <span class="tooltip" title="Incluye comida, servicios públicos, transporte, telecomunicaciones.">🛈</span>
-        </label>
-        <input type="number" name="gastos_diarios">
+    <label>Gastos diarios esenciales
+      <span class="tooltip" title="Incluye supermercado, transporte, servicios públicos, telecomunicaciones y mantenimiento básico.">🛈</span>
+    </label>
+    <input type="number" name="gastos_diarios" required onblur="validarCampo(this)">
 
-        <label>Impuestos anuales
-          <span class="tooltip" title="Federales, estatales, municipales, propiedad, auto.">🛈</span>
-        </label>
-        <input type="number" name="impuestos_anuales">
+    <label>Impuestos anuales
+      <span class="tooltip" title="Pagos de impuestos federales, estatales, municipales, de propiedad y de vehículo.">🛈</span>
+    </label>
+    <input type="number" name="impuestos_anuales" required onblur="validarCampo(this)">
 
-        <label>Seguros anuales
-          <span class="tooltip" title="Seguro médico, vida, auto, propiedad, umbrella, etc.">🛈</span>
-        </label>
-        <input type="number" name="seguros_anuales">
-      </fieldset>
-      <div class="nav-buttons">
-        <button type="button" onclick="prevStep('stepIngresos')">Anterior</button>
-        <button type="button" onclick="guardarDatosYAvanzar('stepActivos')">Siguiente</button>
-      </div>
-    </div>
+    <label>Seguros anuales
+      <span class="tooltip" title="Pagos de seguros de salud, vida, propiedad, auto y umbrella.">🛈</span>
+    </label>
+    <input type="number" name="seguros_anuales" required onblur="validarCampo(this)">
 
-    <!-- 3. Activos -->
+  </fieldset>
+  <div class="nav-buttons">
+    <button type="button" onclick="prevStep('stepIngresos')">Anterior</button>
+    <button type="button" onclick="guardarDatosYAvanzar('stepActivos')">Siguiente</button>
+  </div>
+</div>
+
 <!-- 3. Activos -->
 <div class="step" id="stepActivos">
   <fieldset>
     <legend>Activos</legend>
 
     <label>Efectivo y similares
-      <span class="tooltip" title="Dinero disponible en efectivo, cuentas corrientes y de ahorros accesibles sin penalidad.">🛈</span>
+      <span class="tooltip" title="Saldos en cuentas bancarias, efectivo disponible, cuentas de ahorro o money market.">🛈</span>
     </label>
-    <input type="number" name="efectivo_similar">
+    <input type="number" name="efectivo_similar" required onblur="validarCampo(this)">
 
     <label>Cuentas de inversión (no retiro)
-      <span class="tooltip" title="Valor total de cuentas de inversión líquidas como brokerage, fondos mutuos o acciones fuera de cuentas de retiro.">🛈</span>
+      <span class="tooltip" title="Valor de inversiones líquidas no destinadas a retiro: fondos mutuos, acciones, bonos.">🛈</span>
     </label>
-    <input type="number" name="cuentas_inversion">
+    <input type="number" name="cuentas_inversion" required onblur="validarCampo(this)">
 
     <label>Cuentas de retiro
-      <span class="tooltip" title="Valor de cuentas como 401(k), IRA, Roth IRA, o cualquier plan de retiro individual o patrocinado por empleador.">🛈</span>
+      <span class="tooltip" title="Valor actual de tus cuentas IRA, 401(k), Roth, 403(b) o planes similares.">🛈</span>
     </label>
-    <input type="number" name="cuentas_retiro">
+    <input type="number" name="cuentas_retiro" required onblur="validarCampo(this)">
 
     <label>Propiedades
-      <span class="tooltip" title="Valor estimado de mercado de propiedades inmobiliarias: casa principal, casa de vacaciones o propiedades de alquiler.">🛈</span>
+      <span class="tooltip" title="Valor de mercado de propiedades residenciales o de inversión que poseas.">🛈</span>
     </label>
-    <input type="number" name="valor_propiedades">
+    <input type="number" name="valor_propiedades" required onblur="validarCampo(this)">
 
     <label>Otros activos
-      <span class="tooltip" title="Valor combinado de vehículos, joyas, metales preciosos, muebles, arte, u otros bienes valiosos.">🛈</span>
+      <span class="tooltip" title="Valor estimado de autos, joyas, metales preciosos, muebles valiosos, arte, etc.">🛈</span>
     </label>
-    <input type="number" name="otros_activos">
+    <input type="number" name="otros_activos" required onblur="validarCampo(this)">
 
   </fieldset>
   <div class="nav-buttons">
@@ -257,42 +260,40 @@
   </div>
 </div>
 
-
     <!-- 4. Pasivos -->
-<!-- 4. Pasivos -->
 <div class="step" id="stepPasivos">
   <fieldset>
     <legend>Pasivos</legend>
 
     <label>Deuda de tarjetas de crédito
-      <span class="tooltip" title="Saldo total pendiente en todas las tarjetas de crédito, incluyendo intereses acumulados.">🛈</span>
+      <span class="tooltip" title="Saldo total actual de todas tus tarjetas de crédito.">🛈</span>
     </label>
-    <input type="number" name="deuda_tarjetas">
+    <input type="number" name="deuda_tarjetas" required onblur="validarCampo(this)">
 
     <label>Hipoteca o préstamo de vivienda
-      <span class="tooltip" title="Saldo restante de hipotecas sobre propiedades principales o de inversión.">🛈</span>
+      <span class="tooltip" title="Saldo pendiente de tu hipoteca principal o préstamo de vivienda.">🛈</span>
     </label>
-    <input type="number" name="deuda_hipotecaria">
+    <input type="number" name="deuda_hipotecaria" required onblur="validarCampo(this)">
 
     <label>Deuda comercial
-      <span class="tooltip" title="Préstamos o líneas de crédito tomadas para financiar un negocio o actividad comercial.">🛈</span>
+      <span class="tooltip" title="Saldo actual de préstamos comerciales si eres dueño de un negocio.">🛈</span>
     </label>
-    <input type="number" name="deuda_comercial">
+    <input type="number" name="deuda_comercial" required onblur="validarCampo(this)">
 
     <label>Préstamos de vehículos
-      <span class="tooltip" title="Saldo pendiente de préstamos para automóviles, motocicletas o embarcaciones.">🛈</span>
+      <span class="tooltip" title="Saldo pendiente de tus préstamos de autos, motocicletas u otros vehículos.">🛈</span>
     </label>
-    <input type="number" name="deuda_vehiculos">
+    <input type="number" name="deuda_vehiculos" required onblur="validarCampo(this)">
 
     <label>Deuda estudiantil
-      <span class="tooltip" title="Monto pendiente en préstamos estudiantiles para educación superior.">🛈</span>
+      <span class="tooltip" title="Saldo restante de tus préstamos educativos o universitarios.">🛈</span>
     </label>
-    <input type="number" name="deuda_estudios">
+    <input type="number" name="deuda_estudios" required onblur="validarCampo(this)">
 
     <label>Otras deudas
-      <span class="tooltip" title="Cualquier otro tipo de deuda no incluida previamente: préstamos personales, deudas familiares, juicios, etc.">🛈</span>
+      <span class="tooltip" title="Cualquier otro saldo de deuda no clasificada anteriormente.">🛈</span>
     </label>
-    <input type="number" name="deuda_otros">
+    <input type="number" name="deuda_otros" required onblur="validarCampo(this)">
 
   </fieldset>
   <div class="nav-buttons">
