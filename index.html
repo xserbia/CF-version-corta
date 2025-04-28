@@ -109,6 +109,33 @@
       flex-wrap: wrap; /* 🔥 en móviles sí permitimos que brinque a nueva línea */
     }
   }
+    .tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip::after {
+  content: attr(title);
+  position: absolute;
+  background: #111827;
+  color: white;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  bottom: 125%; /* muestra arriba del ícono */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+}
   </style>
 </head>
 
