@@ -32,84 +32,79 @@ function irASeccion(stepId) {
   seccionActual = stepId;
 }
 
-// ✅ Bloqueo de navegación en menú top
+// ✅ Variables de navegación
 let seccionActual = 'stepIngresos';
 const ordenSecciones = ['stepIngresos', 'stepGastos', 'stepActivos', 'stepPasivos', 'stepSegurosHerencia', 'stepRetiro'];
 
+// ✅ Bloqueo de navegación
 document.querySelectorAll('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', function (e) {
+  btn.addEventListener('click', function(e) {
     const destino = this.getAttribute('onclick').match(/'(.*?)'/)[1];
 
     const pasoActualIndex = ordenSecciones.indexOf(seccionActual);
     const destinoIndex = ordenSecciones.indexOf(destino);
 
     if (destinoIndex > pasoActualIndex) {
+      // Quiere ir hacia adelante: validar primero
       if (!validarCamposPasoActual()) {
         e.preventDefault();
       } else {
         seccionActual = destino;
       }
     } else {
+      // Quiere ir hacia atrás o misma sección
       seccionActual = destino;
     }
   });
 });
 
+// ✅ Validar campos individuales
 function validarCampo(input) {
+  const label = input.previousElementSibling;
   if (input.value.trim() === '' || isNaN(input.value) || parseFloat(input.value) < 0) {
     input.style.border = '2px solid red';
+    if (label) label.classList.add('error');
   } else {
     input.style.border = '2px solid green';
+    if (label) label.classList.remove('error');
   }
 }
 
-// ✅ Validar campos antes de avanzar
-
-function guardarDatosYAvanzar(siguientePasoId) {
+// ✅ Validar todos los campos del paso actual
+function validarCamposPasoActual() {
   const pasoActual = document.querySelector('.step.active');
   let camposValidos = true;
 
   if (pasoActual) {
-    const inputs = pasoActual.querySelectorAll('input[required]:not([type="hidden"])'); // 🔥 Sólo inputs visibles y requeridos
-    
+    const inputs = pasoActual.querySelectorAll('input[required]:not([type="hidden"])');
+
     inputs.forEach(input => {
-      const label = input.previousElementSibling;
-      if (!input.value.trim() || isNaN(input.value) || parseFloat(input.value) < 0) {
+      validarCampo(input);
+      if (input.style.borderColor === 'red') {
         camposValidos = false;
-        input.style.border = '2px solid red'; // Marca rojo el input
-        if (label) {
-          label.classList.add('error');
-          label.classList.add('shake');
-          setTimeout(() => label.classList.remove('shake'), 400); // Shake más suave
-        }
-      } else {
-        input.style.border = '2px solid green'; // Marca verde si está bien
-        if (label) {
-          label.classList.remove('error');
-        }
       }
     });
   }
-
-  if (camposValidos) {
-    irASeccion(siguientePasoId); // ✅ Solo si todo está correcto
-  }
+  return camposValidos;
 }
 
-
-// ✅ Validar antes de pasar con botón "Continuar"
+// ✅ Validar y avanzar al siguiente paso
 function guardarDatosYAvanzar(siguientePasoId) {
   if (validarCamposPasoActual()) {
-    irASeccion(siguientePasoId);
+    if (siguientePasoId === 'mostrarResultados') {
+      procesarResultados(); // 🚀 Mostrar resultados si corresponde
+    } else {
+      irASeccion(siguientePasoId);
+    }
   }
 }
 
-// ✅ Retroceder sin validar
+// ✅ Retroceder libremente
 function prevStep(prevPasoId) {
   irASeccion(prevPasoId);
 }
 
-// ✅ Al cargar la página
+// ✅ Configurar al cargar
 window.onload = function() {
   ocultarTodasLasSecciones();
   const step = document.getElementById('stepIngresos');
@@ -120,39 +115,17 @@ window.onload = function() {
   seccionActual = 'stepIngresos';
 };
 
-// ✅ Marcar campos requeridos y bloquear navegación solo después de cargar DOM
+// ✅ Agregar asteriscos y validar mientras escribe
 document.addEventListener('DOMContentLoaded', function() {
   const inputsRequeridos = document.querySelectorAll('input[required]');
-  
+
   inputsRequeridos.forEach(input => {
     const label = input.previousElementSibling;
     if (label && label.tagName.toLowerCase() === 'label') {
       label.classList.add('required-label');
     }
-
-    // 🔥 Nuevo: Revalidar automáticamente mientras escribe
     input.addEventListener('input', function() {
-      if (input.value.trim() !== '' && !isNaN(input.value) && parseFloat(input.value) >= 0) {
-        input.style.border = '2px solid green';
-        if (label) {
-          label.classList.remove('error');
-        }
-      } else {
-        input.style.border = '2px solid red';
-        if (label) {
-          label.classList.add('error');
-        }
-      }
-    });
-  });
-
-  // 🔥 Bloquear navegación manual
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      const destino = this.getAttribute('onclick').match(/'(.*?)'/)[1];
-      if (destino !== seccionActual) {
-        e.preventDefault();
-      }
+      validarCampo(input);
     });
   });
 });
