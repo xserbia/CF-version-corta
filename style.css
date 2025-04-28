@@ -46,41 +46,41 @@ body {
     font-size: 1rem;
   }
 
-  /* Tooltips actualizados */
-  .tooltip {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    font-weight: normal;
-    margin-left: 6px;
-    color: #2563eb;
-    font-size: 1rem;
-  }
+/* 🌟 Tooltips personalizados usando data-tooltip */
+.tooltip {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  font-weight: normal;
+  margin-left: 6px;
+  color: #2563eb;
+  font-size: 1rem;
+}
 
-  .tooltip::after {
-    content: attr(title);
-    position: absolute;
-    bottom: 125%; /* tooltip arriba del ícono */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #111827;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    white-space: normal;
-    width: 220px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s;
-    z-index: 10;
-    text-align: center;
-  }
+.tooltip::after {
+  content: attr(data-tooltip); /* ✅ Leerá el texto desde data-tooltip */
+  position: absolute;
+  bottom: 125%; /* Aparece arriba del icono */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #111827; /* Negro elegante */
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: normal;
+  width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+  z-index: 10;
+  text-align: center;
+}
 
-  .tooltip:hover::after {
-    opacity: 1;
-    visibility: visible;
-  }
+.tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
 
   /* Navegador top */
   #topNav {
@@ -139,14 +139,12 @@ body {
     margin-left: 4px;
   }
 
-  @media (max-width: 768px) {
-    .top-navigation {
-      flex-wrap: wrap;
-    }
-    .tooltip::after {
-      width: 180px;
-    }
+/* 🔵 Ajuste especial para móvil */
+@media (max-width: 768px) {
+  .tooltip::after {
+    width: 180px;
   }
+}
   .required-label.error {
     color: #dc2626;
   }
