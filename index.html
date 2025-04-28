@@ -443,7 +443,7 @@ button:active {
   </fieldset>
 
   <div class="nav-buttons">
-    <button type="button" onclick="guardarDatosYAvanzar('stepRetiro')">Continuar</button>
+   <button type="button" onclick="guardarDatosSegurosHerencia()">Continuar</button>
   </div>
 </div>
 
@@ -575,6 +575,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+  function guardarDatosSegurosHerencia() {
+  // 🔵 Seguros
+  const segurosSeleccionados = document.querySelectorAll('input[name^="seguro_"]:checked');
+  const ningunSeguro = document.querySelector('input[name="ningun_seguro"]:checked');
+
+  // 🔵 Herencia
+  const documentosSeleccionados = document.querySelectorAll('input[name="trust"]:checked, input[name="will"]:checked, input[name="advance_medical_directive"]:checked, input[name="power_of_attorney"]:checked, input[name="beneficiary_designation"]:checked, input[name="property_deeds"]:checked');
+  const ningunDocumento = document.querySelector('input[name="ningun_documento"]:checked');
+
+  let error = false;
+
+  // Validar seguros
+  if (segurosSeleccionados.length === 0 && !ningunSeguro) {
+    error = true;
+    alert("Debes seleccionar al menos un seguro o marcar 'No tengo seguros actualmente'.");
+  }
+
+  // Validar herencia
+  if (documentosSeleccionados.length === 0 && !ningunDocumento) {
+    error = true;
+    alert("Debes seleccionar al menos un documento de herencia o marcar 'No tengo documentos actualmente'.");
+  }
+
+  if (!error) {
+    irASeccion('stepRetiro');
+  }
+}
 </script>
 
 
