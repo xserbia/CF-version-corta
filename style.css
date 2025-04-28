@@ -149,19 +149,15 @@ body {
 /* Responsive ajustes */
 @media (max-width: 768px) {
   .top-navigation {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap; /* No se brinque a nueva línea */
+    overflow-x: auto; /* 🔥 Scroll horizontal */
+    -webkit-overflow-scrolling: touch; /* 🔥 Scroll suave en móviles */
   }
   
   .nav-btn {
-    flex: 0 0 auto;
-    padding: 8px 16px; /* 🔥 Más pequeños en móvil */
-    font-size: 0.85rem; /* 🔥 Letra más compacta */
-    min-width: 100px; /* 🔥 Menor ancho mínimo */
+    flex: 0 0 auto; /* 🔥 Los botones no se encogen */
   }
 }
-
 
   /* Efecto shake */
   @keyframes shake {
