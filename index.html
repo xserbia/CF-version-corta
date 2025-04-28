@@ -139,6 +139,30 @@
     input[type="number"]:focus {
   outline: none;
 }
+  .required-label::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+
+  .required-label.error {
+    color: #dc2626;
+  }
+
+  /* Efecto shake */
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+
+  .shake {
+    animation: shake 0.3s;
+    animation-iteration-count: 1;
+  }
   </style>
 </head>
 
@@ -440,21 +464,23 @@
 
 <!-- Script para navegación -->
 
-  <script>
+<script>
+// ✅ Ocultar todas las secciones
 function ocultarTodasLasSecciones() {
   document.querySelectorAll('.step').forEach(div => {
     div.classList.remove('active');
-    div.style.display = "none"; // 🔥 Importante: ocultar todas
+    div.style.display = "none";
   });
 }
 
+// ✅ Ir a una sección específica
 function irASeccion(stepId) {
-  ocultarTodasLasSecciones(); // 🔥 Cada vez que navegues, oculta todas
+  ocultarTodasLasSecciones();
 
   const step = document.getElementById(stepId);
   if (step) {
     step.classList.add('active');
-    step.style.display = "block"; // 🔥 Solo muestra la sección seleccionada
+    step.style.display = "block";
   }
 
   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -470,41 +496,60 @@ function irASeccion(stepId) {
   if (buttons[index]) buttons[index].classList.add('active');
 }
 
+// ✅ Validar campos antes de avanzar
 function guardarDatosYAvanzar(siguientePasoId) {
-  irASeccion(siguientePasoId);
+  const pasoActual = document.querySelector('.step.active');
+  let camposValidos = true;
+
+  if (pasoActual) {
+    const inputs = pasoActual.querySelectorAll('input[required]');
+    
+    inputs.forEach(input => {
+      const label = input.previousElementSibling;
+      if (input.value.trim() === '' || isNaN(input.value) || parseFloat(input.value) < 0) {
+        camposValidos = false;
+        input.style.border = '2px solid red';
+        if (label) {
+          label.classList.add('error');
+          label.classList.add('shake');
+        }
+      } else {
+        input.style.border = '2px solid green';
+        if (label) {
+          label.classList.remove('error');
+          label.classList.remove('shake');
+        }
+      }
+    });
+  }
+
+  if (camposValidos) {
+    irASeccion(siguientePasoId);
+  }
 }
 
+// ✅ Retroceder sin validar
 function prevStep(prevPasoId) {
   irASeccion(prevPasoId);
 }
 
-// 🔥 Al cargar la página, ocultar todas menos el primer paso
+// ✅ Al cargar la página
 window.onload = function() {
   ocultarTodasLasSecciones();
-  irASeccion('stepIngresos'); // 🔥 Mostrar solo la primera sección al inicio
+  irASeccion('stepIngresos'); // Mostrar solo la primera sección
 };
 
-function validarCampo(input) {
-  if (input.hasAttribute('required') && (!input.value || isNaN(input.value))) {
-    input.style.borderColor = 'red';
-    alert('Por favor completa correctamente: ' + input.previousElementSibling.textContent.trim());
-    input.focus();
-  } else {
-    input.style.borderColor = '#ccc'; // normal si está bien
-  }
-}
-
-function validarCampo(input) {
-  input.addEventListener('input', () => {
-    input.style.border = '1px solid #ccc'; // 🔄 Mientras escribe, volver a neutro
+// ✅ Agregar 'required-label' automáticamente a los labels de inputs required
+document.addEventListener('DOMContentLoaded', function() {
+  const inputsRequeridos = document.querySelectorAll('input[required]');
+  
+  inputsRequeridos.forEach(input => {
+    const label = input.previousElementSibling;
+    if (label && label.tagName.toLowerCase() === 'label') {
+      label.classList.add('required-label');
+    }
   });
-
-  if (input.value.trim() === '' || isNaN(input.value) || parseFloat(input.value) < 0) {
-    input.style.border = '2px solid red'; // 🔴 Si está vacío o no es válido
-  } else {
-    input.style.border = '2px solid green'; // ✅ Si es correcto
-  }
-}
+});
 </script>
 
 
