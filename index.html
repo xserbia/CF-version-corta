@@ -309,46 +309,47 @@
 
 <!-- Script para navegación -->
 <script>
- function irASeccion(stepId) {
-   document.querySelectorAll('.step').forEach(div => div.classList.remove('active'));
-   document.getElementById(stepId).classList.add('active');
-   // 1. Ocultar todas las secciones
-   document.querySelectorAll('.step').forEach(div => {
-     div.classList.remove('active');
-     div.style.display = "none"; // 🔥 importante: ocultar
-   });
- 
-   // 2. Mostrar solo la sección seleccionada
-   const step = document.getElementById(stepId);
-   if (step) {
-     step.classList.add('active');
-     step.style.display = "block"; // 🔥 importante: mostrar
-   }
- 
-   // 3. Marcar el botón activo
-   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-   const buttons = document.querySelectorAll('.nav-btn');
-   
-   const index = {
-     stepIngresos: 0,
-     stepGastos: 1,
- @@ -323,16 +334,10 @@ <h4>Documentos de herencia:</h4>
-     stepSegurosHerencia: 4,
-     stepRetiro: 5
-   }[stepId];
-   
-   const buttons = document.querySelectorAll('.nav-btn');
-   if (buttons[index]) buttons[index].classList.add('active');
- }
- 
- function guardarDatosYAvanzar(siguientePasoId) {
-   irASeccion(siguientePasoId);
- }
- 
- function prevStep(prevPasoId) {
-   irASeccion(prevPasoId);
- }
- </script>
+function irASeccion(stepId) {
+  // 🔹 Ocultar todas las secciones
+  document.querySelectorAll('.step').forEach(div => {
+    div.classList.remove('active');
+    div.style.display = "none";
+  });
+
+  // 🔹 Mostrar solo la sección seleccionada
+  const step = document.getElementById(stepId);
+  if (step) {
+    step.classList.add('active');
+    step.style.display = "block";
+  }
+
+  // 🔹 Actualizar el botón activo en la navegación
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  
+  const buttons = document.querySelectorAll('.nav-btn');
+  const index = {
+    stepIngresos: 0,
+    stepGastos: 1,
+    stepActivos: 2,
+    stepPasivos: 3,
+    stepSegurosHerencia: 4,
+    stepRetiro: 5
+  }[stepId];
+  
+  if (buttons[index]) {
+    buttons[index].classList.add('active');
+  }
+}
+
+function guardarDatosYAvanzar(siguientePasoId) {
+  irASeccion(siguientePasoId);
+}
+
+function prevStep(prevPasoId) {
+  irASeccion(prevPasoId);
+}
+</script>
+
 
 </body>
 </html>
