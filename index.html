@@ -402,27 +402,27 @@
     <legend>Planificación de retiro</legend>
 
     <label>Edad actual
-      <span class="tooltip" title="Tu edad actual en años.">🛈</span>
+      <span class="tooltip" title="Tu edad en este momento. Es el punto de partida para calcular tu plan de retiro.">🛈</span>
     </label>
-    <input type="number" name="edad" required min="0" onblur="validarCampo(this)">
+    <input type="number" name="edad" required onblur="validarCampo(this)">
 
     <label>Edad deseada de retiro
-      <span class="tooltip" title="Edad a la que planeas retirarte.">🛈</span>
+      <span class="tooltip" title="La edad a la cual planeas retirarte. Comúnmente entre 60 y 70 años.">🛈</span>
     </label>
-    <input type="number" name="edad_retiro" required min="0" onblur="validarCampo(this)">
+    <input type="number" name="edad_retiro" required onblur="validarCampo(this)">
 
-    <label>Tasa esperada de acumulación (%)
-      <span class="tooltip" title="Porcentaje de crecimiento esperado antes de retirarte.">🛈</span>
+    <label>Tasa esperada de acumulación (%) 
+      <span class="tooltip" title="Tasa de crecimiento promedio anual de tus inversiones hasta el retiro. Ejemplo típico: 7%-10%.">🛈</span>
     </label>
     <input type="number" name="tasa_acumulacion" step="0.01" required onblur="validarCampo(this)">
 
-    <label>Inflación estimada (%)
-      <span class="tooltip" title="Inflación esperada en tu país o región.">🛈</span>
+    <label>Inflación estimada (%) 
+      <span class="tooltip" title="Incremento promedio esperado de los precios cada año. Ejemplo típico: 2%-3%.">🛈</span>
     </label>
     <input type="number" name="inflacion_esperada" step="0.01" required onblur="validarCampo(this)">
 
-    <label>Tasa estimada durante retiro (%)
-      <span class="tooltip" title="Tasa de retorno de inversiones durante la jubilación.">🛈</span>
+    <label>Tasa estimada durante retiro (%) 
+      <span class="tooltip" title="Rendimiento esperado de tus inversiones después de retirarte. Ejemplo típico: 3%-5%.">🛈</span>
     </label>
     <input type="number" name="tasa_retiro" step="0.01" required onblur="validarCampo(this)">
 
