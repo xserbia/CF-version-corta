@@ -494,16 +494,14 @@ function validarCampo(input) {
 }
 
 function validarCampo(input) {
-  if (input.hasAttribute('required') && (!input.value || isNaN(input.value))) {
-    input.style.borderColor = 'red'; // 🔴 mal
-    input.style.outline = 'none';
-    input.style.boxShadow = '0 0 5px red';
-    alert('Por favor completa correctamente: ' + input.previousElementSibling.textContent.trim());
-    input.focus();
+  input.addEventListener('input', () => {
+    input.style.border = '1px solid #ccc'; // 🔄 Mientras escribe, volver a neutro
+  });
+
+  if (input.value.trim() === '' || isNaN(input.value) || parseFloat(input.value) < 0) {
+    input.style.border = '2px solid red'; // 🔴 Si está vacío o no es válido
   } else {
-    input.style.borderColor = 'green'; // ✅ bien
-    input.style.outline = 'none';
-    input.style.boxShadow = '0 0 5px green';
+    input.style.border = '2px solid green'; // ✅ Si es correcto
   }
 }
 </script>
