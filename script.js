@@ -55,6 +55,14 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
   });
 });
 
+function validarCampo(input) {
+  if (input.value.trim() === '' || isNaN(input.value) || parseFloat(input.value) < 0) {
+    input.style.border = '2px solid red';
+  } else {
+    input.style.border = '2px solid green';
+  }
+}
+
 // ✅ Validar campos antes de avanzar
 function guardarDatosYAvanzar(siguientePasoId) {
   const pasoActual = document.querySelector('.step.active');
