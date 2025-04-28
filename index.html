@@ -520,7 +520,22 @@ function irASeccion(stepId) {
     stepRetiro: 5
   }[stepId];
   if (buttons[index]) buttons[index].classList.add('active');
+  
+  seccionActual = stepId; // 🔥 Muy importante para bloquear navegación manual
 }
+
+// ✅ Bloqueador de navegación por top menú
+let seccionActual = 'stepIngresos'; // Comenzamos en Ingresos
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', function (e) {
+    const destino = this.getAttribute('onclick').match(/'(.*?)'/)[1];
+
+    if (destino !== seccionActual) {
+      e.preventDefault();
+    }
+  });
+});
 
 // ✅ Validar campos antes de avanzar
 function guardarDatosYAvanzar(siguientePasoId) {
@@ -538,12 +553,12 @@ function guardarDatosYAvanzar(siguientePasoId) {
         if (label) {
           label.classList.add('error');
           label.classList.add('shake');
+          setTimeout(() => label.classList.remove('shake'), 400); // ✨ Shake más elegante
         }
       } else {
         input.style.border = '2px solid green';
         if (label) {
           label.classList.remove('error');
-          label.classList.remove('shake');
         }
       }
     });
@@ -562,7 +577,12 @@ function prevStep(prevPasoId) {
 // ✅ Al cargar la página
 window.onload = function() {
   ocultarTodasLasSecciones();
-  irASeccion('stepIngresos'); // Mostrar solo la primera sección
+  const step = document.getElementById('stepIngresos');
+  if (step) {
+    step.classList.add('active');
+    step.style.display = "block";
+  }
+  seccionActual = 'stepIngresos';
 };
 
 // ✅ Agregar 'required-label' automáticamente a los labels de inputs required
@@ -575,6 +595,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+// ✅ Validar Seguros y Herencia antes de pasar
 function guardarDatosSegurosHerencia() {
   const segurosSeleccionados = document.querySelectorAll('input[name^="seguro_"]:checked');
   const ningunSeguro = document.querySelector('input[name="ningun_seguro"]:checked');
@@ -584,7 +606,6 @@ function guardarDatosSegurosHerencia() {
 
   let error = false;
 
-  // Validación
   if (segurosSeleccionados.length === 0 && !ningunSeguro) {
     error = true;
   }
@@ -595,20 +616,17 @@ function guardarDatosSegurosHerencia() {
   const container = document.getElementById('stepSegurosHerencia');
 
   if (error) {
-    // ❗️ Aplicar shake y borde rojo
     container.classList.add('shake');
+    container.querySelector('fieldset').style.border = '2px solid red';
     setTimeout(() => {
       container.classList.remove('shake');
-    }, 500);
-
-    // También ponemos borde rojo a todo el fieldset
-    container.querySelector('fieldset').style.border = '2px solid red';
+    }, 400); // ✨ Shake más suave
   } else {
-    // ✅ Si todo bien, quitar errores y seguir
     container.querySelector('fieldset').style.border = 'none';
     irASeccion('stepRetiro');
   }
 }
+
 </script>
 
 
