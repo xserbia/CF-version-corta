@@ -149,10 +149,13 @@ body {
 /* Responsive ajustes */
 @media (max-width: 768px) {
   .top-navigation {
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* No se brinque a nueva línea */
+    overflow-x: auto; /* 🔥 Scroll horizontal */
+    -webkit-overflow-scrolling: touch; /* 🔥 Scroll suave en móviles */
   }
-  .tooltip::after {
-    width: 180px;
+  
+  .nav-btn {
+    flex: 0 0 auto; /* 🔥 Los botones no se encogen */
   }
 }
 
