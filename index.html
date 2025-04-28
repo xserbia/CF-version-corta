@@ -297,11 +297,65 @@
 </div>
 
 <!-- Script para navegación -->
+<!-- 🔵 Contenedor de Resultados -->
+<div id="resultadosContainer" style="display: none; margin-top: 40px;">
+
+  <!-- 🔵 Navegador de resultados -->
+  <div id="navResultados" class="top-navigation">
+    <button class="nav-btn active" onclick="mostrarResultado('resA')">🅰️ Flujo</button>
+    <button class="nav-btn" onclick="mostrarResultado('resB')">🅱️ Deuda</button>
+    <button class="nav-btn" onclick="mostrarResultado('resC')">🅲 Patrimonio</button>
+    <button class="nav-btn" onclick="mostrarResultado('resD')">🅳 Seguridad</button>
+    <button class="nav-btn" onclick="mostrarResultado('resE')">🅴 Riesgo</button>
+    <button class="nav-btn" onclick="mostrarResultado('resF')">🅵 Patrimonial</button>
+    <button class="nav-btn" onclick="mostrarResultado('resG')">🅶 Retiro</button>
+    <button class="nav-btn" onclick="mostrarResultado('resH')">🅷 Estrés</button>
+  </div>
+
+  <!-- 🔵 Secciones individuales -->
+  <div id="resA" class="resultado-categoria" style="display: block;"> <!-- inicia visible -->
+    <h3>🅰️ Flujo de efectivo</h3>
+    <p>Resultados de flujo aquí...</p>
+  </div>
+
+  <div id="resB" class="resultado-categoria" style="display: none;">
+    <h3>🅱️ Endeudamiento</h3>
+    <p>Resultados de deuda aquí...</p>
+  </div>
+
+  <div id="resC" class="resultado-categoria" style="display: none;">
+    <h3>🅲 Patrimonio neto</h3>
+    <p>Resultados de patrimonio aquí...</p>
+  </div>
+
+  <div id="resD" class="resultado-categoria" style="display: none;">
+    <h3>🅳 Seguridad financiera</h3>
+    <p>Resultados de seguridad aquí...</p>
+  </div>
+
+  <div id="resE" class="resultado-categoria" style="display: none;">
+    <h3>🅴 Manejo de riesgo</h3>
+    <p>Resultados de riesgo aquí...</p>
+  </div>
+
+  <div id="resF" class="resultado-categoria" style="display: none;">
+    <h3>🅵 Planificación patrimonial</h3>
+    <p>Resultados de planificación aquí...</p>
+  </div>
+
+  <div id="resG" class="resultado-categoria" style="display: none;">
+    <h3>🅶 Retiro</h3>
+    <p>Resultados de retiro aquí...</p>
+  </div>
+
+  <div id="resH" class="resultado-categoria" style="display: none;">
+    <h3>🅷 Pruebas de estrés</h3>
+    <p>Resultados de estrés aquí...</p>
+  </div>
+
+</div>
 
 <script src="script.js"></script>
 </body>
 </html>
 
-
-</body>
-</html>
