@@ -4,192 +4,121 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora Financiera - Inputs</title>
-<style>
-/* 🌟 Estilo general */
-body {
-  font-family: 'Arial', sans-serif;
-  margin: 20px;
-  background-color: #f9f9f9;
-  color: #111827;
-}
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+      color: #111827;
+    }
 
-/* 🌟 Formulario */
-form {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-}
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
 
-fieldset {
-  border: none;
-  margin-bottom: 20px;
-}
+    fieldset {
+      border: none;
+      margin-bottom: 20px;
+    }
 
-legend {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+    legend {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
-label {
-  display: block;
-  margin: 10px 0 4px;
-  font-weight: bold;
-}
+    label {
+      display: block;
+      margin: 10px 0 4px;
+      font-weight: bold;
+    }
 
-input[type="number"],
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-  width: 100%;
-  padding: 12px 15px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  font-size: 1rem;
-}
+    input[type="number"], input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
 
-/* 🌟 Botón principal y botones de navegación */
-button, .nav-buttons button {
-  background-color: #2563eb;
-  color: white;
-  padding: 12px 24px;
-  font-size: 1em;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s;
-}
+    button {
+      background-color: #2563eb;
+      color: white;
+      padding: 14px 24px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+    }
 
-button:hover, .nav-buttons button:hover {
-  background-color: #1d4ed8;
-}
+    button:hover {
+      background-color: #1d4ed8;
+    }
 
-/* Botones de navegación anteriores y siguientes */
-.nav-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
+    .top-navigation {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
 
-/* 🌟 Resultados */
-#resultadosContainer {
-  margin-top: 40px;
-}
+    .nav-btn {
+      padding: 10px 18px;
+      border: 2px solid #2563eb;
+      background-color: white;
+      color: #2563eb;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-.resultado-categoria {
-  background: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
-}
+    .nav-btn.active {
+      background-color: #2563eb;
+      color: white;
+    }
 
-/* 🌟 Navegación Top de Inputs */
-.top-navigation {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 20px;
-  gap: 10px;
-}
+    .nav-btn:hover {
+      background-color: #1d4ed8;
+      color: white;
+    }
 
-.nav-btn {
-  padding: 10px 18px;
-  border: 2px solid #2563eb;
-  background-color: white;
-  color: #2563eb;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
+    .step {
+      display: none;
+      transition: all 0.5s ease;
+    }
 
-.nav-btn.active {
-  background-color: #2563eb;
-  color: white;
-}
+    .step.active {
+      display: block;
+    }
 
-.nav-btn:hover {
-  background-color: #1d4ed8;
-  color: white;
-}
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
 
-/* 🌟 Navegación de Resultados */
-#navResultados {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.nav-res {
-  background: #e5e7eb;
-  padding: 10px 20px;
-  border-radius: 8px;
-  margin: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.nav-res.active {
-  background: #2563eb;
-  color: white;
-}
-
-/* 🌟 Gráficos */
-canvas {
-  margin-top: 20px;
-}
-
-/* 🌟 Tooltips */
-.tooltip {
-  cursor: help;
-  border-bottom: 1px dotted black;
-}
-
-/* 🌟 Responsive */
-@media (max-width: 768px) {
-  #navResultados {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav-res {
-    width: 80%;
-    margin: 8px 0;
-  }
-
-  .top-navigation {
-    overflow-x: auto;
-    padding: 5px;
-  }
-
-  .nav-btn {
-    flex: 0 0 auto;
-    font-size: 0.85rem;
-    white-space: nowrap;
-  }
-
-  .nav-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav-buttons button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-}
-</style>
-
-
+    @media (max-width: 600px) {
+      .top-navigation {
+        overflow-x: auto;
+        padding: 5px;
+      }
+      .nav-btn {
+        flex: 0 0 auto;
+        font-size: 0.85rem;
+        white-space: nowrap;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -202,11 +131,10 @@ canvas {
   <button class="nav-btn" onclick="irASeccion('stepRetiro')">Retiro</button>
 </div>
 
-<!-- Formulario principal -->
 <div id="formularioContainer">
-  <form id="calculadoraFormulario">
+<form id="calculadoraFormulario">
 
-    <!-- Paso 1: Ingresos y Ahorros -->
+<!-- Paso 1: Ingresos y Ahorros -->
     <div class="step active" id="stepIngresos">
       <fieldset>
         <legend><strong>1. Ingresos y Ahorros</strong></legend>
@@ -360,7 +288,6 @@ canvas {
 
   </form>
 </div>
-
 <script>
 function irASeccion(stepId) {
   document.querySelectorAll('.step').forEach(div => div.classList.remove('active'));
@@ -377,14 +304,6 @@ function irASeccion(stepId) {
     stepRetiro: 5
   }[stepId];
   if (buttons[index]) buttons[index].classList.add('active');
-}
-
-function guardarDatosYAvanzar(stepId) {
-  irASeccion(stepId);
-}
-
-function prevStep(stepId) {
-  irASeccion(stepId);
 }
 </script>
 
