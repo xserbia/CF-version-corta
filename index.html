@@ -309,34 +309,27 @@
 
 <!-- Script para navegación -->
 <script>
-function irASeccion(stepId) {
-  // 1. Ocultar todas las secciones
-  document.querySelectorAll('.step').forEach(div => {
-    div.classList.remove('active');
-    div.style.display = "none"; // 🔥 importante: ocultar
-  });
+function toggleAccordion(btn) {
+  // 🔥 Cerrar todos primero
+  document.querySelectorAll('.acordeon-body').forEach(body => body.style.display = 'none');
+  
+  // 🔥 Mostrar solo el seleccionado
+  const body = btn.nextElementSibling;
+  if (body) body.style.display = 'block';
+}
 
-  // 2. Mostrar solo la sección seleccionada
-  const step = document.getElementById(stepId);
-  if (step) {
-    step.classList.add('active');
-    step.style.display = "block"; // 🔥 importante: mostrar
+function nextAccordion(currentButton) {
+  const currentBody = currentButton.parentElement;
+  const currentItem = currentBody.parentElement;
+  const nextItem = currentItem.nextElementSibling;
+  
+  if (nextItem) {
+    // 🔥 Cerrar actual
+    currentBody.style.display = 'none';
+    // 🔥 Abrir siguiente
+    const nextBody = nextItem.querySelector('.acordeon-body');
+    if (nextBody) nextBody.style.display = 'block';
   }
-
-  // 3. Marcar el botón activo
-  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-  
-  const index = {
-    stepIngresos: 0,
-    stepGastos: 1,
-    stepActivos: 2,
-    stepPasivos: 3,
-    stepSegurosHerencia: 4,
-    stepRetiro: 5
-  }[stepId];
-  
-  const buttons = document.querySelectorAll('.nav-btn');
-  if (buttons[index]) buttons[index].classList.add('active');
 }
 </script>
 
