@@ -537,11 +537,10 @@ window.onload = function() {
 // ✅ Agregar 'required-label' automáticamente a los labels de inputs required
 document.addEventListener('DOMContentLoaded', function() {
   const inputsRequeridos = document.querySelectorAll('input[required]');
-  
   inputsRequeridos.forEach(input => {
     const label = input.previousElementSibling;
     if (label && label.tagName.toLowerCase() === 'label') {
-      label.classList.add('required-label');
+      label.classList.add('required');
     }
   });
 });
