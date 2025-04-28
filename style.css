@@ -2,115 +2,193 @@
 
 /* Configuración general */
 body {
-  font-family: 'Arial', sans-serif;
-  margin: 20px;
-  background-color: #f9f9f9;
-  color: #111827;
-}
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+    color: #111827;
+  }
 
-/* Inputs y formularios */
-form {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-}
+  form {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  }
 
-fieldset {
-  border: none;
-  margin-bottom: 20px;
-}
+  fieldset {
+    border: none;
+    margin-bottom: 20px;
+  }
 
-legend {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+  legend {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
 
-label {
-  display: block;
-  margin: 10px 0 4px;
-  font-weight: bold;
-}
+  label {
+    display: block;
+    margin: 10px 0 4px;
+    font-weight: bold;
+    position: relative; /* necesario para tooltip */
+  }
 
-input[type="number"],
-input[type="text"],
-input[type="email"],
-select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
+  input[type="number"],
+  input[type="text"],
+  input[type="email"],
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
 
-/* Botón principal */
+  /* Tooltips actualizados */
+  .tooltip {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    font-weight: normal;
+    margin-left: 6px;
+    color: #2563eb;
+    font-size: 1rem;
+  }
+
+  .tooltip::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 125%; /* tooltip arriba del ícono */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #111827;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: normal;
+    width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+    z-index: 10;
+    text-align: center;
+  }
+
+  .tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Navegador top */
+  #topNav {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .top-navigation {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .nav-btn {
+    padding: 12px 24px;
+    border: 2px solid #2563eb;
+    background-color: white;
+    color: #2563eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .nav-btn.active {
+    background-color: #2563eb;
+    color: white;
+  }
+
+  .nav-btn:hover {
+    background-color: #1d4ed8;
+    color: white;
+  }
+
+  .step {
+    display: none;
+  }
+
+  .step.active {
+    display: block;
+  }
+
+  .nav-buttons {
+    margin-top: 20px;
+  }
+
+  /* Asterisco rojo para campos requeridos */
+  .required-label::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .top-navigation {
+      flex-wrap: wrap;
+    }
+    .tooltip::after {
+      width: 180px;
+    }
+  }
+      .required-label::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+
+  .required-label.error {
+    color: #dc2626;
+  }
+
+  /* Efecto shake */
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+
+  .shake {
+    animation: shake 0.3s;
+    animation-iteration-count: 1;
+  }
+        /* 🌟 Botón grande azul estilo 'Continuar' */
 button {
-  background-color: #2563eb;
+  background-color: #2563eb; /* Azul principal */
   color: white;
-  padding: 12px 24px;
-  font-size: 1em;
+  padding: 14px 28px; /* Botón grande */
+  font-size: 1.1rem;
+  font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 20px;
-  width: 100%;
+  width: 100%; /* Que ocupe todo el ancho disponible */
+  transition: background-color 0.3s, transform 0.2s; /* Efecto hover y efecto click */
 }
 
 button:hover {
-  background-color: #1d4ed8;
+  background-color: #1d4ed8; /* Azul un poco más oscuro al pasar el mouse */
 }
 
-/* Secciones de resultados */
-#resultadosContainer {
-  margin-top: 40px;
-}
-
-.resultado-categoria {
-  background: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-/* Navegación de secciones */
-#navResultados {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.nav-res {
-  background: #e5e7eb;
-  padding: 10px 20px;
-  border-radius: 8px;
-  margin: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.nav-res.active {
-  background: #2563eb;
-  color: white;
-}
-
-/* Gráficos */
-canvas {
-  margin-top: 20px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  #navResultados {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav-res {
-    width: 80%;
-    margin: 8px 0;
-  }
+button:active {
+  transform: scale(0.98); /* Pequeño efecto de 'presionado' al hacer click */
 }
