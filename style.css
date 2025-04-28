@@ -58,24 +58,31 @@ body {
 }
 
 .tooltip::after {
-  content: attr(data-tooltip); /* ✅ Leerá el texto desde data-tooltip */
+  content: attr(data-tooltip); /* ✅ Así usa correctamente el texto de data-tooltip */
   position: absolute;
-  bottom: 125%; /* Aparece arriba del icono */
+  bottom: 150%; /* un poquito más arriba para que no tape */
   left: 50%;
   transform: translateX(-50%);
-  background-color: #111827; /* Negro elegante */
-  color: #ffffff;
-  padding: 8px 12px;
+  background-color: #111827;
+  color: white;
+  padding: 8px 10px;
   border-radius: 6px;
   font-size: 0.85rem;
-  white-space: normal;
-  width: 220px;
+  max-width: 220px;
+  width: max-content;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s;
-  z-index: 10;
+  transition: opacity 0.3s ease;
   text-align: center;
+  white-space: normal; /* ✅ Permite texto largo multirenglón */
+  z-index: 1000;
 }
+
+.tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
 
 .tooltip:hover::after {
   opacity: 1;
