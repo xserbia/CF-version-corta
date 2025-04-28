@@ -487,6 +487,16 @@ window.onload = function() {
   ocultarTodasLasSecciones();
   irASeccion('stepIngresos'); // 🔥 Mostrar solo la primera sección al inicio
 };
+
+function validarCampo(input) {
+  if (input.hasAttribute('required') && (!input.value || isNaN(input.value))) {
+    input.style.borderColor = 'red';
+    alert('Por favor completa correctamente: ' + input.previousElementSibling.textContent.trim());
+    input.focus();
+  } else {
+    input.style.borderColor = '#ccc'; // normal si está bien
+  }
+}
 </script>
 
 
