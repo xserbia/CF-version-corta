@@ -308,24 +308,25 @@
 </div>
 
 <!-- Script para navegación -->
-<script>
-function irASeccion(stepId) {
-  // 🔹 Ocultar todas las secciones
+
+  <script>
+function ocultarTodasLasSecciones() {
   document.querySelectorAll('.step').forEach(div => {
     div.classList.remove('active');
-    div.style.display = "none";
+    div.style.display = "none"; // 🔥 Importante: ocultar todas
   });
+}
 
-  // 🔹 Mostrar solo la sección seleccionada
+function irASeccion(stepId) {
+  ocultarTodasLasSecciones(); // 🔥 Cada vez que navegues, oculta todas
+
   const step = document.getElementById(stepId);
   if (step) {
     step.classList.add('active');
-    step.style.display = "block";
+    step.style.display = "block"; // 🔥 Solo muestra la sección seleccionada
   }
 
-  // 🔹 Actualizar el botón activo en la navegación
   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-  
   const buttons = document.querySelectorAll('.nav-btn');
   const index = {
     stepIngresos: 0,
@@ -335,10 +336,7 @@ function irASeccion(stepId) {
     stepSegurosHerencia: 4,
     stepRetiro: 5
   }[stepId];
-  
-  if (buttons[index]) {
-    buttons[index].classList.add('active');
-  }
+  if (buttons[index]) buttons[index].classList.add('active');
 }
 
 function guardarDatosYAvanzar(siguientePasoId) {
@@ -348,6 +346,12 @@ function guardarDatosYAvanzar(siguientePasoId) {
 function prevStep(prevPasoId) {
   irASeccion(prevPasoId);
 }
+
+// 🔥 Al cargar la página, ocultar todas menos el primer paso
+window.onload = function() {
+  ocultarTodasLasSecciones();
+  irASeccion('stepIngresos'); // 🔥 Mostrar solo la primera sección al inicio
+};
 </script>
 
 
