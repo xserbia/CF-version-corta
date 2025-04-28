@@ -489,6 +489,20 @@ function validarCampo(input) {
     input.style.borderColor = '#ccc'; // normal si está bien
   }
 }
+
+function validarCampo(input) {
+  if (input.hasAttribute('required') && (!input.value || isNaN(input.value))) {
+    input.style.borderColor = 'red'; // 🔴 mal
+    input.style.outline = 'none';
+    input.style.boxShadow = '0 0 5px red';
+    alert('Por favor completa correctamente: ' + input.previousElementSibling.textContent.trim());
+    input.focus();
+  } else {
+    input.style.borderColor = 'green'; // ✅ bien
+    input.style.outline = 'none';
+    input.style.boxShadow = '0 0 5px green';
+  }
+}
 </script>
 
 
