@@ -61,22 +61,22 @@
     <legend>Gastos Anuales</legend>
 
     <label>Pago por deudas
-      <span class="tooltip" title="Pagos anuales de hipotecas, préstamos personales, automotrices, educativos y tarjetas de crédito.">🛈</span>
+      <span class="tooltip" data-tooltip="Pagos anuales de hipotecas, préstamos personales, automotrices, educativos y tarjetas de crédito.">🛈</span>
     </label>
     <input type="number" name="pago_deudas" required onblur="validarCampo(this)">
 
     <label>Gastos diarios esenciales
-      <span class="tooltip" title="Incluye supermercado, transporte, servicios públicos, telecomunicaciones y mantenimiento básico.">🛈</span>
+      <span class="tooltip" data-tooltip="Incluye supermercado, transporte, servicios públicos, telecomunicaciones y mantenimiento básico.">🛈</span>
     </label>
     <input type="number" name="gastos_diarios" required onblur="validarCampo(this)">
 
     <label>Impuestos anuales
-      <span class="tooltip" title="Pagos de impuestos federales, estatales, municipales, de propiedad y de vehículo.">🛈</span>
+      <span class="tooltip" data-tooltip="Pagos de impuestos federales, estatales, municipales, de propiedad y de vehículo.">🛈</span>
     </label>
     <input type="number" name="impuestos_anuales" required onblur="validarCampo(this)">
 
     <label>Seguros anuales
-      <span class="tooltip" title="Pagos de seguros de salud, vida, propiedad, auto y umbrella.">🛈</span>
+      <span class="tooltip" data-tooltip="Pagos de seguros de salud, vida, propiedad, auto y umbrella.">🛈</span>
     </label>
     <input type="number" name="seguros_anuales" required onblur="validarCampo(this)">
 
@@ -92,27 +92,27 @@
     <legend>Activos</legend>
 
     <label>Efectivo y similares
-      <span class="tooltip" title="Saldos en cuentas bancarias, efectivo disponible, cuentas de ahorro o money market.">🛈</span>
+      <span class="tooltip" data-tooltip="Saldos en cuentas bancarias, efectivo disponible, cuentas de ahorro o money market.">🛈</span>
     </label>
     <input type="number" name="efectivo_similar" required onblur="validarCampo(this)">
 
     <label>Cuentas de inversión (no retiro)
-      <span class="tooltip" title="Valor de inversiones líquidas no destinadas a retiro: fondos mutuos, acciones, bonos.">🛈</span>
+      <span class="tooltip" data-tooltip="Valor de inversiones líquidas no destinadas a retiro: fondos mutuos, acciones, bonos.">🛈</span>
     </label>
     <input type="number" name="cuentas_inversion" required onblur="validarCampo(this)">
 
     <label>Cuentas de retiro
-      <span class="tooltip" title="Valor actual de tus cuentas IRA, 401(k), Roth, 403(b) o planes similares.">🛈</span>
+      <span class="tooltip" data-tooltip="Valor actual de tus cuentas IRA, 401(k), Roth, 403(b) o planes similares.">🛈</span>
     </label>
     <input type="number" name="cuentas_retiro" required onblur="validarCampo(this)">
 
     <label>Propiedades
-      <span class="tooltip" title="Valor de mercado de propiedades residenciales o de inversión que poseas.">🛈</span>
+      <span class="tooltip" data-tooltip="Valor de mercado de propiedades residenciales o de inversión que poseas.">🛈</span>
     </label>
     <input type="number" name="valor_propiedades" required onblur="validarCampo(this)">
 
     <label>Otros activos
-      <span class="tooltip" title="Valor estimado de autos, joyas, metales preciosos, muebles valiosos, arte, etc.">🛈</span>
+      <span class="tooltip" data-tooltip="Valor estimado de autos, joyas, metales preciosos, muebles valiosos, arte, etc.">🛈</span>
     </label>
     <input type="number" name="otros_activos" required onblur="validarCampo(this)">
 
@@ -128,32 +128,32 @@
     <legend>Pasivos</legend>
 
     <label>Deuda de tarjetas de crédito
-      <span class="tooltip" title="Saldo total actual de todas tus tarjetas de crédito.">🛈</span>
+      <span class="tooltip" data-tooltip="Saldo total actual de todas tus tarjetas de crédito.">🛈</span>
     </label>
     <input type="number" name="deuda_tarjetas" required onblur="validarCampo(this)">
 
     <label>Hipoteca o préstamo de vivienda
-      <span class="tooltip" title="Saldo pendiente de tu hipoteca principal o préstamo de vivienda.">🛈</span>
+      <span class="tooltip" data-tooltip="Saldo pendiente de tu hipoteca principal o préstamo de vivienda.">🛈</span>
     </label>
     <input type="number" name="deuda_hipotecaria" required onblur="validarCampo(this)">
 
     <label>Deuda comercial
-      <span class="tooltip" title="Saldo actual de préstamos comerciales si eres dueño de un negocio.">🛈</span>
+      <span class="tooltip" data-tooltip="Saldo actual de préstamos comerciales si eres dueño de un negocio.">🛈</span>
     </label>
     <input type="number" name="deuda_comercial" required onblur="validarCampo(this)">
 
     <label>Préstamos de vehículos
-      <span class="tooltip" title="Saldo pendiente de tus préstamos de autos, motocicletas u otros vehículos.">🛈</span>
+      <span class="tooltip" data-tooltip="Saldo pendiente de tus préstamos de autos, motocicletas u otros vehículos.">🛈</span>
     </label>
     <input type="number" name="deuda_vehiculos" required onblur="validarCampo(this)">
 
     <label>Deuda estudiantil
-      <span class="tooltip" title="Saldo restante de tus préstamos educativos o universitarios.">🛈</span>
+      <span class="tooltip" data-tooltip="Saldo restante de tus préstamos educativos o universitarios.">🛈</span>
     </label>
     <input type="number" name="deuda_estudios" required onblur="validarCampo(this)">
 
     <label>Otras deudas
-      <span class="tooltip" title="Cualquier otro saldo de deuda no clasificada anteriormente.">🛈</span>
+      <span class="tooltip" data-tooltip="Cualquier otro saldo de deuda no clasificada anteriormente.">🛈</span>
     </label>
     <input type="number" name="deuda_otros" required onblur="validarCampo(this)">
 
@@ -172,37 +172,37 @@
 
     <label>
       <input type="checkbox" name="seguro_vida">
-      Seguro de vida <span class="tooltip" title="Seguro que paga una suma de dinero a los beneficiarios en caso de fallecimiento.">🛈</span>
+      Seguro de vida <span class="tooltip" data-tooltip="Seguro que paga una suma de dinero a los beneficiarios en caso de fallecimiento.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="seguro_salud">
-      Seguro de salud <span class="tooltip" title="Seguro que cubre gastos médicos, hospitalarios y de tratamiento de salud.">🛈</span>
+      Seguro de salud <span class="tooltip" data-tooltip="Seguro que cubre gastos médicos, hospitalarios y de tratamiento de salud.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="seguro_incapacidad">
-      Seguro de incapacidad <span class="tooltip" title="Proporciona ingresos en caso de discapacidad temporal o permanente que impida trabajar.">🛈</span>
+      Seguro de incapacidad <span class="tooltip" data-tooltip="Proporciona ingresos en caso de discapacidad temporal o permanente que impida trabajar.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="seguro_ltc">
-      Seguro de cuidado a largo plazo <span class="tooltip" title="Cubre gastos de asistencia a largo plazo como residencias asistidas o servicios de cuidado en casa.">🛈</span>
+      Seguro de cuidado a largo plazo <span class="tooltip" data-tooltip="Cubre gastos de asistencia a largo plazo como residencias asistidas o servicios de cuidado en casa.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="seguro_propiedad">
-      Seguro de propiedad <span class="tooltip" title="Protege contra daños a viviendas o propiedades personales debido a incendios, robos u otros desastres.">🛈</span>
+      Seguro de propiedad <span class="tooltip" data-tooltip="Protege contra daños a viviendas o propiedades personales debido a incendios, robos u otros desastres.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="seguro_auto">
-      Seguro de auto <span class="tooltip" title="Cubre daños al vehículo, responsabilidad civil y lesiones relacionadas con accidentes de tránsito.">🛈</span>
+      Seguro de auto <span class="tooltip" data-tooltip="Cubre daños al vehículo, responsabilidad civil y lesiones relacionadas con accidentes de tránsito.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="seguro_umbrella">
-      Seguro umbrella <span class="tooltip" title="Ofrece cobertura de responsabilidad adicional más allá de las pólizas de hogar o auto.">🛈</span>
+      Seguro umbrella <span class="tooltip" data-tooltip="Ofrece cobertura de responsabilidad adicional más allá de las pólizas de hogar o auto.">🛈</span>
     </label>
 
     <label>
@@ -216,32 +216,32 @@
 
     <label>
       <input type="checkbox" name="trust">
-      Trust <span class="tooltip" title="Documento que transfiere activos a un fideicomiso para ser administrados según tus instrucciones.">🛈</span>
+      Trust <span class="tooltip" data-tooltip="Documento que transfiere activos a un fideicomiso para ser administrados según tus instrucciones.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="will">
-      Testamento <span class="tooltip" title="Documento legal que establece cómo deseas distribuir tus activos después de tu muerte.">🛈</span>
+      Testamento <span class="tooltip" data-tooltip="Documento legal que establece cómo deseas distribuir tus activos después de tu muerte.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="advance_medical_directive">
-      Directiva médica anticipada <span class="tooltip" title="Instrucciones sobre decisiones médicas a tomar en caso de incapacidad.">🛈</span>
+      Directiva médica anticipada <span class="tooltip" data-tooltip="Instrucciones sobre decisiones médicas a tomar en caso de incapacidad.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="power_of_attorney">
-      Poder legal <span class="tooltip" title="Autoriza a alguien a actuar legalmente en tu nombre en asuntos financieros o médicos.">🛈</span>
+      Poder legal <span class="tooltip" data-tooltip="Autoriza a alguien a actuar legalmente en tu nombre en asuntos financieros o médicos.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="beneficiary_designation">
-      Designación de beneficiarios <span class="tooltip" title="Documentos que asignan beneficiarios para pólizas de seguros o cuentas financieras.">🛈</span>
+      Designación de beneficiarios <span class="tooltip" data-tooltip="Documentos que asignan beneficiarios para pólizas de seguros o cuentas financieras.">🛈</span>
     </label>
 
     <label>
       <input type="checkbox" name="property_deeds">
-      Títulos de propiedad <span class="tooltip" title="Documentos oficiales que prueban la propiedad de inmuebles o bienes raíces.">🛈</span>
+      Títulos de propiedad <span class="tooltip" data-tooltip="Documentos oficiales que prueban la propiedad de inmuebles o bienes raíces.">🛈</span>
     </label>
 
     <label>
@@ -263,27 +263,27 @@
     <legend>Planificación de retiro</legend>
 
     <label>Edad actual
-      <span class="tooltip" title="Tu edad en este momento. Es el punto de partida para calcular tu plan de retiro.">🛈</span>
+      <span class="tooltip" data-tooltip="Tu edad en este momento. Es el punto de partida para calcular tu plan de retiro.">🛈</span>
     </label>
     <input type="number" name="edad" required onblur="validarCampo(this)">
 
     <label>Edad deseada de retiro
-      <span class="tooltip" title="La edad a la cual planeas retirarte. Comúnmente entre 60 y 70 años.">🛈</span>
+      <span class="tooltip" data-tooltip="La edad a la cual planeas retirarte. Comúnmente entre 60 y 70 años.">🛈</span>
     </label>
     <input type="number" name="edad_retiro" required onblur="validarCampo(this)">
 
     <label>Tasa esperada de acumulación (%) 
-      <span class="tooltip" title="Tasa de crecimiento promedio anual de tus inversiones hasta el retiro. Ejemplo típico: 7%-10%.">🛈</span>
+      <span class="tooltip" data-tooltip="Tasa de crecimiento promedio anual de tus inversiones hasta el retiro. Ejemplo típico: 7%-10%.">🛈</span>
     </label>
     <input type="number" name="tasa_acumulacion" step="0.01" required onblur="validarCampo(this)">
 
     <label>Inflación estimada (%) 
-      <span class="tooltip" title="Incremento promedio esperado de los precios cada año. Ejemplo típico: 2%-3%.">🛈</span>
+      <span class="tooltip" data-tooltip="Incremento promedio esperado de los precios cada año. Ejemplo típico: 2%-3%.">🛈</span>
     </label>
     <input type="number" name="inflacion_esperada" step="0.01" required onblur="validarCampo(this)">
 
     <label>Tasa estimada durante retiro (%) 
-      <span class="tooltip" title="Rendimiento esperado de tus inversiones después de retirarte. Ejemplo típico: 3%-5%.">🛈</span>
+      <span class="tooltip" data-tooltip="Rendimiento esperado de tus inversiones después de retirarte. Ejemplo típico: 3%-5%.">🛈</span>
     </label>
     <input type="number" name="tasa_retiro" step="0.01" required onblur="validarCampo(this)">
 
