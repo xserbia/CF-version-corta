@@ -164,7 +164,9 @@ function guardarDatosSegurosHerencia() {
 
 let data = {};
 
-function procesarResultados() {
+function procesarResultados(event) {
+  event.preventDefault(); // 🔥 Evita recargar
+
   data = capturarDatos();
   mostrarResultados();
   document.getElementById("formularioContainer").style.display = "none";
