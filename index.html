@@ -526,7 +526,7 @@ document.addEventListener('DOMContentLoaded', function() {
   inputsRequeridos.forEach(input => {
     const label = input.previousElementSibling;
     if (label && label.tagName.toLowerCase() === 'label') {
-      label.classList.add('required');
+      label.classList.add('required-label');
     }
   });
 });
