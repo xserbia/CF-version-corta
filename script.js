@@ -29,21 +29,11 @@ function irASeccion(stepId) {
   }[stepId];
   if (buttons[index]) buttons[index].classList.add('active');
   
-  seccionActual = stepId; // 🔥 Muy importante para bloquear navegación manual
+  seccionActual = stepId;
 }
 
 // ✅ Bloqueador de navegación por top menú
 let seccionActual = 'stepIngresos'; // Comenzamos en Ingresos
-
-document.querySelectorAll('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', function (e) {
-    const destino = this.getAttribute('onclick').match(/'(.*?)'/)[1];
-
-    if (destino !== seccionActual) {
-      e.preventDefault();
-    }
-  });
-});
 
 // ✅ Validar campos antes de avanzar
 function guardarDatosYAvanzar(siguientePasoId) {
@@ -61,7 +51,7 @@ function guardarDatosYAvanzar(siguientePasoId) {
         if (label) {
           label.classList.add('error');
           label.classList.add('shake');
-          setTimeout(() => label.classList.remove('shake'), 400); // ✨ Shake más elegante
+          setTimeout(() => label.classList.remove('shake'), 400);
         }
       } else {
         input.style.border = '2px solid green';
@@ -93,14 +83,40 @@ window.onload = function() {
   seccionActual = 'stepIngresos';
 };
 
-// ✅ Agregar 'required-label' automáticamente a los labels de inputs required
+// ✅ Marcar campos requeridos y bloquear navegación solo después de cargar DOM
 document.addEventListener('DOMContentLoaded', function() {
   const inputsRequeridos = document.querySelectorAll('input[required]');
+  
   inputsRequeridos.forEach(input => {
     const label = input.previousElementSibling;
     if (label && label.tagName.toLowerCase() === 'label') {
       label.classList.add('required-label');
     }
+
+    // 🔥 Nuevo: Revalidar automáticamente mientras escribe
+    input.addEventListener('input', function() {
+      if (input.value.trim() !== '' && !isNaN(input.value) && parseFloat(input.value) >= 0) {
+        input.style.border = '2px solid green';
+        if (label) {
+          label.classList.remove('error');
+        }
+      } else {
+        input.style.border = '2px solid red';
+        if (label) {
+          label.classList.add('error');
+        }
+      }
+    });
+  });
+
+  // 🔥 Bloquear navegación manual
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const destino = this.getAttribute('onclick').match(/'(.*?)'/)[1];
+      if (destino !== seccionActual) {
+        e.preventDefault();
+      }
+    });
   });
 });
 
@@ -128,12 +144,13 @@ function guardarDatosSegurosHerencia() {
     container.querySelector('fieldset').style.border = '2px solid red';
     setTimeout(() => {
       container.classList.remove('shake');
-    }, 400); // ✨ Shake más suave
+    }, 400);
   } else {
     container.querySelector('fieldset').style.border = 'none';
     irASeccion('stepRetiro');
   }
 }
+
 
 let data = {};
 
