@@ -299,72 +299,148 @@
 </div>
 
     <!-- 5. Seguros y Herencia -->
-    <div class="step" id="stepSegurosHerencia">
-      <fieldset>
-        <legend>Seguros y planificación patrimonial</legend>
+  <!-- 5. Seguros y Herencia -->
+<div class="step" id="stepSegurosHerencia">
+  <fieldset>
+    <legend>Seguros y planificación patrimonial</legend>
 
-        <h4>Seguros:</h4>
-        <label><input type="checkbox" name="seguro_vida"> Seguro de vida</label>
-        <label><input type="checkbox" name="seguro_salud"> Seguro de salud</label>
-        <label><input type="checkbox" name="seguro_incapacidad"> Seguro de incapacidad</label>
-        <label><input type="checkbox" name="seguro_ltc"> Seguro de cuidado a largo plazo</label>
-        <label><input type="checkbox" name="seguro_propiedad"> Seguro de propiedad</label>
-        <label><input type="checkbox" name="seguro_auto"> Seguro de auto</label>
-        <label><input type="checkbox" name="seguro_umbrella"> Seguro umbrella</label>
+    <h4>Seguros:</h4>
 
-        <h4>Documentos de herencia:</h4>
-        <label><input type="checkbox" name="trust"> Trust</label>
-        <label><input type="checkbox" name="will"> Testamento</label>
-        <label><input type="checkbox" name="advance_medical_directive"> Directiva médica anticipada</label>
-        <label><input type="checkbox" name="power_of_attorney"> Poder legal</label>
-        <label><input type="checkbox" name="beneficiary_designation"> Designación de beneficiarios</label>
-        <label><input type="checkbox" name="property_deeds"> Títulos de propiedad</label>
+<!-- 5. Seguros y Herencia -->
+<div class="step" id="stepSegurosHerencia">
+  <fieldset>
+    <legend>Seguros y planificación patrimonial</legend>
 
-      </fieldset>
-      <div class="nav-buttons">
-        <button type="button" onclick="prevStep('stepPasivos')">Anterior</button>
-        <button type="button" onclick="guardarDatosYAvanzar('stepRetiro')">Siguiente</button>
-      </div>
-    </div>
+    <h4>Seguros:</h4>
+
+    <label>
+      <input type="checkbox" name="seguro_vida">
+      Seguro de vida <span class="tooltip" title="Seguro que paga una suma de dinero a los beneficiarios en caso de fallecimiento.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="seguro_salud">
+      Seguro de salud <span class="tooltip" title="Seguro que cubre gastos médicos, hospitalarios y de tratamiento de salud.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="seguro_incapacidad">
+      Seguro de incapacidad <span class="tooltip" title="Proporciona ingresos en caso de discapacidad temporal o permanente que impida trabajar.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="seguro_ltc">
+      Seguro de cuidado a largo plazo <span class="tooltip" title="Cubre gastos de asistencia a largo plazo como residencias asistidas o servicios de cuidado en casa.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="seguro_propiedad">
+      Seguro de propiedad <span class="tooltip" title="Protege contra daños a viviendas o propiedades personales debido a incendios, robos u otros desastres.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="seguro_auto">
+      Seguro de auto <span class="tooltip" title="Cubre daños al vehículo, responsabilidad civil y lesiones relacionadas con accidentes de tránsito.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="seguro_umbrella">
+      Seguro umbrella <span class="tooltip" title="Ofrece cobertura de responsabilidad adicional más allá de las pólizas de hogar o auto.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="ningun_seguro">
+      ❌ No tengo seguros actualmente
+    </label>
+
+    <br><br>
+
+    <h4>Documentos de herencia:</h4>
+
+    <label>
+      <input type="checkbox" name="trust">
+      Trust <span class="tooltip" title="Documento que transfiere activos a un fideicomiso para ser administrados según tus instrucciones.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="will">
+      Testamento <span class="tooltip" title="Documento legal que establece cómo deseas distribuir tus activos después de tu muerte.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="advance_medical_directive">
+      Directiva médica anticipada <span class="tooltip" title="Instrucciones sobre decisiones médicas a tomar en caso de incapacidad.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="power_of_attorney">
+      Poder legal <span class="tooltip" title="Autoriza a alguien a actuar legalmente en tu nombre en asuntos financieros o médicos.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="beneficiary_designation">
+      Designación de beneficiarios <span class="tooltip" title="Documentos que asignan beneficiarios para pólizas de seguros o cuentas financieras.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="property_deeds">
+      Títulos de propiedad <span class="tooltip" title="Documentos oficiales que prueban la propiedad de inmuebles o bienes raíces.">🛈</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="ningun_documento">
+      ❌ No tengo documentos de planificación patrimonial
+    </label>
+
+  </fieldset>
+
+  <div class="nav-buttons">
+    <button type="button" onclick="prevStep('stepPasivos')">Anterior</button>
+    <button type="button" onclick="guardarDatosYAvanzar('stepRetiro')">Siguiente</button>
+  </div>
+</div>
+
 
     <!-- 6. Retiro -->
-    <div class="step" id="stepRetiro">
-      <fieldset>
-        <legend>Planificación de retiro</legend>
+<div class="step" id="stepRetiro">
+  <fieldset>
+    <legend>Planificación de retiro</legend>
 
-        <label>Edad actual</label>
-        <input type="number" name="edad" required>
+    <label>Edad actual
+      <span class="tooltip" title="Tu edad actual en años.">🛈</span>
+    </label>
+    <input type="number" name="edad" required min="0" onblur="validarCampo(this)">
 
-        <label>Edad deseada de retiro</label>
-        <input type="number" name="edad_retiro" required>
+    <label>Edad deseada de retiro
+      <span class="tooltip" title="Edad a la que planeas retirarte.">🛈</span>
+    </label>
+    <input type="number" name="edad_retiro" required min="0" onblur="validarCampo(this)">
 
-        <label>Tasa esperada de acumulación (%) 
-          <span class="tooltip" title="Porcentaje de crecimiento esperado antes del retiro. Default: 9.64%">🛈</span>
-        </label>
-        <input type="number" name="tasa_acumulacion" step="0.01" value="9.64">
+    <label>Tasa esperada de acumulación (%)
+      <span class="tooltip" title="Porcentaje de crecimiento esperado antes de retirarte.">🛈</span>
+    </label>
+    <input type="number" name="tasa_acumulacion" step="0.01" required onblur="validarCampo(this)">
 
-        <label>Inflación estimada (%) 
-          <span class="tooltip" title="Tasa esperada de inflación. Default: 3%">🛈</span>
-        </label>
-        <input type="number" name="inflacion_esperada" step="0.01" value="3">
+    <label>Inflación estimada (%)
+      <span class="tooltip" title="Inflación esperada en tu país o región.">🛈</span>
+    </label>
+    <input type="number" name="inflacion_esperada" step="0.01" required onblur="validarCampo(this)">
 
-        <label>Tasa estimada durante retiro (%) 
-          <span class="tooltip" title="Tasa de retorno esperada durante retiro. Default sugerido: 4%">🛈</span>
-        </label>
-        <input type="number" name="tasa_retiro" step="0.01" value="4">
+    <label>Tasa estimada durante retiro (%)
+      <span class="tooltip" title="Tasa de retorno de inversiones durante la jubilación.">🛈</span>
+    </label>
+    <input type="number" name="tasa_retiro" step="0.01" required onblur="validarCampo(this)">
 
-        <!-- Tasa de reemplazo oculta -->
-        <input type="hidden" name="porcentaje_reemplazo" value="70">
+    <!-- Tasa de reemplazo oculta -->
+    <input type="hidden" name="porcentaje_reemplazo" value="70">
 
-      </fieldset>
-      <div class="nav-buttons">
-        <button type="button" onclick="prevStep('stepSegurosHerencia')">Anterior</button>
-        <button type="submit">Calcular</button>
-      </div>
-    </div>
-
-  </form>
+  </fieldset>
+  <div class="nav-buttons">
+    <button type="button" onclick="prevStep('stepSegurosHerencia')">Anterior</button>
+    <button type="submit">Calcular</button>
+  </div>
 </div>
+
 
 <!-- Script para navegación -->
 
