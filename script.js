@@ -202,9 +202,11 @@ function mostrarResultado(id) {
   document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
   document.getElementById(id).style.display = "block";
 
-  document.querySelectorAll(".nav-res").forEach(btn => btn.classList.remove("active"));
-  const current = Array.from(document.querySelectorAll(".nav-res")).find(btn => btn.textContent.includes(id[0].toUpperCase()));
-  if (current) current.classList.add("active");
+  // Cambiar estilo de navegación
+  document.querySelectorAll('#navResultados .nav-btn').forEach(btn => btn.classList.remove('active'));
+  const botones = document.querySelectorAll('#navResultados .nav-btn');
+  const indices = { resA: 0, resB: 1, resC: 2, resD: 3, resE: 4, resF: 5, resG: 6, resH: 7 };
+  if (botones[indices[id]]) botones[indices[id]].classList.add('active');
 }
 
 function mostrarGraficoGastos() {
