@@ -152,7 +152,11 @@ body {
     overflow-x: auto; /* Permite scroll horizontal */
     padding-bottom: 10px;
   }
-
+@media (max-width: 768px) {
+  form, fieldset, .step {
+    overflow: visible; /* Para que en móvil funcione el efecto shake y los tooltips */
+  }
+}
   .nav-btn {
     flex: 0 0 auto; /* 🔥 Que no se estiren */
     width: auto;    /* 🔥 Que solo ocupen lo necesario */
