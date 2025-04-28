@@ -64,25 +64,26 @@ function validarCampo(input) {
 }
 
 // ✅ Validar campos antes de avanzar
+
 function guardarDatosYAvanzar(siguientePasoId) {
   const pasoActual = document.querySelector('.step.active');
   let camposValidos = true;
 
   if (pasoActual) {
-    const inputs = pasoActual.querySelectorAll('input[required]');
+    const inputs = pasoActual.querySelectorAll('input[required]:not([type="hidden"])'); // 🔥 Sólo inputs visibles y requeridos
     
     inputs.forEach(input => {
       const label = input.previousElementSibling;
-      if (input.value.trim() === '' || isNaN(input.value) || parseFloat(input.value) < 0) {
+      if (!input.value.trim() || isNaN(input.value) || parseFloat(input.value) < 0) {
         camposValidos = false;
-        input.style.border = '2px solid red';
+        input.style.border = '2px solid red'; // Marca rojo el input
         if (label) {
           label.classList.add('error');
           label.classList.add('shake');
-          setTimeout(() => label.classList.remove('shake'), 400);
+          setTimeout(() => label.classList.remove('shake'), 400); // Shake más suave
         }
       } else {
-        input.style.border = '2px solid green';
+        input.style.border = '2px solid green'; // Marca verde si está bien
         if (label) {
           label.classList.remove('error');
         }
@@ -90,8 +91,11 @@ function guardarDatosYAvanzar(siguientePasoId) {
     });
   }
 
-  return camposValidos;
+  if (camposValidos) {
+    irASeccion(siguientePasoId); // ✅ Solo si todo está correcto
+  }
 }
+
 
 // ✅ Validar antes de pasar con botón "Continuar"
 function guardarDatosYAvanzar(siguientePasoId) {
