@@ -109,31 +109,32 @@
       flex-wrap: wrap; /* 🔥 en móviles sí permitimos que brinque a nueva línea */
     }
   }
-    .tooltip {
+.tooltip-container {
   position: relative;
   display: inline-block;
-  cursor: pointer;
+  cursor: help;
 }
 
-.tooltip::after {
-  content: attr(title);
-  position: absolute;
-  background: #111827;
-  color: white;
-  padding: 6px 8px;
+.tooltip-text {
+  visibility: hidden;
+  width: 220px;
+  background-color: #111827;
+  color: #fff;
+  text-align: center;
   border-radius: 6px;
-  font-size: 0.75rem;
-  bottom: 125%; /* muestra arriba del ícono */
+  padding: 8px;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
-  pointer-events: none;
-  white-space: nowrap;
   transition: opacity 0.3s;
-  z-index: 10;
+  font-size: 0.8rem;
 }
 
-.tooltip:hover::after {
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
   opacity: 1;
 }
     input[type="number"]:focus {
