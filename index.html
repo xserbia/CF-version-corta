@@ -217,59 +217,86 @@
     </div>
 
     <!-- 3. Activos -->
-    <div class="step" id="stepActivos">
-      <fieldset>
-        <legend>Activos</legend>
+<!-- 3. Activos -->
+<div class="step" id="stepActivos">
+  <fieldset>
+    <legend>Activos</legend>
 
-        <label>Efectivo y similares</label>
-        <input type="number" name="efectivo_similar">
+    <label>Efectivo y similares
+      <span class="tooltip" title="Dinero disponible en efectivo, cuentas corrientes y de ahorros accesibles sin penalidad.">🛈</span>
+    </label>
+    <input type="number" name="efectivo_similar">
 
-        <label>Cuentas de inversión (no retiro)</label>
-        <input type="number" name="cuentas_inversion">
+    <label>Cuentas de inversión (no retiro)
+      <span class="tooltip" title="Valor total de cuentas de inversión líquidas como brokerage, fondos mutuos o acciones fuera de cuentas de retiro.">🛈</span>
+    </label>
+    <input type="number" name="cuentas_inversion">
 
-        <label>Cuentas de retiro</label>
-        <input type="number" name="cuentas_retiro">
+    <label>Cuentas de retiro
+      <span class="tooltip" title="Valor de cuentas como 401(k), IRA, Roth IRA, o cualquier plan de retiro individual o patrocinado por empleador.">🛈</span>
+    </label>
+    <input type="number" name="cuentas_retiro">
 
-        <label>Propiedades</label>
-        <input type="number" name="valor_propiedades">
+    <label>Propiedades
+      <span class="tooltip" title="Valor estimado de mercado de propiedades inmobiliarias: casa principal, casa de vacaciones o propiedades de alquiler.">🛈</span>
+    </label>
+    <input type="number" name="valor_propiedades">
 
-        <label>Otros activos</label>
-        <input type="number" name="otros_activos">
-      </fieldset>
-      <div class="nav-buttons">
-        <button type="button" onclick="prevStep('stepGastos')">Anterior</button>
-        <button type="button" onclick="guardarDatosYAvanzar('stepPasivos')">Siguiente</button>
-      </div>
-    </div>
+    <label>Otros activos
+      <span class="tooltip" title="Valor combinado de vehículos, joyas, metales preciosos, muebles, arte, u otros bienes valiosos.">🛈</span>
+    </label>
+    <input type="number" name="otros_activos">
+
+  </fieldset>
+  <div class="nav-buttons">
+    <button type="button" onclick="prevStep('stepGastos')">Anterior</button>
+    <button type="button" onclick="guardarDatosYAvanzar('stepPasivos')">Siguiente</button>
+  </div>
+</div>
+
 
     <!-- 4. Pasivos -->
-    <div class="step" id="stepPasivos">
-      <fieldset>
-        <legend>Pasivos</legend>
+<!-- 4. Pasivos -->
+<div class="step" id="stepPasivos">
+  <fieldset>
+    <legend>Pasivos</legend>
 
-        <label>Deuda de tarjetas de crédito</label>
-        <input type="number" name="deuda_tarjetas">
+    <label>Deuda de tarjetas de crédito
+      <span class="tooltip" title="Saldo total pendiente en todas las tarjetas de crédito, incluyendo intereses acumulados.">🛈</span>
+    </label>
+    <input type="number" name="deuda_tarjetas">
 
-        <label>Hipoteca o préstamo de vivienda</label>
-        <input type="number" name="deuda_hipotecaria">
+    <label>Hipoteca o préstamo de vivienda
+      <span class="tooltip" title="Saldo restante de hipotecas sobre propiedades principales o de inversión.">🛈</span>
+    </label>
+    <input type="number" name="deuda_hipotecaria">
 
-        <label>Deuda comercial</label>
-        <input type="number" name="deuda_comercial">
+    <label>Deuda comercial
+      <span class="tooltip" title="Préstamos o líneas de crédito tomadas para financiar un negocio o actividad comercial.">🛈</span>
+    </label>
+    <input type="number" name="deuda_comercial">
 
-        <label>Préstamos de vehículos</label>
-        <input type="number" name="deuda_vehiculos">
+    <label>Préstamos de vehículos
+      <span class="tooltip" title="Saldo pendiente de préstamos para automóviles, motocicletas o embarcaciones.">🛈</span>
+    </label>
+    <input type="number" name="deuda_vehiculos">
 
-        <label>Deuda estudiantil</label>
-        <input type="number" name="deuda_estudios">
+    <label>Deuda estudiantil
+      <span class="tooltip" title="Monto pendiente en préstamos estudiantiles para educación superior.">🛈</span>
+    </label>
+    <input type="number" name="deuda_estudios">
 
-        <label>Otras deudas</label>
-        <input type="number" name="deuda_otros">
-      </fieldset>
-      <div class="nav-buttons">
-        <button type="button" onclick="prevStep('stepActivos')">Anterior</button>
-        <button type="button" onclick="guardarDatosYAvanzar('stepSegurosHerencia')">Siguiente</button>
-      </div>
-    </div>
+    <label>Otras deudas
+      <span class="tooltip" title="Cualquier otro tipo de deuda no incluida previamente: préstamos personales, deudas familiares, juicios, etc.">🛈</span>
+    </label>
+    <input type="number" name="deuda_otros">
+
+  </fieldset>
+  <div class="nav-buttons">
+    <button type="button" onclick="prevStep('stepActivos')">Anterior</button>
+    <button type="button" onclick="guardarDatosYAvanzar('stepSegurosHerencia')">Siguiente</button>
+  </div>
+</div>
 
     <!-- 5. Seguros y Herencia -->
     <div class="step" id="stepSegurosHerencia">
