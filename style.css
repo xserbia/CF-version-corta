@@ -149,16 +149,19 @@ body {
 /* Responsive ajustes */
 @media (max-width: 768px) {
   .top-navigation {
-    flex-wrap: nowrap; /* No se brinque a nueva línea */
-    overflow-x: auto; /* 🔥 Scroll horizontal */
-    -webkit-overflow-scrolling: touch; /* 🔥 Scroll suave en móviles */
+    overflow-x: auto; /* Permite scroll horizontal */
+    padding-bottom: 10px;
   }
-  
+
   .nav-btn {
-    flex: 0 0 auto; /* 🔥 Los botones no se encogen */
+    flex: 0 0 auto; /* 🔥 Que no se estiren */
+    width: auto;    /* 🔥 Que solo ocupen lo necesario */
+    min-width: 140px; /* 🔥 Opcional: tamaño mínimo cómodo */
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    white-space: nowrap; /* 🔥 Para que el texto no brinque */
   }
 }
-
   /* Efecto shake */
   @keyframes shake {
     0% { transform: translateX(0); }
