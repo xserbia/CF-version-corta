@@ -22,8 +22,7 @@
 
 <!-- Formulario -->
 <div id="formularioContainer">
-  <form id="calculadoraFormulario">
-
+  <form id="calculadoraFormulario" onsubmit="procesarResultados(event)">
     <!-- 1. Ingresos -->
 <div class="step" id="stepIngresos">
   <fieldset>
@@ -291,12 +290,11 @@
     <input type="hidden" name="porcentaje_reemplazo" value="70">
 
   </fieldset>
-  <div class="nav-buttons">
-    <button type="button" onclick="guardarDatosYAvanzar('mostrarResultados')">Calcular</button>
-  </div>
+<div class="nav-buttons">
+  <button type="submit">Calcular</button>
 </div>
-
-<!-- Script para navegación -->
+</form> 
+</div>
 <!-- 🔵 Contenedor de Resultados -->
 <div id="resultadosContainer" style="display: none; margin-top: 40px;">
 
