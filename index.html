@@ -151,6 +151,30 @@
       width: 180px;
     }
   }
+      .required-label::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+
+  .required-label.error {
+    color: #dc2626;
+  }
+
+  /* Efecto shake */
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+
+  .shake {
+    animation: shake 0.3s;
+    animation-iteration-count: 1;
+  }
   </style>
 </head>
 
