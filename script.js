@@ -32,8 +32,28 @@ function irASeccion(stepId) {
   seccionActual = stepId;
 }
 
-// ✅ Bloqueador de navegación por top menú
-let seccionActual = 'stepIngresos'; // Comenzamos en Ingresos
+// ✅ Bloqueo de navegación en menú top
+let seccionActual = 'stepIngresos';
+const ordenSecciones = ['stepIngresos', 'stepGastos', 'stepActivos', 'stepPasivos', 'stepSegurosHerencia', 'stepRetiro'];
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', function (e) {
+    const destino = this.getAttribute('onclick').match(/'(.*?)'/)[1];
+
+    const pasoActualIndex = ordenSecciones.indexOf(seccionActual);
+    const destinoIndex = ordenSecciones.indexOf(destino);
+
+    if (destinoIndex > pasoActualIndex) {
+      if (!validarCamposPasoActual()) {
+        e.preventDefault();
+      } else {
+        seccionActual = destino;
+      }
+    } else {
+      seccionActual = destino;
+    }
+  });
+});
 
 // ✅ Validar campos antes de avanzar
 function guardarDatosYAvanzar(siguientePasoId) {
@@ -62,7 +82,12 @@ function guardarDatosYAvanzar(siguientePasoId) {
     });
   }
 
-  if (camposValidos) {
+  return camposValidos;
+}
+
+// ✅ Validar antes de pasar con botón "Continuar"
+function guardarDatosYAvanzar(siguientePasoId) {
+  if (validarCamposPasoActual()) {
     irASeccion(siguientePasoId);
   }
 }
