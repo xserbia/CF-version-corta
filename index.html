@@ -228,17 +228,17 @@ button:active {
     <label>Aporte personal a retiro
       <span class="tooltip" title="Aporte que realizas de tu salario hacia tu fondo de retiro 401k, IRA, o similar.">🛈</span>
     </label>
-    <input type="number" name="aporte_personal_retiro" onblur="validarCampo(this)">
+    <input type="number" name="aporte_personal_retiro" required onblur="validarCampo(this)">
 
     <label>Aporte del empleador a retiro
       <span class="tooltip" title="Aporte que tu empleador realiza a tu fondo de retiro, si aplica.">🛈</span>
     </label>
-    <input type="number" name="aporte_empleador_retiro" onblur="validarCampo(this)">
+    <input type="number" name="aporte_empleador_retiro" required onblur="validarCampo(this)">
 
     <label>Otros ahorros
       <span class="tooltip" title="Cualquier otra forma de ahorro anual: ahorro bancario, fondos de emergencia, etc.">🛈</span>
     </label>
-    <input type="number" name="otros_ahorros" onblur="validarCampo(this)">
+    <input type="number" name="otros_ahorros" required onblur="validarCampo(this)">
 
   </fieldset>
   <div class="nav-buttons">
