@@ -216,6 +216,7 @@ function mostrarResultados() {
 
 // --- Resultados por sección ---
 
+// ;-)
 //---SECCION A LIQUIDEZ---
 
 function mostrarFlujo() {
