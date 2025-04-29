@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <title>Calculadora Financiera</title>
   
   <!-- Conexión al CSS externo -->
@@ -350,10 +351,11 @@
     <p>Resultados de planificación aquí...</p>
   </div>
 
-  <div id="resG" class="resultado-categoria" style="display: none;">
-    <h3>🅶 Retiro</h3>
-    <p>Resultados de retiro aquí...</p>
-  </div>
+<div id="resG" class="resultado-categoria" style="display: none;">
+  <h3>🅶 Retiro</h3>
+  <p id="retiroTexto">Resultados de retiro aquí...</p>
+  <canvas id="graficoRetiro" style="max-width: 600px; margin-top: 30px;"></canvas>
+</div>
 
   <div id="resH" class="resultado-categoria" style="display: none;">
     <h3>🅷 Pruebas de estrés</h3>
@@ -363,6 +365,55 @@
 </div>
 
 <script src="script.js"></script>
+    <script>
+function renderGraficoRetiro(capitalNecesario, capitalAcumulado) {
+  const ctx = document.getElementById('graficoRetiro').getContext('2d');
+  if (window.graficoRetiroInstance) {
+    window.graficoRetiroInstance.destroy();
+  }
+
+  window.graficoRetiroInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['🧱 Capital necesario', '💼 Capital acumulado'],
+      datasets: [{
+        label: 'Monto en USD',
+        data: [capitalNecesario, capitalAcumulado],
+        backgroundColor: ['#f87171', '#4ade80'],
+        borderRadius: 6,
+        barThickness: 40
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: context => `$${context.raw.toLocaleString()}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          ticks: {
+            callback: value => `$${value.toLocaleString()}`
+          }
+        },
+        y: {
+          ticks: {
+            font: {
+              size: 14,
+              weight: 'bold'
+            }
+          }
+        }
+      }
+    }
+  });
+}
+</script>
 </body>
 </html>
 
