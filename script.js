@@ -161,18 +161,31 @@ function guardarDatosSegurosHerencia() {
   }
 }
 
-
 let data = {};
 
+// ✅ Captura todos los datos del formulario
+function capturarDatos() {
+  const form = document.getElementById("calculadoraFormulario");
+  const datos = {};
+  Array.from(form.elements).forEach(el => {
+    if (el.name) {
+      datos[el.name] = el.type === "checkbox" ? el.checked : parseFloat(el.value) || 0;
+    }
+  });
+  return datos;
+}
+
+// ✅ Procesa y muestra los resultados
 function procesarResultados(event) {
-  event.preventDefault(); // 🔥 Evita recargar
+  event.preventDefault(); // 🔥 Evita recargar la página
 
   data = capturarDatos();
-  mostrarResultados();
+  mostrarResultados(); // Tu función que organiza la salida
   document.getElementById("formularioContainer").style.display = "none";
   document.getElementById("resultadosContainer").style.display = "block";
-  mostrarGraficoGastos();
+  mostrarGraficoGastos(); // Asegúrate de que esta función también esté definida
 }
+
 function mostrarGraficoGastos() {
   const canvas = document.getElementById('graficoGastos');
   if (!canvas) return;
