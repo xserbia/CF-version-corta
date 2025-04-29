@@ -706,7 +706,7 @@ function mostrarRetiro() {
     <p><strong>💼 Capital acumulado:</strong> $${totalAcumulado.toLocaleString()}</p>
   `;
 
-  renderGraficoRetiro(capitalNecesario, capitalAcumulado);
+  renderGraficoRetiro(capitalNecesario, totalAcumulado);
 }
   // Monte Carlo (placeholder por ahora)
   const probabilidadExito = 82; // ⚠️ Simulación básica (futuro: generar dinámicamente)
