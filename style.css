@@ -200,3 +200,10 @@ button:hover {
 button:active {
   transform: scale(0.98); /* Pequeño efecto de 'presionado' al hacer click */
 }
+#graficoGastos {
+  display: block;
+  margin: 20px auto 0 auto; /* 🔵 20px arriba, centrado automático */
+  max-width: 400px;
+  width: 100%;
+}
+
