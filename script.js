@@ -238,7 +238,6 @@ function mostrarFlujo() {
   const reservaEmergencia = gastoDiario > 0 ? (data.efectivo_similar || 0) / (gastoDiario / 12) : 0;
   const razonCorriente = deuda > 0 ? (data.efectivo_similar || 0) / deuda : 0;
 
-  // Evaluaciones visuales
   const iconoAhorro = tasaAhorro >= 0.30 ? '✅' : tasaAhorro >= 0.15 ? '⚠️' : '🚨';
   const iconoSuperavit = superavit < 0 ? '🚨' : superavit / ingreso <= 0.15 ? '⚠️' : '✅';
   const iconoReserva = reservaEmergencia > 36 ? '🔁' : reservaEmergencia >= 12 ? '✅' : reservaEmergencia >= 6 ? '⚠️' : '🚨';
@@ -247,7 +246,6 @@ function mostrarFlujo() {
 
   document.getElementById("resA").innerHTML = `
     <h3>🅰️ A. Flujo de efectivo y liquidez</h3>
-
     <p><strong>Ingreso anual:</strong> $${ingreso.toLocaleString()}</p>
     <p><strong>Impuestos:</strong> $${impuestos.toLocaleString()}</p>
     <p><strong>Seguros:</strong> $${seguros.toLocaleString()}</p>
@@ -255,7 +253,6 @@ function mostrarFlujo() {
     <p><strong>Pago de deuda:</strong> $${deuda.toLocaleString()}</p>
     <p><strong>Ahorro:</strong> $${ahorro.toLocaleString()}</p>
     <p><strong>Superávit:</strong> $${superavit.toLocaleString()} ${iconoSuperavit}</p>
-    
     <hr>
     <p><strong>Tasa de ahorro:</strong> ${(tasaAhorro * 100).toFixed(1)}% ${iconoAhorro}</p>
     <p><strong>Reserva de emergencia:</strong> ${reservaEmergencia.toFixed(1)} meses ${iconoReserva}</p>
@@ -263,77 +260,78 @@ function mostrarFlujo() {
     <p><strong>Capacidad de acumulación:</strong> ${(capacidadAcumulacion * 100).toFixed(1)}% ${iconoCapacidad}</p>
   `;
 
-  function mostrarGraficoGastos() {
-    const canvas = document.getElementById('graficoGastos');
-    if (!canvas || canvas.offsetParent === null) return;
+  mostrarGraficoGastos(); // ahora que está definida globalmente
+}
 
-    const ingresoTotal = data.ingreso_bruto || 0;
-    const impuestos = data.impuestos_anuales || 0;
-    const seguros = data.seguros_anuales || 0;
-    const gastosDiarios = data.gastos_diarios || 0;
-    const pagoDeuda = data.pago_deudas || 0;
-    const ahorro =
-      (data.aporte_personal_retiro || 0) +
-      (data.aporte_empleador_retiro || 0) +
-      (data.otros_ahorros || 0);
-    const sumaCategorias = impuestos + seguros + gastosDiarios + pagoDeuda + ahorro;
-    const superavit = ingresoTotal - sumaCategorias;
+// ✅ Función separada
+function mostrarGraficoGastos() {
+  const canvas = document.getElementById('graficoGastos');
+  if (!canvas || canvas.offsetParent === null) return;
 
-    const ctx = canvas.getContext('2d');
+  const ingresoTotal = data.ingreso_bruto || 0;
+  const impuestos = data.impuestos_anuales || 0;
+  const seguros = data.seguros_anuales || 0;
+  const gastosDiarios = data.gastos_diarios || 0;
+  const pagoDeuda = data.pago_deudas || 0;
+  const ahorro =
+    (data.aporte_personal_retiro || 0) +
+    (data.aporte_empleador_retiro || 0) +
+    (data.otros_ahorros || 0);
+  const sumaCategorias = impuestos + seguros + gastosDiarios + pagoDeuda + ahorro;
+  const superavit = ingresoTotal - sumaCategorias;
 
-    if (window.graficoGastosInstance) {
-      window.graficoGastosInstance.destroy();
-    }
+  const ctx = canvas.getContext('2d');
 
-    const centerTextPlugin = {
-      id: 'centerText',
-      beforeDraw(chart) {
-        const { width, height } = chart;
-        const ctx = chart.ctx;
-        ctx.restore();
-        const fontSize = (height / 150).toFixed(2);
-        ctx.font = `${fontSize}em sans-serif`;
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#111827';
-
-        const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-        const text = `Total: $${total.toLocaleString()}`;
-        const textX = Math.round((width - ctx.measureText(text).width) / 2);
-        const textY = height / 2;
-
-        ctx.fillText(text, textX, textY);
-        ctx.save();
-      }
-    };
-
-    window.graficoGastosInstance = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Impuestos', 'Seguros', 'Gastos diarios', 'Pago de deuda', 'Ahorro', 'Superávit/Deficit'],
-        datasets: [{
-          data: [impuestos, seguros, gastosDiarios, pagoDeuda, ahorro, superavit],
-          backgroundColor: ['#FF6384', '#FF9F40', '#60a5fa', '#fbbf24', '#4ade80', '#a78bfa']
-        }]
-      },
-      options: {
-        plugins: {
-          legend: { position: 'bottom' },
-          datalabels: {
-            color: '#111827',
-            font: { weight: 'bold' },
-            formatter: (value, context) => {
-              const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-              const porcentaje = (value / total) * 100;
-              return porcentaje.toFixed(1) + '%';
-            }
-          }
-        }
-      },
-      plugins: [ChartDataLabels, centerTextPlugin]
-    });
+  if (window.graficoGastosInstance) {
+    window.graficoGastosInstance.destroy();
   }
 
-  mostrarGraficoGastos(); // ✅ Ejecutar al final de mostrarFlujo
+  const centerTextPlugin = {
+    id: 'centerText',
+    beforeDraw(chart) {
+      const { width, height } = chart;
+      const ctx = chart.ctx;
+      ctx.restore();
+      const fontSize = (height / 150).toFixed(2);
+      ctx.font = `${fontSize}em sans-serif`;
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#111827';
+
+      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+      const text = `Total: $${total.toLocaleString()}`;
+      const textX = Math.round((width - ctx.measureText(text).width) / 2);
+      const textY = height / 2;
+
+      ctx.fillText(text, textX, textY);
+      ctx.save();
+    }
+  };
+
+  window.graficoGastosInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Impuestos', 'Seguros', 'Gastos diarios', 'Pago de deuda', 'Ahorro', 'Superávit/Deficit'],
+      datasets: [{
+        data: [impuestos, seguros, gastosDiarios, pagoDeuda, ahorro, superavit],
+        backgroundColor: ['#FF6384', '#FF9F40', '#60a5fa', '#fbbf24', '#4ade80', '#a78bfa']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'bottom' },
+        datalabels: {
+          color: '#111827',
+          font: { weight: 'bold' },
+          formatter: (value, context) => {
+            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+            const porcentaje = (value / total) * 100;
+            return porcentaje.toFixed(1) + '%';
+          }
+        }
+      }
+    },
+    plugins: [ChartDataLabels, centerTextPlugin]
+  });
 }
 
 //---SECCION B DEUDA---
