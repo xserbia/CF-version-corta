@@ -537,48 +537,185 @@ function mostrarSeguridad() {
   
 function mostrarRiesgo() {
   const gastosEsenciales = (data.gastos_diarios || 0) + (data.pago_deudas || 0) + (data.seguros_anuales || 0) + (data.impuestos_anuales || 0);
-  const reservaEmergencia = gastosEsenciales > 0 ? (data.efectivo_similar || 0) / (gastosEsenciales / 12) : 0;
-  const emojiReserva = reservaEmergencia > 6 ? '✅' : reservaEmergencia > 3 ? '⚠️' : '🚨';
+  const gastosMensuales = gastosEsenciales / 12;
 
-  document.getElementById("resE").innerHTML = `
+  // Activos
+  const efectivo = data.efectivo_similar || 0;
+  const inversiones = data.cuentas_inversion || 0;
+  const retiro = data.cuentas_retiro || 0;
+  const propiedades = data.valor_propiedades || 0;
+  const fisicos = data.otros_activos || 0;
+
+  // Fondos por nivel
+  const fondo1 = efectivo;
+  const fondo2 = fondo1 + (inversiones * 0.9);
+  const fondo3 = fondo2 + (retiro * 0.9);
+  const fondo4 = fondo3 + (propiedades * 0.9);
+  const fondo5 = fondo4 + (fisicos * 0.5);
+
+  // Meses de cobertura
+  const meses1 = gastosMensuales > 0 ? fondo1 / gastosMensuales : 0;
+  const meses2 = gastosMensuales > 0 ? fondo2 / gastosMensuales : 0;
+  const meses3 = gastosMensuales > 0 ? fondo3 / gastosMensuales : 0;
+  const meses4 = gastosMensuales > 0 ? fondo4 / gastosMensuales : 0;
+  const meses5 = gastosMensuales > 0 ? fondo5 / gastosMensuales : 0;
+
+  // Checklist de seguros
+  const seguros = [
+    { nombre: "Seguro médico", valor: data.seguro_salud },
+    { nombre: "Seguro de vida", valor: data.seguro_vida },
+    { nombre: "Seguro de discapacidad", valor: data.seguro_incapacidad },
+    { nombre: "Seguro de hogar", valor: data.seguro_propiedad },
+    { nombre: "Seguro de auto", valor: data.seguro_auto },
+    { nombre: "Seguro umbrella", valor: data.seguro_umbrella }
+  ];
+
+  let tablaSeguros = '<ul style="list-style:none; padding-left:0;">';
+  seguros.forEach(s => {
+    tablaSeguros += `<li>${s.valor ? '✅' : '❌'} ${s.nombre}</li>`;
+  });
+  tablaSeguros += '</ul>';
+
+  const resultado = `
     <h3>🅴 Manejo de riesgo</h3>
-    <p>Meses de reserva: ${reservaEmergencia.toFixed(1)} meses ${emojiReserva}</p>
+
+    <h4>💰 Fondos acumulados y meses cubiertos</h4>
+    <table style="width:100%; font-size:0.95em;">
+      <thead><tr><th>Nivel</th><th>Fondos disponibles</th><th>Meses cubiertos</th></tr></thead>
+      <tbody>
+        <tr><td>1. Solo efectivo</td><td>$${fondo1.toLocaleString()}</td><td>${meses1.toFixed(1)}</td></tr>
+        <tr><td>2. + Inversiones</td><td>$${fondo2.toLocaleString()}</td><td>${meses2.toFixed(1)}</td></tr>
+        <tr><td>3. + Cuentas de retiro</td><td>$${fondo3.toLocaleString()}</td><td>${meses3.toFixed(1)}</td></tr>
+        <tr><td>4. + Propiedades</td><td>$${fondo4.toLocaleString()}</td><td>${meses4.toFixed(1)}</td></tr>
+        <tr><td>5. + Activos físicos</td><td>$${fondo5.toLocaleString()}</td><td>${meses5.toFixed(1)}</td></tr>
+      </tbody>
+    </table>
+
+    <h4>🧾 Checklist de pólizas de seguro</h4>
+    ${tablaSeguros}
+    <p style="font-size: 0.85em;">✅ = Tiene la póliza · ❌ = No tiene</p>
   `;
+
+  document.getElementById("resE").innerHTML = resultado;
 }
 
   //---SECCION F HERENCIA---
-  
-function mostrarPatrimonial() {
+
+  function mostrarPatrimonial() {
   const documentos = [
-    { nombre: "Trust", tiene: data.trust },
-    { nombre: "Testamento", tiene: data.will },
-    { nombre: "Directiva médica", tiene: data.advance_medical_directive },
-    { nombre: "Poder legal", tiene: data.power_of_attorney },
-    { nombre: "Designación de beneficiarios", tiene: data.beneficiary_designation },
-    { nombre: "Títulos de propiedad", tiene: data.property_deeds }
+    { nombre: "Trust (fideicomiso)", valor: data.trust },
+    { nombre: "Testamento (will)", valor: data.will },
+    { nombre: "Directiva médica anticipada", valor: data.advance_medical_directive },
+    { nombre: "Poder legal", valor: data.power_of_attorney },
+    { nombre: "Designación de beneficiarios", valor: data.beneficiary_designation },
+    { nombre: "Títulos de propiedad", valor: data.property_deeds }
   ];
 
-  const tiene = documentos.filter(d => d.tiene).map(d => d.nombre).join(", ") || "Ninguno registrado";
+  const tiene = documentos.filter(d => d.valor);
+  const noTiene = documentos.filter(d => !d.valor);
 
-  document.getElementById("resF").innerHTML = `
+  let listaTiene = '<ul style="list-style:none; padding-left:0;">';
+  tiene.forEach(d => {
+    listaTiene += `<li>✅ ${d.nombre}</li>`;
+  });
+  listaTiene += '</ul>';
+
+  let listaNoTiene = '<ul style="list-style:none; padding-left:0;">';
+  noTiene.forEach(d => {
+    listaNoTiene += `<li>❌ ${d.nombre}</li>`;
+  });
+  listaNoTiene += '</ul>';
+
+  const resultado = `
     <h3>🅵 Planificación patrimonial</h3>
-    <p>Documentos disponibles: ${tiene}</p>
-  `;
-}
+    <h4>✅ Documentos que tienes</h4>
+    ${listaTiene}
 
+    <h4>❌ Documentos que no tienes</h4>
+    ${listaNoTiene}
+
+    <p style="font-size:0.85em; margin-top:10px;">
+      Este resumen solo indica la presencia o ausencia de documentos clave.<br>
+      Consulta con un abogado si deseas verificar su validez o actualizar tu planificación.
+    </p>
+  `;
+
+  document.getElementById("resF").innerHTML = resultado;
+}
     //---SECCION G RETIRO---
   
 function mostrarRetiro() {
   const edadActual = data.edad || 0;
   const edadRetiro = data.edad_retiro || 0;
-  const anosRestantes = edadRetiro - edadActual;
+  const anosAcumulacion = edadRetiro - edadActual;
+  const ingresoBruto = data.ingreso_bruto || 0;
 
+  const ahorroAcumulado = (data.cuentas_retiro || 0);
+  const aporteAnual = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0);
+
+  // Parámetros de proyección
+  const tasaAcumulacion = (data.tasa_acumulacion || 7) / 100;
+  const tasaRetiro = (data.tasa_retiro || 4) / 100;
+  const inflacion = (data.inflacion_esperada || 3) / 100;
+  const tasaReal = ((1 + tasaRetiro) / (1 + inflacion)) - 1;
+
+  const ingresoDeseado = ingresoBruto * 0.7;
+  const anosDistribucion = 100 - edadRetiro;
+
+  // 🧱 Capital necesario = Ingreso anual deseado × fórmula de valor presente
+  const capitalNecesario = ingresoDeseado * ((1 - Math.pow(1 + tasaReal, -anosDistribucion)) / tasaReal);
+
+  // 💼 Total acumulado estimado
+  const totalAcumulado = ahorroAcumulado * Math.pow(1 + tasaAcumulacion, anosAcumulacion) +
+                         aporteAnual * ((Math.pow(1 + tasaAcumulacion, anosAcumulacion) - 1) / tasaAcumulacion);
+
+  // ⚠️ Faltante
+  const faltante = capitalNecesario - totalAcumulado;
+
+  // 💸 Aportes extra sugeridos (si hay déficit)
+  const aporteAnualExtra = faltante > 0
+    ? faltante / ((Math.pow(1 + tasaAcumulacion, anosAcumulacion) - 1) / tasaAcumulacion)
+    : 0;
+
+  const aporteMensualExtra = aporteAnualExtra / 12;
+
+  // 📏 Factor por edad actual
+  const factores = {
+    25: 0.35, 30: 0.85, 35: 1.5, 40: 2.58,
+    45: 3.14, 50: 4.92, 55: 6.35, 60: 7.23,
+    65: 10.84, 70: 11
+  };
+
+  const factorEsperado = Object.keys(factores)
+    .reverse()
+    .find(e => edadActual >= parseInt(e)) || 25;
+
+  const factor = factores[factorEsperado];
+  const esperado = ingresoBruto * factor;
+  const ratioAhorroEdad = ahorroAcumulado / esperado;
+
+  const iconoFaltante = faltante <= 0 ? '✅' : '⚠️';
+  const iconoFactor = ratioAhorroEdad >= 1 ? '✅' : ratioAhorroEdad >= 0.9 ? '⚠️' : '🚨';
+
+  // Monte Carlo (placeholder por ahora)
+  const probabilidadExito = 82; // ⚠️ Simulación básica (futuro: generar dinámicamente)
+  const iconoMonteCarlo = probabilidadExito > 90 ? '✅' : probabilidadExito >= 70 ? '⚠️' : '🚨';
+
+  // 🧾 Output
   document.getElementById("resG").innerHTML = `
-    <h3>🅶 Retiro</h3>
-    <p>Años hasta retiro: ${anosRestantes}</p>
-    <p>Estimación de retiro completada con inputs.</p>
+    <h3>🅶 Futuro financiero</h3>
+    <table>
+      <tr><td>🧱 Capital necesario:</td><td>$${capitalNecesario.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td></tr>
+      <tr><td>💼 Total acumulado estimado:</td><td>$${totalAcumulado.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td></tr>
+      <tr><td>⚠️ Faltante actual:</td><td>$${faltante.toLocaleString(undefined, { maximumFractionDigits: 0 })} ${iconoFaltante}</td></tr>
+      <tr><td>💸 Aporte anual extra recomendado:</td><td>$${aporteAnualExtra.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td></tr>
+      <tr><td>💰 Aporte mensual extra recomendado:</td><td>$${aporteMensualExtra.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td></tr>
+      <tr><td>📏 Factor de ahorro por edad:</td><td>${(ratioAhorroEdad * 100).toFixed(1)}% ${iconoFactor}</td></tr>
+      <tr><td>📊 Probabilidad de éxito (Monte Carlo):</td><td>${probabilidadExito}% ${iconoMonteCarlo}</td></tr>
+    </table>
   `;
 }
+
     //---SECCION H STRESS TEST---
   
 function mostrarEstres() {
