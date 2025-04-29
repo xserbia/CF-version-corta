@@ -174,7 +174,7 @@ function capturarDatos() {
   });
   return datos;
 }
-// hello 2
+
 // ✅ Procesa y muestra los resultados
 function procesarResultados(event) {
   event.preventDefault(); // 🔒 Evita recargar la página
@@ -215,6 +215,8 @@ function mostrarResultados() {
 }
 
 // --- Resultados por sección ---
+
+//---SECCION A LIQUIDEZ---
 
   document.getElementById("resA").innerHTML = `
     <h3>🅰️ A. Flujo de efectivo y liquidez</h3>
@@ -330,43 +332,209 @@ function mostrarFlujo() {
     plugins: [ChartDataLabels, centerTextPlugin]
   });
 }
-
+//---SECCION B DEUDA---
 function mostrarDeuda() {
-  const deudaTotal = (data.deuda_tarjetas || 0) + (data.deuda_hipotecaria || 0) + (data.deuda_comercial || 0) + (data.deuda_vehiculos || 0) + (data.deuda_estudios || 0) + (data.deuda_otros || 0);
+  const ingresoBruto = data.ingreso_bruto || 0;
+  const deudaVivienda = data.deuda_hipotecaria || 0;
 
-  document.getElementById("resB").innerHTML = `
-    <h3>🅱️ B. Deuda</h3>
-    <p>Total deudas: $${deudaTotal.toLocaleString()}</p>
+  const deudaTotal =
+    (data.deuda_tarjetas || 0) +
+    (data.deuda_hipotecaria || 0) +
+    (data.deuda_comercial || 0) +
+    (data.deuda_vehiculos || 0) +
+    (data.deuda_estudios || 0) +
+    (data.deuda_otros || 0);
+
+  const activosTotales =
+    (data.efectivo_similar || 0) +
+    (data.cuentas_inversion || 0) +
+    (data.cuentas_retiro || 0) +
+    (data.valor_propiedades || 0) +
+    (data.otros_activos || 0);
+
+  const patrimonioNeto = activosTotales - deudaTotal;
+
+  // Indicadores sobre ingreso bruto
+  const viviendaSobreIngresoBruto = ingresoBruto > 0 ? deudaVivienda / ingresoBruto : 0;
+  const dtiBruto = ingresoBruto > 0 ? deudaTotal / ingresoBruto : 0;
+  const deudaSobreActivos = activosTotales > 0 ? deudaTotal / activosTotales : 0;
+  const deudaSobrePatrimonio = patrimonioNeto > 0 ? deudaTotal / patrimonioNeto : Infinity;
+
+  const icono = (valor, limites) => {
+    if (valor <= limites[0]) return '✅';
+    if (limites.length === 2 && valor <= limites[1]) return '⚠️';
+    return '🚨';
+  };
+
+  const tabla = `
+    <h3>🅱️ B. Endeudamiento</h3>
+    <table style="width:100%; font-size: 0.95em; margin-top: 10px;">
+      <thead>
+        <tr>
+          <th>Indicador</th>
+          <th>Valor</th>
+          <th>Evaluación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>% Vivienda / ingreso bruto</td><td>${(viviendaSobreIngresoBruto * 100).toFixed(1)}%</td><td>${icono(viviendaSobreIngresoBruto, [0.24])}</td></tr>
+        <tr><td>DTI / ingreso bruto</td><td>${(dtiBruto * 100).toFixed(1)}%</td><td>${icono(dtiBruto, [0.30])}</td></tr>
+        <tr><td>Deuda / activos totales</td><td>${(deudaSobreActivos * 100).toFixed(1)}%</td><td>${icono(deudaSobreActivos, [0.50])}</td></tr>
+        <tr><td>Deuda / patrimonio neto</td><td>${isFinite(deudaSobrePatrimonio) ? (deudaSobrePatrimonio * 100).toFixed(1) + '%' : 'N/A'}</td><td>${icono(deudaSobrePatrimonio, [0.50, 1.00])}</td></tr>
+      </tbody>
+    </table>
   `;
+
+  document.getElementById("resB").innerHTML = tabla;
 }
 
+//---SECCION C PATRIMONIO---
+  
 function mostrarPatrimonio() {
-  const activos = (data.efectivo_similar || 0) + (data.cuentas_inversion || 0) + (data.cuentas_retiro || 0) + (data.valor_propiedades || 0) + (data.otros_activos || 0);
-  const pasivos = (data.deuda_tarjetas || 0) + (data.deuda_hipotecaria || 0) + (data.deuda_comercial || 0) + (data.deuda_vehiculos || 0) + (data.deuda_estudios || 0) + (data.deuda_otros || 0);
+  const edad = data.edad || 0;
+  const ingreso = data.ingreso_bruto || 0;
+
+  const activos = 
+    (data.efectivo_similar || 0) +
+    (data.cuentas_inversion || 0) +
+    (data.cuentas_retiro || 0) +
+    (data.valor_propiedades || 0) +
+    (data.otros_activos || 0);
+
+  const pasivos =
+    (data.deuda_tarjetas || 0) +
+    (data.deuda_hipotecaria || 0) +
+    (data.deuda_comercial || 0) +
+    (data.deuda_vehiculos || 0) +
+    (data.deuda_estudios || 0) +
+    (data.deuda_otros || 0);
 
   const patrimonio = activos - pasivos;
 
-  document.getElementById("resC").innerHTML = `
-    <h3>🅲 Patrimonio neto</h3>
-    <p>Activos: $${activos.toLocaleString()}</p>
-    <p>Pasivos: $${pasivos.toLocaleString()}</p>
-    <p>Patrimonio neto: $${patrimonio.toLocaleString()}</p>
-  `;
-}
+  const relPatrimonioActivos = activos > 0 ? patrimonio / activos : 0;
+  const relPatrimonioPasivos = pasivos > 0 ? patrimonio / pasivos : 0;
 
+  // Tabla benchmark por edad
+  const tablaBenchmark = [
+    { edad: 25, good: 2.5, great: 5 },
+    { edad: 30, good: 3, great: 6 },
+    { edad: 35, good: 3.5, great: 7 },
+    { edad: 40, good: 4, great: 8 },
+    { edad: 45, good: 4.5, great: 9 },
+    { edad: 50, good: 5, great: 10 },
+    { edad: 55, good: 5.5, great: 11 },
+    { edad: 60, good: 6, great: 12 },
+    { edad: 65, good: 6.5, great: 13 },
+    { edad: 70, good: 7, great: 14 }
+  ];
+
+  const filaEdad = tablaBenchmark.find(f => edad <= f.edad) || tablaBenchmark[tablaBenchmark.length - 1];
+  const valorGood = filaEdad.good * ingreso;
+  const valorGreat = filaEdad.great * ingreso;
+
+  let iconoAbsoluto;
+  if (patrimonio >= valorGreat) {
+    iconoAbsoluto = '⭐';
+  } else if (patrimonio >= valorGood) {
+    iconoAbsoluto = '✅';
+  } else if (patrimonio >= 0.8 * valorGood) {
+    iconoAbsoluto = '⚠️';
+  } else {
+    iconoAbsoluto = '🚨';
+  }
+
+  const iconoRelActivos = relPatrimonioActivos >= 0.7 ? '✅' : relPatrimonioActivos >= 0.5 ? '⚠️' : '🚨';
+  const iconoRelPasivos = relPatrimonioPasivos >= 2 ? '✅' : relPatrimonioPasivos >= 1 ? '⚠️' : '🚨';
+
+  const tabla = `
+    <h3>🅲 C. Patrimonio neto</h3>
+    <table style="width:100%; font-size: 0.95em; margin-top: 10px;">
+      <thead>
+        <tr><th>Indicador</th><th>Valor</th><th>Evaluación</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Patrimonio neto absoluto</td><td>$${patrimonio.toLocaleString()}</td><td>${iconoAbsoluto}</td></tr>
+        <tr><td>Relación patrimonio / activos</td><td>${(relPatrimonioActivos * 100).toFixed(1)}%</td><td>${iconoRelActivos}</td></tr>
+        <tr><td>Relación patrimonio / pasivos</td><td>${isFinite(relPatrimonioPasivos) ? (relPatrimonioPasivos * 100).toFixed(1) + '%' : 'N/A'}</td><td>${iconoRelPasivos}</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 0.85em;">⭐ = superior al benchmark por edad; ✅ = sólido; ⚠️ = aceptable; 🚨 = débil.</p>
+  `;
+
+  document.getElementById("resC").innerHTML = tabla;
+}
+  
+//---SECCION D SEGURIDAD---
+  
 function mostrarSeguridad() {
+  const edad = data.edad || 0;
+  const ingreso = data.ingreso_bruto || 0;
+
+  const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
+  const superavit = ingreso - (
+    (data.impuestos_anuales || 0) +
+    (data.seguros_anuales || 0) +
+    (data.gastos_diarios || 0) +
+    (data.pago_deudas || 0) +
+    ahorro
+  );
+
+  const tasaAhorro = ingreso > 0 ? ahorro / ingreso : 0;
+  const capacidadAcumulacion = ingreso > 0 ? (ahorro + superavit) / ingreso : 0;
+
   const activosInversion = (data.cuentas_inversion || 0) + (data.cuentas_retiro || 0);
-  const activosTotales = (data.efectivo_similar || 0) + (data.cuentas_inversion || 0) + (data.cuentas_retiro || 0) + (data.valor_propiedades || 0) + (data.otros_activos || 0);
+  const activosTotales = 
+    (data.efectivo_similar || 0) +
+    activosInversion +
+    (data.valor_propiedades || 0) +
+    (data.otros_activos || 0);
 
-  const porcentajeInversion = activosTotales > 0 ? (activosInversion / activosTotales) * 100 : 0;
-  const emojiInversion = porcentajeInversion >= 50 ? '✅' : porcentajeInversion >= 30 ? '⚠️' : '🚨';
+  const ratioInversionActivos = activosTotales > 0 ? activosInversion / activosTotales : 0;
+  const ratioInversionIngreso = ingreso > 0 ? activosInversion / ingreso : 0;
 
-  document.getElementById("resD").innerHTML = `
+  // Benchmark por edad
+  const tablaEdad = [
+    { edad: 25, ratio: 0.2 },
+    { edad: 30, ratio: 0.6 },
+    { edad: 35, ratio: 1.6 },
+    { edad: 45, ratio: 3.0 },
+    { edad: 55, ratio: 8.0 },
+    { edad: 65, ratio: 16.0 }
+  ];
+  const filaEdad = tablaEdad.find(e => edad <= e.edad) || tablaEdad[tablaEdad.length - 1];
+  const benchmarkInversionIngreso = filaEdad.ratio;
+
+  // Evaluaciones visuales
+  const iconoAhorro = tasaAhorro >= 0.30 ? '✅' : tasaAhorro >= 0.15 ? '⚠️' : '🚨';
+  const iconoCapacidad = capacidadAcumulacion >= 0.30 ? '✅' : capacidadAcumulacion >= 0.15 ? '⚠️' : '🚨';
+  const iconoInversionActivos = ratioInversionActivos >= 0.50 ? '✅' : ratioInversionActivos >= 0.30 ? '⚠️' : '🚨';
+
+  let iconoInversionIngreso = '🚨';
+  const ratioVsBenchmark = ratioInversionIngreso / benchmarkInversionIngreso;
+  if (ratioVsBenchmark > 1.2) iconoInversionIngreso = '⭐';
+  else if (ratioVsBenchmark >= 1.0) iconoInversionIngreso = '✅';
+  else if (ratioVsBenchmark >= 0.9) iconoInversionIngreso = '⚠️';
+
+  // Presentación
+  const tabla = `
     <h3>🅳 Seguridad financiera</h3>
-    <p>Activos de inversión: $${activosInversion.toLocaleString()} (${porcentajeInversion.toFixed(1)}%) ${emojiInversion}</p>
+    <table style="width:100%; font-size: 0.95em; margin-top: 10px;">
+      <thead><tr><th>Indicador</th><th>Valor</th><th>Evaluación</th></tr></thead>
+      <tbody>
+        <tr><td>Tasa de ahorro</td><td>${(tasaAhorro * 100).toFixed(1)}%</td><td>${iconoAhorro}</td></tr>
+        <tr><td>Capacidad de acumulación</td><td>${(capacidadAcumulacion * 100).toFixed(1)}%</td><td>${iconoCapacidad}</td></tr>
+        <tr><td>Inversión / activos totales</td><td>${(ratioInversionActivos * 100).toFixed(1)}%</td><td>${iconoInversionActivos}</td></tr>
+        <tr><td>Inversión / ingreso bruto</td><td>${ratioInversionIngreso.toFixed(2)}× ingreso</td><td>${iconoInversionIngreso}</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 0.85em;">⭐ = sobresaliente · ✅ = cumple · ⚠️ = advertencia · 🚨 = peligro</p>
   `;
+
+  document.getElementById("resD").innerHTML = tabla;
 }
 
+//---SECCION E RIESGO---
+  
 function mostrarRiesgo() {
   const gastosEsenciales = (data.gastos_diarios || 0) + (data.pago_deudas || 0) + (data.seguros_anuales || 0) + (data.impuestos_anuales || 0);
   const reservaEmergencia = gastosEsenciales > 0 ? (data.efectivo_similar || 0) / (gastosEsenciales / 12) : 0;
@@ -378,6 +546,8 @@ function mostrarRiesgo() {
   `;
 }
 
+  //---SECCION F HERENCIA---
+  
 function mostrarPatrimonial() {
   const documentos = [
     { nombre: "Trust", tiene: data.trust },
@@ -396,6 +566,8 @@ function mostrarPatrimonial() {
   `;
 }
 
+    //---SECCION G RETIRO---
+  
 function mostrarRetiro() {
   const edadActual = data.edad || 0;
   const edadRetiro = data.edad_retiro || 0;
@@ -407,7 +579,8 @@ function mostrarRetiro() {
     <p>Estimación de retiro completada con inputs.</p>
   `;
 }
-
+    //---SECCION H STRESS TEST---
+  
 function mostrarEstres() {
   document.getElementById("resH").innerHTML = `
     <h3>🅷 Pruebas de estrés</h3>
