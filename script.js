@@ -697,6 +697,17 @@ function mostrarRetiro() {
   const iconoFaltante = faltante <= 0 ? '✅' : '⚠️';
   const iconoFactor = ratioAhorroEdad >= 1 ? '✅' : ratioAhorroEdad >= 0.9 ? '⚠️' : '🚨';
 
+  function mostrarRetiro() {
+  const capitalNecesario = 950000;  // 🧱 este vendrá de tu lógica
+  const capitalAcumulado = 645000;  // 💼 este también
+
+  document.getElementById("retiroTexto").innerHTML = `
+    <p><strong>🧱 Capital necesario:</strong> $${capitalNecesario.toLocaleString()}</p>
+    <p><strong>💼 Capital acumulado:</strong> $${capitalAcumulado.toLocaleString()}</p>
+  `;
+
+  renderGraficoRetiro(capitalNecesario, capitalAcumulado);
+}
   // Monte Carlo (placeholder por ahora)
   const probabilidadExito = 82; // ⚠️ Simulación básica (futuro: generar dinámicamente)
   const iconoMonteCarlo = probabilidadExito > 90 ? '✅' : probabilidadExito >= 70 ? '⚠️' : '🚨';
