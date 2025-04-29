@@ -174,56 +174,75 @@ function procesarResultados(event) {
   mostrarGraficoGastos();
 }
 function mostrarGraficoGastos() {
-  const ingresoTotal = data.ingreso_bruto || 0;
+  const canvas = document.getElementById('graficoGastos');
+  if (!canvas) return;
 
+  const ingresoTotal = data.ingreso_bruto || 0;
   const impuestos = data.impuestos_anuales || 0;
-  const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
+  const seguros = data.seguros_anuales || 0;
   const gastosDiarios = data.gastos_diarios || 0;
   const pagoDeuda = data.pago_deudas || 0;
-  const seguros = data.seguros_anuales || 0;
-
-  const sumaCategorias = impuestos + ahorro + gastosDiarios + pagoDeuda + seguros;
+  const ahorro =
+    (data.aporte_personal_retiro || 0) +
+    (data.aporte_empleador_retiro || 0) +
+    (data.otros_ahorros || 0);
+  const sumaCategorias = impuestos + seguros + gastosDiarios + pagoDeuda + ahorro;
   const superavit = ingresoTotal - sumaCategorias;
 
-  const ctx = document.getElementById('graficoGastos').getContext('2d');
+  const ctx = canvas.getContext('2d');
 
   if (window.graficoGastosInstance) {
     window.graficoGastosInstance.destroy();
   }
 
+  // Plugin para mostrar texto al centro
+  const centerTextPlugin = {
+    id: 'centerText',
+    beforeDraw(chart) {
+      const { width } = chart;
+      const { height } = chart;
+      const ctx = chart.ctx;
+      ctx.restore();
+      const fontSize = (height / 150).toFixed(2);
+      ctx.font = `${fontSize}em sans-serif`;
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#111827';
+
+      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+      const text = `Total: $${total.toLocaleString()}`;
+      const textX = Math.round((width - ctx.measureText(text).width) / 2);
+      const textY = height / 2;
+
+      ctx.fillText(text, textX, textY);
+      ctx.save();
+    }
+  };
+
   window.graficoGastosInstance = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['Impuestos', 'Ahorro', 'Gastos diarios', 'Pago de deuda', 'Seguros', 'Superávit/Deficit'],
+      labels: ['Impuestos', 'Seguros', 'Gastos diarios', 'Pago de deuda', 'Ahorro', 'Superávit/Deficit'],
       datasets: [{
-        data: [
-          impuestos,
-          ahorro,
-          gastosDiarios,
-          pagoDeuda,
-          seguros,
-          superavit
-        ],
-        backgroundColor: ['#f87171', '#4ade80', '#60a5fa', '#fbbf24', '#facc15', '#a78bfa']
+        data: [impuestos, seguros, gastosDiarios, pagoDeuda, ahorro, superavit],
+        backgroundColor: ['#FF6384', '#FF9F40', '#60a5fa', '#fbbf24', '#4ade80', '#a78bfa']
       }]
     },
     options: {
       plugins: {
-        legend: { position: 'bottom' }
+        legend: { position: 'bottom' },
+        datalabels: {
+          color: '#111827',
+          font: { weight: 'bold' },
+          formatter: (value, context) => {
+            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+            const porcentaje = (value / total) * 100;
+            return porcentaje.toFixed(1) + '%';
+          }
+        }
       }
-    }
+    },
+    plugins: [ChartDataLabels, centerTextPlugin]
   });
-}
-
-function capturarDatos() {
-  const form = document.getElementById("calculadoraFormulario");
-  const datos = {};
-  Array.from(form.elements).forEach(el => {
-    if (el.name) {
-      datos[el.name] = el.type === "checkbox" ? el.checked : parseFloat(el.value) || 0;
-    }
-  });
-  return datos;
 }
 
 function mostrarResultado(id) {
