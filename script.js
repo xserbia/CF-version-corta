@@ -185,7 +185,7 @@ function procesarResultados(event) {
   document.getElementById("resultadosContainer").style.display = "block";
   mostrarGraficoGastos(); // Asegúrate de que esta función también esté definida
 }
-// hello
+// hello AGAIN
 function mostrarGraficoGastos() {
   const canvas = document.getElementById('graficoGastos');
   if (!canvas || canvas.offsetParent === null) return; // 🔒 Previene error si el canvas no está o está oculto
@@ -208,6 +208,7 @@ function mostrarGraficoGastos() {
     window.graficoGastosInstance.destroy();
   }
 
+  // Plugin de texto central
   const centerTextPlugin = {
     id: 'centerText',
     beforeDraw(chart) {
@@ -256,7 +257,6 @@ function mostrarGraficoGastos() {
   });
 }
 
-
 function mostrarResultado(id) {
   document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
   document.getElementById(id).style.display = "block";
@@ -266,35 +266,6 @@ function mostrarResultado(id) {
   const botones = document.querySelectorAll('#navResultados .nav-btn');
   const indices = { resA: 0, resB: 1, resC: 2, resD: 3, resE: 4, resF: 5, resG: 6, resH: 7 };
   if (botones[indices[id]]) botones[indices[id]].classList.add('active');
-}
-
-function mostrarGraficoGastos() {
-  const ctx = document.getElementById('graficoGastos').getContext('2d');
-
-  if (window.graficoGastosInstance) {
-    window.graficoGastosInstance.destroy();
-  }
-
-  window.graficoGastosInstance = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Deuda', 'Gastos esenciales', 'Seguros', 'Ahorro'],
-      datasets: [{
-        data: [
-          data.deuda_hipotecaria + data.deuda_consumo + data.otras_deudas,
-          data.gastos_esenciales,
-          data.seguro_vida + data.seguro_medico + data.seguro_incapacidad + data.seguro_hogar + data.seguro_auto,
-          data.aporte_anual_retiro || 0
-        ],
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50']
-      }]
-    },
-    options: {
-      plugins: {
-        legend: { position: 'bottom' }
-      }
-    }
-  });
 }
 
 function mostrarResultados() {
