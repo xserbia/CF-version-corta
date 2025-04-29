@@ -703,7 +703,7 @@ function mostrarRetiro() {
 
   document.getElementById("retiroTexto").innerHTML = `
     <p><strong>🧱 Capital necesario:</strong> $${capitalNecesario.toLocaleString()}</p>
-    <p><strong>💼 Capital acumulado:</strong> $${capitalAcumulado.toLocaleString()}</p>
+    <p><strong>💼 Capital acumulado:</strong> $${totalAcumulado.toLocaleString()}</p>
   `;
 
   renderGraficoRetiro(capitalNecesario, capitalAcumulado);
