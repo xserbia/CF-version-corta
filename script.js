@@ -174,7 +174,7 @@ function capturarDatos() {
   });
   return datos;
 }
-// hello AQUI
+// hello 2
 // ✅ Procesa y muestra los resultados
 function procesarResultados(event) {
   event.preventDefault(); // 🔒 Evita recargar la página
@@ -185,8 +185,12 @@ function procesarResultados(event) {
   document.getElementById("formularioContainer").style.display = "none";
   document.getElementById("resultadosContainer").style.display = "block";
 
-  mostrarResultado('resA');     // ✅ Asegura que #resA esté visible
-  mostrarGraficoGastos();       // ✅ Ahora sí genera la gráfica correctamente
+  mostrarResultado('resA'); // ✅ Asegura que #resA esté visible
+
+  // Espera un momento a que el DOM actualice la visibilidad del canvas
+  setTimeout(() => {
+    mostrarGraficoGastos();  // ✅ Ahora sí, canvas ya visible
+  }, 50);
 }
 function mostrarGraficoGastos() {
   const canvas = document.getElementById('graficoGastos');
