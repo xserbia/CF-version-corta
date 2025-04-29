@@ -185,10 +185,10 @@ function procesarResultados(event) {
   document.getElementById("resultadosContainer").style.display = "block";
   mostrarGraficoGastos(); // Asegúrate de que esta función también esté definida
 }
-
+// hello
 function mostrarGraficoGastos() {
   const canvas = document.getElementById('graficoGastos');
-  if (!canvas) return;
+  if (!canvas) return; // 🔒 Previene error si el canvas no está en el DOM
 
   const ingresoTotal = data.ingreso_bruto || 0;
   const impuestos = data.impuestos_anuales || 0;
@@ -208,12 +208,10 @@ function mostrarGraficoGastos() {
     window.graficoGastosInstance.destroy();
   }
 
-  // Plugin para mostrar texto al centro
   const centerTextPlugin = {
     id: 'centerText',
     beforeDraw(chart) {
-      const { width } = chart;
-      const { height } = chart;
+      const { width, height } = chart;
       const ctx = chart.ctx;
       ctx.restore();
       const fontSize = (height / 150).toFixed(2);
@@ -257,6 +255,7 @@ function mostrarGraficoGastos() {
     plugins: [ChartDataLabels, centerTextPlugin]
   });
 }
+
 
 function mostrarResultado(id) {
   document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
