@@ -23,30 +23,31 @@
 <!-- Formulario -->
 <div id="formularioContainer">
   <form id="calculadoraFormulario" onsubmit="procesarResultados(event)">
-    <!-- 1. Ingresos -->
+
+<!-- 1. Ingresos -->
 <div class="step" id="stepIngresos">
   <fieldset>
     <legend>Ingresos y Ahorros</legend>
 
-    <label>Ingreso anual bruto
+    <label for="ingreso_bruto">Ingreso anual bruto
       <span class="tooltip" data-tooltip="Suma total de ingresos antes de impuestos: salario, negocio, bonos, dividendos, rentas, etc.">🛈</span>
     </label>
-    <input type="number" name="ingreso_bruto" required onblur="validarCampo(this)">
+    <input type="number" id="ingreso_bruto" name="ingreso_bruto" required onblur="validarCampo(this)">
 
-    <label>Aporte personal a retiro
+    <label for="aporte_personal_retiro">Aporte personal a retiro
       <span class="tooltip" data-tooltip="Aporte que realizas de tu salario hacia tu fondo de retiro 401k, IRA, o similar.">🛈</span>
     </label>
-    <input type="number" name="aporte_personal_retiro" required onblur="validarCampo(this)">
+    <input type="number" id="aporte_personal_retiro" name="aporte_personal_retiro" required onblur="validarCampo(this)">
 
-    <label>Aporte del empleador a retiro
+    <label for="aporte_empleador_retiro">Aporte del empleador a retiro
       <span class="tooltip" data-tooltip="Aporte que tu empleador realiza a tu fondo de retiro, si aplica.">🛈</span>
     </label>
-    <input type="number" name="aporte_empleador_retiro" required onblur="validarCampo(this)">
+    <input type="number" id="aporte_empleador_retiro" name="aporte_empleador_retiro" required onblur="validarCampo(this)">
 
-    <label>Otros ahorros
+    <label for="otros_ahorros">Otros ahorros
       <span class="tooltip" data-tooltip="Cualquier otra forma de ahorro anual: ahorro bancario, fondos de emergencia, etc.">🛈</span>
     </label>
-    <input type="number" name="otros_ahorros" required onblur="validarCampo(this)">
+    <input type="number" id="otros_ahorros" name="otros_ahorros" required onblur="validarCampo(this)">
 
   </fieldset>
   <div class="nav-buttons">
@@ -54,30 +55,30 @@
   </div>
 </div>
 
-    <!-- 2. Gastos -->
+<!-- 2. Gastos -->
 <div class="step" id="stepGastos">
   <fieldset>
     <legend>Gastos Anuales</legend>
 
-    <label>Pago por deudas
+    <label for="pago_deudas">Pago por deudas
       <span class="tooltip" data-tooltip="Pagos anuales de hipotecas, préstamos personales, automotrices, educativos y tarjetas de crédito.">🛈</span>
     </label>
-    <input type="number" name="pago_deudas" required onblur="validarCampo(this)">
+    <input type="number" id="pago_deudas" name="pago_deudas" required onblur="validarCampo(this)">
 
-    <label>Gastos diarios esenciales
+    <label for="gastos_diarios">Gastos diarios esenciales
       <span class="tooltip" data-tooltip="Incluye supermercado, transporte, servicios públicos, telecomunicaciones y mantenimiento básico.">🛈</span>
     </label>
-    <input type="number" name="gastos_diarios" required onblur="validarCampo(this)">
+    <input type="number" id="gastos_diarios" name="gastos_diarios" required onblur="validarCampo(this)">
 
-    <label>Impuestos anuales
+    <label for="impuestos_anuales">Impuestos anuales
       <span class="tooltip" data-tooltip="Pagos de impuestos federales, estatales, municipales, de propiedad y de vehículo.">🛈</span>
     </label>
-    <input type="number" name="impuestos_anuales" required onblur="validarCampo(this)">
+    <input type="number" id="impuestos_anuales" name="impuestos_anuales" required onblur="validarCampo(this)">
 
-    <label>Seguros anuales
+    <label for="seguros_anuales">Seguros anuales
       <span class="tooltip" data-tooltip="Pagos de seguros de salud, vida, propiedad, auto y umbrella.">🛈</span>
     </label>
-    <input type="number" name="seguros_anuales" required onblur="validarCampo(this)">
+    <input type="number" id="seguros_anuales" name="seguros_anuales" required onblur="validarCampo(this)">
 
   </fieldset>
   <div class="nav-buttons">
@@ -85,35 +86,35 @@
   </div>
 </div>
 
-<!-- 3. Activos -->
+    <!-- 3. Activos -->
 <div class="step" id="stepActivos">
   <fieldset>
     <legend>Activos</legend>
 
-    <label>Efectivo y similares
+    <label for="efectivo_similar">Efectivo y similares
       <span class="tooltip" data-tooltip="Saldos en cuentas bancarias, efectivo disponible, cuentas de ahorro o money market.">🛈</span>
     </label>
-    <input type="number" name="efectivo_similar" required onblur="validarCampo(this)">
+    <input type="number" id="efectivo_similar" name="efectivo_similar" required onblur="validarCampo(this)">
 
-    <label>Cuentas de inversión (no retiro)
+    <label for="cuentas_inversion">Cuentas de inversión (no retiro)
       <span class="tooltip" data-tooltip="Valor de inversiones líquidas no destinadas a retiro: fondos mutuos, acciones, bonos.">🛈</span>
     </label>
-    <input type="number" name="cuentas_inversion" required onblur="validarCampo(this)">
+    <input type="number" id="cuentas_inversion" name="cuentas_inversion" required onblur="validarCampo(this)">
 
-    <label>Cuentas de retiro
+    <label for="cuentas_retiro">Cuentas de retiro
       <span class="tooltip" data-tooltip="Valor actual de tus cuentas IRA, 401(k), Roth, 403(b) o planes similares.">🛈</span>
     </label>
-    <input type="number" name="cuentas_retiro" required onblur="validarCampo(this)">
+    <input type="number" id="cuentas_retiro" name="cuentas_retiro" required onblur="validarCampo(this)">
 
-    <label>Propiedades
+    <label for="valor_propiedades">Propiedades
       <span class="tooltip" data-tooltip="Valor de mercado de propiedades residenciales o de inversión que poseas.">🛈</span>
     </label>
-    <input type="number" name="valor_propiedades" required onblur="validarCampo(this)">
+    <input type="number" id="valor_propiedades" name="valor_propiedades" required onblur="validarCampo(this)">
 
-    <label>Otros activos
+    <label for="otros_activos">Otros activos
       <span class="tooltip" data-tooltip="Valor estimado de autos, joyas, metales preciosos, muebles valiosos, arte, etc.">🛈</span>
     </label>
-    <input type="number" name="otros_activos" required onblur="validarCampo(this)">
+    <input type="number" id="otros_activos" name="otros_activos" required onblur="validarCampo(this)">
 
   </fieldset>
   <div class="nav-buttons">
@@ -121,40 +122,40 @@
   </div>
 </div>
 
-    <!-- 4. Pasivos -->
+<!-- 4. Pasivos -->
 <div class="step" id="stepPasivos">
   <fieldset>
     <legend>Pasivos</legend>
 
-    <label>Deuda de tarjetas de crédito
+    <label for="deuda_tarjetas">Deuda de tarjetas de crédito
       <span class="tooltip" data-tooltip="Saldo total actual de todas tus tarjetas de crédito.">🛈</span>
     </label>
-    <input type="number" name="deuda_tarjetas" required onblur="validarCampo(this)">
+    <input type="number" id="deuda_tarjetas" name="deuda_tarjetas" required onblur="validarCampo(this)">
 
-    <label>Hipoteca o préstamo de vivienda
+    <label for="deuda_hipotecaria">Hipoteca o préstamo de vivienda
       <span class="tooltip" data-tooltip="Saldo pendiente de tu hipoteca principal o préstamo de vivienda.">🛈</span>
     </label>
-    <input type="number" name="deuda_hipotecaria" required onblur="validarCampo(this)">
+    <input type="number" id="deuda_hipotecaria" name="deuda_hipotecaria" required onblur="validarCampo(this)">
 
-    <label>Deuda comercial
+    <label for="deuda_comercial">Deuda comercial
       <span class="tooltip" data-tooltip="Saldo actual de préstamos comerciales si eres dueño de un negocio.">🛈</span>
     </label>
-    <input type="number" name="deuda_comercial" required onblur="validarCampo(this)">
+    <input type="number" id="deuda_comercial" name="deuda_comercial" required onblur="validarCampo(this)">
 
-    <label>Préstamos de vehículos
+    <label for="deuda_vehiculos">Préstamos de vehículos
       <span class="tooltip" data-tooltip="Saldo pendiente de tus préstamos de autos, motocicletas u otros vehículos.">🛈</span>
     </label>
-    <input type="number" name="deuda_vehiculos" required onblur="validarCampo(this)">
+    <input type="number" id="deuda_vehiculos" name="deuda_vehiculos" required onblur="validarCampo(this)">
 
-    <label>Deuda estudiantil
+    <label for="deuda_estudios">Deuda estudiantil
       <span class="tooltip" data-tooltip="Saldo restante de tus préstamos educativos o universitarios.">🛈</span>
     </label>
-    <input type="number" name="deuda_estudios" required onblur="validarCampo(this)">
+    <input type="number" id="deuda_estudios" name="deuda_estudios" required onblur="validarCampo(this)">
 
-    <label>Otras deudas
+    <label for="deuda_otros">Otras deudas
       <span class="tooltip" data-tooltip="Cualquier otro saldo de deuda no clasificada anteriormente.">🛈</span>
     </label>
-    <input type="number" name="deuda_otros" required onblur="validarCampo(this)">
+    <input type="number" id="deuda_otros" name="deuda_otros" required onblur="validarCampo(this)">
 
   </fieldset>
   <div class="nav-buttons">
@@ -169,43 +170,43 @@
 
     <h4>Seguros:</h4>
 
-    <label>
-      <input type="checkbox" name="seguro_vida">
+    <label for="seguro_vida">
+      <input type="checkbox" id="seguro_vida" name="seguro_vida">
       Seguro de vida <span class="tooltip" data-tooltip="Seguro que paga una suma de dinero a los beneficiarios en caso de fallecimiento.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="seguro_salud">
+    <label for="seguro_salud">
+      <input type="checkbox" id="seguro_salud" name="seguro_salud">
       Seguro de salud <span class="tooltip" data-tooltip="Seguro que cubre gastos médicos, hospitalarios y de tratamiento de salud.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="seguro_incapacidad">
+    <label for="seguro_incapacidad">
+      <input type="checkbox" id="seguro_incapacidad" name="seguro_incapacidad">
       Seguro de incapacidad <span class="tooltip" data-tooltip="Proporciona ingresos en caso de discapacidad temporal o permanente que impida trabajar.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="seguro_ltc">
+    <label for="seguro_ltc">
+      <input type="checkbox" id="seguro_ltc" name="seguro_ltc">
       Seguro de cuidado a largo plazo <span class="tooltip" data-tooltip="Cubre gastos de asistencia a largo plazo como residencias asistidas o servicios de cuidado en casa.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="seguro_propiedad">
+    <label for="seguro_propiedad">
+      <input type="checkbox" id="seguro_propiedad" name="seguro_propiedad">
       Seguro de propiedad <span class="tooltip" data-tooltip="Protege contra daños a viviendas o propiedades personales debido a incendios, robos u otros desastres.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="seguro_auto">
+    <label for="seguro_auto">
+      <input type="checkbox" id="seguro_auto" name="seguro_auto">
       Seguro de auto <span class="tooltip" data-tooltip="Cubre daños al vehículo, responsabilidad civil y lesiones relacionadas con accidentes de tránsito.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="seguro_umbrella">
+    <label for="seguro_umbrella">
+      <input type="checkbox" id="seguro_umbrella" name="seguro_umbrella">
       Seguro umbrella <span class="tooltip" data-tooltip="Ofrece cobertura de responsabilidad adicional más allá de las pólizas de hogar o auto.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="ningun_seguro">
+    <label for="ningun_seguro">
+      <input type="checkbox" id="ningun_seguro" name="ningun_seguro">
       ❌ No tengo seguros actualmente
     </label>
 
@@ -213,88 +214,93 @@
 
     <h4>Documentos de herencia:</h4>
 
-    <label>
-      <input type="checkbox" name="trust">
+    <label for="trust">
+      <input type="checkbox" id="trust" name="trust">
       Trust <span class="tooltip" data-tooltip="Documento que transfiere activos a un fideicomiso para ser administrados según tus instrucciones.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="will">
+    <label for="will">
+      <input type="checkbox" id="will" name="will">
       Testamento <span class="tooltip" data-tooltip="Documento legal que establece cómo deseas distribuir tus activos después de tu muerte.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="advance_medical_directive">
+    <label for="advance_medical_directive">
+      <input type="checkbox" id="advance_medical_directive" name="advance_medical_directive">
       Directiva médica anticipada <span class="tooltip" data-tooltip="Instrucciones sobre decisiones médicas a tomar en caso de incapacidad.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="power_of_attorney">
+    <label for="power_of_attorney">
+      <input type="checkbox" id="power_of_attorney" name="power_of_attorney">
       Poder legal <span class="tooltip" data-tooltip="Autoriza a alguien a actuar legalmente en tu nombre en asuntos financieros o médicos.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="beneficiary_designation">
+    <label for="beneficiary_designation">
+      <input type="checkbox" id="beneficiary_designation" name="beneficiary_designation">
       Designación de beneficiarios <span class="tooltip" data-tooltip="Documentos que asignan beneficiarios para pólizas de seguros o cuentas financieras.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="property_deeds">
+    <label for="property_deeds">
+      <input type="checkbox" id="property_deeds" name="property_deeds">
       Títulos de propiedad <span class="tooltip" data-tooltip="Documentos oficiales que prueban la propiedad de inmuebles o bienes raíces.">🛈</span>
     </label>
 
-    <label>
-      <input type="checkbox" name="ningun_documento">
+    <label for="ningun_documento">
+      <input type="checkbox" id="ningun_documento" name="ningun_documento">
       ❌ No tengo documentos de planificación patrimonial
     </label>
 
   </fieldset>
 
   <div class="nav-buttons">
-   <button type="button" onclick="guardarDatosSegurosHerencia()">Continuar</button>
+    <button type="button" onclick="guardarDatosSegurosHerencia()">Continuar</button>
   </div>
 </div>
 
-
-    <!-- 6. Retiro -->
+<!-- 6. Retiro -->
 <div class="step" id="stepRetiro">
   <fieldset>
     <legend>Planificación de retiro</legend>
 
-    <label>Edad actual
+    <label for="edad">
+      Edad actual
       <span class="tooltip" data-tooltip="Tu edad en este momento. Es el punto de partida para calcular tu plan de retiro.">🛈</span>
     </label>
-    <input type="number" name="edad" required onblur="validarCampo(this)">
+    <input type="number" id="edad" name="edad" required onblur="validarCampo(this)">
 
-    <label>Edad deseada de retiro
+    <label for="edad_retiro">
+      Edad deseada de retiro
       <span class="tooltip" data-tooltip="La edad a la cual planeas retirarte. Comúnmente entre 60 y 70 años.">🛈</span>
     </label>
-    <input type="number" name="edad_retiro" required onblur="validarCampo(this)">
+    <input type="number" id="edad_retiro" name="edad_retiro" required onblur="validarCampo(this)">
 
-    <label>Tasa esperada de acumulación (%) 
+    <label for="tasa_acumulacion">
+      Tasa esperada de acumulación (%) 
       <span class="tooltip" data-tooltip="Tasa de crecimiento promedio anual de tus inversiones hasta el retiro. Ejemplo típico: 7%-10%.">🛈</span>
     </label>
-    <input type="number" name="tasa_acumulacion" step="0.01" required onblur="validarCampo(this)">
+    <input type="number" id="tasa_acumulacion" name="tasa_acumulacion" step="0.01" required onblur="validarCampo(this)">
 
-    <label>Inflación estimada (%) 
+    <label for="inflacion_esperada">
+      Inflación estimada (%) 
       <span class="tooltip" data-tooltip="Incremento promedio esperado de los precios cada año. Ejemplo típico: 2%-3%.">🛈</span>
     </label>
-    <input type="number" name="inflacion_esperada" step="0.01" required onblur="validarCampo(this)">
+    <input type="number" id="inflacion_esperada" name="inflacion_esperada" step="0.01" required onblur="validarCampo(this)">
 
-    <label>Tasa estimada durante retiro (%) 
+    <label for="tasa_retiro">
+      Tasa estimada durante retiro (%) 
       <span class="tooltip" data-tooltip="Rendimiento esperado de tus inversiones después de retirarte. Ejemplo típico: 3%-5%.">🛈</span>
     </label>
-    <input type="number" name="tasa_retiro" step="0.01" required onblur="validarCampo(this)">
+    <input type="number" id="tasa_retiro" name="tasa_retiro" step="0.01" required onblur="validarCampo(this)">
 
     <!-- Tasa de reemplazo oculta -->
     <input type="hidden" name="porcentaje_reemplazo" value="70">
 
   </fieldset>
-<div class="nav-buttons">
-  <button type="submit">Calcular</button>
+
+  <div class="nav-buttons">
+    <button type="submit">Calcular</button>
+  </div>
 </div>
-</form> 
-</div>
+
 <!-- 🔵 Contenedor de Resultados -->
 <div id="resultadosContainer" style="display: none; margin-top: 40px;">
 
