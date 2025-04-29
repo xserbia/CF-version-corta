@@ -188,7 +188,7 @@ function procesarResultados(event) {
 // hello
 function mostrarGraficoGastos() {
   const canvas = document.getElementById('graficoGastos');
-  if (!canvas) return; // 🔒 Previene error si el canvas no está en el DOM
+  if (!canvas || canvas.offsetParent === null) return; // 🔒 Previene error si el canvas no está o está oculto
 
   const ingresoTotal = data.ingreso_bruto || 0;
   const impuestos = data.impuestos_anuales || 0;
