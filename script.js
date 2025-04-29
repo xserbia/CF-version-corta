@@ -192,7 +192,75 @@ function procesarResultados(event) {
     mostrarGraficoGastos();  // ✅ Ahora sí, canvas ya visible
   }, 50);
 }
-function mostrarGraficoGastos() {
+function mostrarResultado(id) {
+  document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
+  document.getElementById(id).style.display = "block";
+
+  // Cambiar estilo de navegación
+  document.querySelectorAll('#navResultados .nav-btn').forEach(btn => btn.classList.remove('active'));
+  const botones = document.querySelectorAll('#navResultados .nav-btn');
+  const indices = { resA: 0, resB: 1, resC: 2, resD: 3, resE: 4, resF: 5, resG: 6, resH: 7 };
+  if (botones[indices[id]]) botones[indices[id]].classList.add('active');
+}
+
+function mostrarResultados() {
+  mostrarFlujo();
+  mostrarDeuda();
+  mostrarPatrimonio();
+  mostrarSeguridad();
+  mostrarRiesgo();
+  mostrarPatrimonial();
+  mostrarRetiro();
+  mostrarEstres();
+}
+
+// --- Resultados por sección ---
+
+  document.getElementById("resA").innerHTML = `
+    <h3>🅰️ A. Flujo de efectivo y liquidez</h3>
+
+    <p><strong>Ingreso anual:</strong> $${ingreso.toLocaleString()}</p>
+    <p><strong>Impuestos:</strong> $${impuestos.toLocaleString()}</p>
+    <p><strong>Seguros:</strong> $${seguros.toLocaleString()}</p>
+    <p><strong>Gastos diarios:</strong> $${gastoDiario.toLocaleString()}</p>
+    <p><strong>Pago de deuda:</strong> $${deuda.toLocaleString()}</p>
+    <p><strong>Ahorro:</strong> $${ahorro.toLocaleString()}</p>
+    <p><strong>Superávit:</strong> $${superavit.toLocaleString()} ${iconoSuperavit}</p>
+    
+    <hr>
+    <p><strong>Tasa de ahorro:</strong> ${(tasaAhorro * 100).toFixed(1)}% ${iconoAhorro}</p>
+    <p><strong>Reserva de emergencia:</strong> ${reservaEmergencia.toFixed(1)} meses ${iconoReserva}</p>
+    <p><strong>Razón corriente:</strong> ${razonCorriente.toFixed(2)} ${iconoRazonCorriente}</p>
+    <p><strong>Capacidad de acumulación:</strong> ${(capacidadAcumulacion * 100).toFixed(1)}% ${iconoCapacidad}</p>
+  `;
+function mostrarFlujo() {
+  const ingreso = data.ingreso_bruto || 0;
+
+  const ahorro = (data.aporte_personal_retiro || 0) +
+                 (data.aporte_empleador_retiro || 0) +
+                 (data.otros_ahorros || 0);
+
+  const impuestos = data.impuestos_anuales || 0;
+  const seguros = data.seguros_anuales || 0;
+  const gastoDiario = data.gastos_diarios || 0;
+  const deuda = data.pago_deudas || 0;
+
+  const gastosTotales = impuestos + seguros + gastoDiario + deuda;
+  const superavit = ingreso - (gastosTotales + ahorro);
+
+  const tasaAhorro = ingreso > 0 ? ahorro / ingreso : 0;
+  const capacidadAcumulacion = ingreso > 0 ? (ahorro + superavit) / ingreso : 0;
+  const reservaEmergencia = gastoDiario > 0 ? (data.efectivo_similar || 0) / (gastoDiario / 12) : 0;
+  const razonCorriente = deuda > 0 ? (data.efectivo_similar || 0) / deuda : 0;
+
+  // Evaluaciones visuales
+  const iconoAhorro = tasaAhorro >= 0.30 ? '✅' : tasaAhorro >= 0.15 ? '⚠️' : '🚨';
+  const iconoSuperavit = superavit < 0 ? '🚨' : superavit / ingreso <= 0.15 ? '⚠️' : '✅';
+  const iconoReserva = reservaEmergencia > 36 ? '🔁' : reservaEmergencia >= 12 ? '✅' : reservaEmergencia >= 6 ? '⚠️' : '🚨';
+  const iconoRazonCorriente = razonCorriente > 1 ? '✅' : '🚨';
+  const iconoCapacidad = capacidadAcumulacion > 0.5 ? '🔁' : capacidadAcumulacion >= 0.15 ? '✅' : capacidadAcumulacion >= 0 ? '⚠️' : '🚨';
+  //
+  function mostrarGraficoGastos() {
   const canvas = document.getElementById('graficoGastos');
   if (!canvas || canvas.offsetParent === null) return; // 🔒 Previene error si el canvas no está o está oculto
 
@@ -261,48 +329,6 @@ function mostrarGraficoGastos() {
     },
     plugins: [ChartDataLabels, centerTextPlugin]
   });
-}
-
-function mostrarResultado(id) {
-  document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
-  document.getElementById(id).style.display = "block";
-
-  // Cambiar estilo de navegación
-  document.querySelectorAll('#navResultados .nav-btn').forEach(btn => btn.classList.remove('active'));
-  const botones = document.querySelectorAll('#navResultados .nav-btn');
-  const indices = { resA: 0, resB: 1, resC: 2, resD: 3, resE: 4, resF: 5, resG: 6, resH: 7 };
-  if (botones[indices[id]]) botones[indices[id]].classList.add('active');
-}
-
-function mostrarResultados() {
-  mostrarFlujo();
-  mostrarDeuda();
-  mostrarPatrimonio();
-  mostrarSeguridad();
-  mostrarRiesgo();
-  mostrarPatrimonial();
-  mostrarRetiro();
-  mostrarEstres();
-}
-
-// --- Resultados por sección ---
-
-function mostrarFlujo() {
-  const ingreso = data.ingreso_bruto || 0;
-  const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
-  const gastos = (data.pago_deudas || 0) + (data.gastos_diarios || 0) + (data.impuestos_anuales || 0) + (data.seguros_anuales || 0);
-
-  const superavit = ingreso - (gastos + ahorro);
-  const tasaAhorro = ahorro / ingreso;
-  const emojiAhorro = tasaAhorro > 0.15 ? '✅' : tasaAhorro > 0 ? '⚠️' : '🚨';
-
-  document.getElementById("resA").innerHTML = `
-    <h3>🅰️ A. Flujo</h3>
-    <p>Ingreso anual: $${ingreso.toLocaleString()}</p>
-    <p>Gastos anuales: $${gastos.toLocaleString()}</p>
-    <p>Ahorro anual: $${ahorro.toLocaleString()}</p>
-    <p>Superávit anual: $${superavit.toLocaleString()} ${emojiAhorro}</p>
-  `;
 }
 
 function mostrarDeuda() {
