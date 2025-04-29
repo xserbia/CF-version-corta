@@ -707,7 +707,7 @@ function mostrarRetiro() {
   `;
 
   renderGraficoRetiro(capitalNecesario, totalAcumulado);
-}
+
   // Monte Carlo (placeholder por ahora)
   const probabilidadExito = 82; // ⚠️ Simulación básica (futuro: generar dinámicamente)
   const iconoMonteCarlo = probabilidadExito > 90 ? '✅' : probabilidadExito >= 70 ? '⚠️' : '🚨';
