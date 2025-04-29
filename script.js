@@ -730,8 +730,70 @@ function mostrarRetiro() {
     //---SECCION H STRESS TEST---
   
 function mostrarEstres() {
-  document.getElementById("resH").innerHTML = `
+  const ingreso = data.ingreso_bruto || 0;
+  const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
+  const gastos = (data.impuestos_anuales || 0) + (data.seguros_anuales || 0) + (data.gastos_diarios || 0);
+  const deudas = data.pago_deudas || 0;
+
+  const activosNoLiquidos =
+    (data.cuentas_inversion || 0) +
+    (data.cuentas_retiro || 0) +
+    (data.valor_propiedades || 0) +
+    (data.otros_activos || 0);
+
+  const escenarios = [
+    { nombre: "Leve", ajuste: 0.9 },
+    { nombre: "Moderado", ajuste: 0.7 },
+    { nombre: "Severo", ajuste: 0.5 }
+  ];
+
+  let tabla = `
     <h3>🅷 Pruebas de estrés</h3>
-    <p>Simulación de estrés aún en desarrollo (versión inicial).</p>
+    <table style="font-size: 0.95em; margin-top: 10px; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Escenario</th>
+          <th>¿Cubre gastos?</th>
+          <th>¿Cubre deudas?</th>
+          <th>¿Sigue ahorrando?</th>
+        </tr>
+      </thead>
+      <tbody>
   `;
+
+  escenarios.forEach(e => {
+    const ingresoAjustado = ingreso * e.ajuste;
+    const activosAjustados = activosNoLiquidos * e.ajuste;
+    const ingresoTotalDisponible = ingresoAjustado + activosAjustados;
+    const gastosTotales = gastos + deudas;
+
+    const cubreGastos = ingresoTotalDisponible >= gastos;
+    const cubreDeudas = ingresoTotalDisponible >= gastosTotales;
+    const puedeAhorrar = ingresoTotalDisponible > (gastosTotales + 0.05 * ingreso); // regla simple
+
+    const iconGastos = cubreGastos ? "✅" : "❌";
+    const iconDeudas = cubreDeudas ? "✅" : "❌";
+    const iconAhorro = puedeAhorrar ? "✅" : (ingresoTotalDisponible >= gastosTotales ? "⚠️" : "🚨");
+
+    tabla += `
+      <tr>
+        <td>${e.nombre}</td>
+        <td>${iconGastos}</td>
+        <td>${iconDeudas}</td>
+        <td>${iconAhorro}</td>
+      </tr>
+    `;
+  });
+
+  tabla += `
+      </tbody>
+    </table>
+    <p style="font-size: 0.85em; margin-top: 10px;">
+      Simulación basada en caída del 10%, 30%, y 50% de ingresos y activos no líquidos.<br>
+      Efectivo y equivalentes no se afectan en la simulación.
+    </p>
+  `;
+
+  document.getElementById("resH").innerHTML = tabla;
 }
+
