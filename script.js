@@ -174,18 +174,20 @@ function capturarDatos() {
   });
   return datos;
 }
-
+// hello AQUI
 // ✅ Procesa y muestra los resultados
 function procesarResultados(event) {
-  event.preventDefault(); // 🔥 Evita recargar la página
+  event.preventDefault(); // 🔒 Evita recargar la página
 
   data = capturarDatos();
-  mostrarResultados(); // Tu función que organiza la salida
+  mostrarResultados(); // 📊 Calcula e inyecta los resultados
+
   document.getElementById("formularioContainer").style.display = "none";
   document.getElementById("resultadosContainer").style.display = "block";
-  mostrarGraficoGastos(); // Asegúrate de que esta función también esté definida
+
+  mostrarResultado('resA');     // ✅ Asegura que #resA esté visible
+  mostrarGraficoGastos();       // ✅ Ahora sí genera la gráfica correctamente
 }
-// hello AGAIN
 function mostrarGraficoGastos() {
   const canvas = document.getElementById('graficoGastos');
   if (!canvas || canvas.offsetParent === null) return; // 🔒 Previene error si el canvas no está o está oculto
