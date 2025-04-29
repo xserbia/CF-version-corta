@@ -239,35 +239,40 @@ function mostrarResultados() {
 // --- Resultados por sección ---
 
 function mostrarFlujo() {
-  const ingreso = data.salario + data.negocio + data.otros_ingresos;
-  const gastos = data.gastos_totales;
-  const superavit = ingreso - gastos;
-  const tasaAhorro = superavit / ingreso;
+  const ingreso = data.ingreso_bruto || 0;
+  const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
+  const gastos = (data.pago_deudas || 0) + (data.gastos_diarios || 0) + (data.impuestos_anuales || 0) + (data.seguros_anuales || 0);
+
+  const superavit = ingreso - (gastos + ahorro);
+  const tasaAhorro = ahorro / ingreso;
   const emojiAhorro = tasaAhorro > 0.15 ? '✅' : tasaAhorro > 0 ? '⚠️' : '🚨';
 
-  document.getElementById("flujo").innerHTML = `
+  document.getElementById("resA").innerHTML = `
     <h3>🅰️ A. Flujo</h3>
     <p>Ingreso anual: $${ingreso.toLocaleString()}</p>
     <p>Gastos anuales: $${gastos.toLocaleString()}</p>
+    <p>Ahorro anual: $${ahorro.toLocaleString()}</p>
     <p>Superávit anual: $${superavit.toLocaleString()} ${emojiAhorro}</p>
   `;
 }
 
 function mostrarDeuda() {
-  const deudaTotal = data.deuda_hipotecaria + data.deuda_consumo + data.otras_deudas;
-  document.getElementById("deuda").innerHTML = `
+  const deudaTotal = (data.deuda_tarjetas || 0) + (data.deuda_hipotecaria || 0) + (data.deuda_comercial || 0) + (data.deuda_vehiculos || 0) + (data.deuda_estudios || 0) + (data.deuda_otros || 0);
+
+  document.getElementById("resB").innerHTML = `
     <h3>🅱️ B. Deuda</h3>
     <p>Total deudas: $${deudaTotal.toLocaleString()}</p>
   `;
 }
 
 function mostrarPatrimonio() {
-  const activos = data.cuentas_bancarias + data.inversiones_no_retiro + data.cuentas_retiro + data.valor_propiedades + data.valor_otros_activos;
-  const pasivos = data.deuda_hipotecaria + data.deuda_consumo + data.otras_deudas;
+  const activos = (data.efectivo_similar || 0) + (data.cuentas_inversion || 0) + (data.cuentas_retiro || 0) + (data.valor_propiedades || 0) + (data.otros_activos || 0);
+  const pasivos = (data.deuda_tarjetas || 0) + (data.deuda_hipotecaria || 0) + (data.deuda_comercial || 0) + (data.deuda_vehiculos || 0) + (data.deuda_estudios || 0) + (data.deuda_otros || 0);
+
   const patrimonio = activos - pasivos;
 
-  document.getElementById("patrimonio").innerHTML = `
-    <h3>🅲 Patrimonio</h3>
+  document.getElementById("resC").innerHTML = `
+    <h3>🅲 Patrimonio neto</h3>
     <p>Activos: $${activos.toLocaleString()}</p>
     <p>Pasivos: $${pasivos.toLocaleString()}</p>
     <p>Patrimonio neto: $${patrimonio.toLocaleString()}</p>
@@ -275,23 +280,24 @@ function mostrarPatrimonio() {
 }
 
 function mostrarSeguridad() {
-  const activosInversion = data.inversiones_no_retiro + data.cuentas_retiro;
-  const activosTotales = data.cuentas_bancarias + data.inversiones_no_retiro + data.cuentas_retiro + data.valor_propiedades + data.valor_otros_activos;
-  const porcentajeInversion = (activosInversion / activosTotales) * 100;
+  const activosInversion = (data.cuentas_inversion || 0) + (data.cuentas_retiro || 0);
+  const activosTotales = (data.efectivo_similar || 0) + (data.cuentas_inversion || 0) + (data.cuentas_retiro || 0) + (data.valor_propiedades || 0) + (data.otros_activos || 0);
 
+  const porcentajeInversion = activosTotales > 0 ? (activosInversion / activosTotales) * 100 : 0;
   const emojiInversion = porcentajeInversion >= 50 ? '✅' : porcentajeInversion >= 30 ? '⚠️' : '🚨';
 
-  document.getElementById("seguridad").innerHTML = `
-    <h3>🅳 Seguridad</h3>
+  document.getElementById("resD").innerHTML = `
+    <h3>🅳 Seguridad financiera</h3>
     <p>Activos de inversión: $${activosInversion.toLocaleString()} (${porcentajeInversion.toFixed(1)}%) ${emojiInversion}</p>
   `;
 }
 
 function mostrarRiesgo() {
-  const reservaEmergencia = data.cuentas_bancarias / (data.gastos_esenciales / 12);
+  const gastosEsenciales = (data.gastos_diarios || 0) + (data.pago_deudas || 0) + (data.seguros_anuales || 0) + (data.impuestos_anuales || 0);
+  const reservaEmergencia = gastosEsenciales > 0 ? (data.efectivo_similar || 0) / (gastosEsenciales / 12) : 0;
   const emojiReserva = reservaEmergencia > 6 ? '✅' : reservaEmergencia > 3 ? '⚠️' : '🚨';
 
-  document.getElementById("riesgo").innerHTML = `
+  document.getElementById("resE").innerHTML = `
     <h3>🅴 Manejo de riesgo</h3>
     <p>Meses de reserva: ${reservaEmergencia.toFixed(1)} meses ${emojiReserva}</p>
   `;
@@ -299,36 +305,37 @@ function mostrarRiesgo() {
 
 function mostrarPatrimonial() {
   const documentos = [
-    { nombre: "Trust", tiene: data.tiene_trust },
-    { nombre: "Testamento", tiene: data.tiene_testamento },
-    { nombre: "Directiva médica", tiene: data.tiene_directiva_medica },
-    { nombre: "Poder legal", tiene: data.tiene_poder_legal }
+    { nombre: "Trust", tiene: data.trust },
+    { nombre: "Testamento", tiene: data.will },
+    { nombre: "Directiva médica", tiene: data.advance_medical_directive },
+    { nombre: "Poder legal", tiene: data.power_of_attorney },
+    { nombre: "Designación de beneficiarios", tiene: data.beneficiary_designation },
+    { nombre: "Títulos de propiedad", tiene: data.property_deeds }
   ];
+
   const tiene = documentos.filter(d => d.tiene).map(d => d.nombre).join(", ") || "Ninguno registrado";
 
-  document.getElementById("planificacion").innerHTML = `
-    <h3>🅵 Patrimonial</h3>
+  document.getElementById("resF").innerHTML = `
+    <h3>🅵 Planificación patrimonial</h3>
     <p>Documentos disponibles: ${tiene}</p>
   `;
 }
 
 function mostrarRetiro() {
-  const edadActual = data.edad_actual;
-  const edadRetiro = data.edad_retiro;
+  const edadActual = data.edad || 0;
+  const edadRetiro = data.edad_retiro || 0;
   const anosRestantes = edadRetiro - edadActual;
-  const ingresoSeguro = data.seguro_social_ingreso;
-  const ahorroNecesario = ingresoSeguro * 20; // Simplificación rápida
 
-  document.getElementById("retiro").innerHTML = `
+  document.getElementById("resG").innerHTML = `
     <h3>🅶 Retiro</h3>
     <p>Años hasta retiro: ${anosRestantes}</p>
-    <p>Ahorro necesario aproximado: $${ahorroNecesario.toLocaleString()}</p>
+    <p>Estimación de retiro completada con inputs.</p>
   `;
 }
 
 function mostrarEstres() {
-  document.getElementById("estres").innerHTML = `
-    <h3>🅷 Estrés financiero</h3>
-    <p>Simulación: En proceso (versión simplificada no aplica caída de activos todavía).</p>
+  document.getElementById("resH").innerHTML = `
+    <h3>🅷 Pruebas de estrés</h3>
+    <p>Simulación de estrés aún en desarrollo (versión inicial).</p>
   `;
 }
