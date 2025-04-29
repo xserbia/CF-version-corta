@@ -173,6 +173,47 @@ function procesarResultados(event) {
   document.getElementById("resultadosContainer").style.display = "block";
   mostrarGraficoGastos();
 }
+function mostrarGraficoGastos() {
+  const ingresoTotal = data.ingreso_bruto || 0;
+
+  const impuestos = data.impuestos_anuales || 0;
+  const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
+  const gastosDiarios = data.gastos_diarios || 0;
+  const pagoDeuda = data.pago_deudas || 0;
+  const seguros = data.seguros_anuales || 0;
+
+  const sumaCategorias = impuestos + ahorro + gastosDiarios + pagoDeuda + seguros;
+  const superavit = ingresoTotal - sumaCategorias;
+
+  const ctx = document.getElementById('graficoGastos').getContext('2d');
+
+  if (window.graficoGastosInstance) {
+    window.graficoGastosInstance.destroy();
+  }
+
+  window.graficoGastosInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Impuestos', 'Ahorro', 'Gastos diarios', 'Pago de deuda', 'Seguros', 'Superávit/Deficit'],
+      datasets: [{
+        data: [
+          impuestos,
+          ahorro,
+          gastosDiarios,
+          pagoDeuda,
+          seguros,
+          superavit
+        ],
+        backgroundColor: ['#f87171', '#4ade80', '#60a5fa', '#fbbf24', '#facc15', '#a78bfa']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'bottom' }
+      }
+    }
+  });
+}
 
 function capturarDatos() {
   const form = document.getElementById("calculadoraFormulario");
