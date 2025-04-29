@@ -218,23 +218,6 @@ function mostrarResultados() {
 
 //---SECCION A LIQUIDEZ---
 
-  document.getElementById("resA").innerHTML = `
-    <h3>🅰️ A. Flujo de efectivo y liquidez</h3>
-
-    <p><strong>Ingreso anual:</strong> $${ingreso.toLocaleString()}</p>
-    <p><strong>Impuestos:</strong> $${impuestos.toLocaleString()}</p>
-    <p><strong>Seguros:</strong> $${seguros.toLocaleString()}</p>
-    <p><strong>Gastos diarios:</strong> $${gastoDiario.toLocaleString()}</p>
-    <p><strong>Pago de deuda:</strong> $${deuda.toLocaleString()}</p>
-    <p><strong>Ahorro:</strong> $${ahorro.toLocaleString()}</p>
-    <p><strong>Superávit:</strong> $${superavit.toLocaleString()} ${iconoSuperavit}</p>
-    
-    <hr>
-    <p><strong>Tasa de ahorro:</strong> ${(tasaAhorro * 100).toFixed(1)}% ${iconoAhorro}</p>
-    <p><strong>Reserva de emergencia:</strong> ${reservaEmergencia.toFixed(1)} meses ${iconoReserva}</p>
-    <p><strong>Razón corriente:</strong> ${razonCorriente.toFixed(2)} ${iconoRazonCorriente}</p>
-    <p><strong>Capacidad de acumulación:</strong> ${(capacidadAcumulacion * 100).toFixed(1)}% ${iconoCapacidad}</p>
-  `;
 function mostrarFlujo() {
   const ingreso = data.ingreso_bruto || 0;
 
@@ -261,77 +244,98 @@ function mostrarFlujo() {
   const iconoReserva = reservaEmergencia > 36 ? '🔁' : reservaEmergencia >= 12 ? '✅' : reservaEmergencia >= 6 ? '⚠️' : '🚨';
   const iconoRazonCorriente = razonCorriente > 1 ? '✅' : '🚨';
   const iconoCapacidad = capacidadAcumulacion > 0.5 ? '🔁' : capacidadAcumulacion >= 0.15 ? '✅' : capacidadAcumulacion >= 0 ? '⚠️' : '🚨';
-  //
+
+  document.getElementById("resA").innerHTML = `
+    <h3>🅰️ A. Flujo de efectivo y liquidez</h3>
+
+    <p><strong>Ingreso anual:</strong> $${ingreso.toLocaleString()}</p>
+    <p><strong>Impuestos:</strong> $${impuestos.toLocaleString()}</p>
+    <p><strong>Seguros:</strong> $${seguros.toLocaleString()}</p>
+    <p><strong>Gastos diarios:</strong> $${gastoDiario.toLocaleString()}</p>
+    <p><strong>Pago de deuda:</strong> $${deuda.toLocaleString()}</p>
+    <p><strong>Ahorro:</strong> $${ahorro.toLocaleString()}</p>
+    <p><strong>Superávit:</strong> $${superavit.toLocaleString()} ${iconoSuperavit}</p>
+    
+    <hr>
+    <p><strong>Tasa de ahorro:</strong> ${(tasaAhorro * 100).toFixed(1)}% ${iconoAhorro}</p>
+    <p><strong>Reserva de emergencia:</strong> ${reservaEmergencia.toFixed(1)} meses ${iconoReserva}</p>
+    <p><strong>Razón corriente:</strong> ${razonCorriente.toFixed(2)} ${iconoRazonCorriente}</p>
+    <p><strong>Capacidad de acumulación:</strong> ${(capacidadAcumulacion * 100).toFixed(1)}% ${iconoCapacidad}</p>
+  `;
+
   function mostrarGraficoGastos() {
-  const canvas = document.getElementById('graficoGastos');
-  if (!canvas || canvas.offsetParent === null) return; // 🔒 Previene error si el canvas no está o está oculto
+    const canvas = document.getElementById('graficoGastos');
+    if (!canvas || canvas.offsetParent === null) return;
 
-  const ingresoTotal = data.ingreso_bruto || 0;
-  const impuestos = data.impuestos_anuales || 0;
-  const seguros = data.seguros_anuales || 0;
-  const gastosDiarios = data.gastos_diarios || 0;
-  const pagoDeuda = data.pago_deudas || 0;
-  const ahorro =
-    (data.aporte_personal_retiro || 0) +
-    (data.aporte_empleador_retiro || 0) +
-    (data.otros_ahorros || 0);
-  const sumaCategorias = impuestos + seguros + gastosDiarios + pagoDeuda + ahorro;
-  const superavit = ingresoTotal - sumaCategorias;
+    const ingresoTotal = data.ingreso_bruto || 0;
+    const impuestos = data.impuestos_anuales || 0;
+    const seguros = data.seguros_anuales || 0;
+    const gastosDiarios = data.gastos_diarios || 0;
+    const pagoDeuda = data.pago_deudas || 0;
+    const ahorro =
+      (data.aporte_personal_retiro || 0) +
+      (data.aporte_empleador_retiro || 0) +
+      (data.otros_ahorros || 0);
+    const sumaCategorias = impuestos + seguros + gastosDiarios + pagoDeuda + ahorro;
+    const superavit = ingresoTotal - sumaCategorias;
 
-  const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
 
-  if (window.graficoGastosInstance) {
-    window.graficoGastosInstance.destroy();
-  }
-
-  // Plugin de texto central
-  const centerTextPlugin = {
-    id: 'centerText',
-    beforeDraw(chart) {
-      const { width, height } = chart;
-      const ctx = chart.ctx;
-      ctx.restore();
-      const fontSize = (height / 150).toFixed(2);
-      ctx.font = `${fontSize}em sans-serif`;
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = '#111827';
-
-      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-      const text = `Total: $${total.toLocaleString()}`;
-      const textX = Math.round((width - ctx.measureText(text).width) / 2);
-      const textY = height / 2;
-
-      ctx.fillText(text, textX, textY);
-      ctx.save();
+    if (window.graficoGastosInstance) {
+      window.graficoGastosInstance.destroy();
     }
-  };
 
-  window.graficoGastosInstance = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Impuestos', 'Seguros', 'Gastos diarios', 'Pago de deuda', 'Ahorro', 'Superávit/Deficit'],
-      datasets: [{
-        data: [impuestos, seguros, gastosDiarios, pagoDeuda, ahorro, superavit],
-        backgroundColor: ['#FF6384', '#FF9F40', '#60a5fa', '#fbbf24', '#4ade80', '#a78bfa']
-      }]
-    },
-    options: {
-      plugins: {
-        legend: { position: 'bottom' },
-        datalabels: {
-          color: '#111827',
-          font: { weight: 'bold' },
-          formatter: (value, context) => {
-            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-            const porcentaje = (value / total) * 100;
-            return porcentaje.toFixed(1) + '%';
+    const centerTextPlugin = {
+      id: 'centerText',
+      beforeDraw(chart) {
+        const { width, height } = chart;
+        const ctx = chart.ctx;
+        ctx.restore();
+        const fontSize = (height / 150).toFixed(2);
+        ctx.font = `${fontSize}em sans-serif`;
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#111827';
+
+        const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+        const text = `Total: $${total.toLocaleString()}`;
+        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+        const textY = height / 2;
+
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+      }
+    };
+
+    window.graficoGastosInstance = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Impuestos', 'Seguros', 'Gastos diarios', 'Pago de deuda', 'Ahorro', 'Superávit/Deficit'],
+        datasets: [{
+          data: [impuestos, seguros, gastosDiarios, pagoDeuda, ahorro, superavit],
+          backgroundColor: ['#FF6384', '#FF9F40', '#60a5fa', '#fbbf24', '#4ade80', '#a78bfa']
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { position: 'bottom' },
+          datalabels: {
+            color: '#111827',
+            font: { weight: 'bold' },
+            formatter: (value, context) => {
+              const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+              const porcentaje = (value / total) * 100;
+              return porcentaje.toFixed(1) + '%';
+            }
           }
         }
-      }
-    },
-    plugins: [ChartDataLabels, centerTextPlugin]
-  });
+      },
+      plugins: [ChartDataLabels, centerTextPlugin]
+    });
+  }
+
+  mostrarGraficoGastos(); // ✅ Ejecutar al final de mostrarFlujo
 }
+
 //---SECCION B DEUDA---
 function mostrarDeuda() {
   const ingresoBruto = data.ingreso_bruto || 0;
@@ -696,10 +700,6 @@ function mostrarRetiro() {
 
   const iconoFaltante = faltante <= 0 ? '✅' : '⚠️';
   const iconoFactor = ratioAhorroEdad >= 1 ? '✅' : ratioAhorroEdad >= 0.9 ? '⚠️' : '🚨';
-
-  function mostrarRetiro() {
-  const capitalNecesario = 950000;  // 🧱 este vendrá de tu lógica
-  const capitalAcumulado = 645000;  // 💼 este también
 
   document.getElementById("retiroTexto").innerHTML = `
     <p><strong>🧱 Capital necesario:</strong> $${capitalNecesario.toLocaleString()}</p>
