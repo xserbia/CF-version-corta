@@ -117,7 +117,6 @@ function inicializarFormulario() {
   const primerPaso = document.getElementById(seccionActual);
   if (primerPaso) {
     primerPaso.classList.add('active');
-    primerPaso.style.display = "block";
   }
 
   seccionActual = 'stepIngresos';
