@@ -206,4 +206,15 @@ button:active {
   max-width: 400px;
   width: 100%;
 }
+/* 🔓 Forzar visibilidad del navegador de resultados */
+#navResultados {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 
