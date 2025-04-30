@@ -182,19 +182,19 @@ function capturarDatos() {
 
 // ✅ Procesa y muestra los resultados
 function procesarResultados(event) {
-  event.preventDefault(); // 🔒 Evita recargar la página
-
+  console.log("✅ Entró a procesarResultados");
+  if (event) event.preventDefault();
   data = capturarDatos();
-  mostrarResultados(); // 📊 Calcula e inyecta los resultados
+  console.log("📦 Datos capturados:", data);
 
   document.getElementById("formularioContainer").style.display = "none";
   document.getElementById("resultadosContainer").style.display = "block";
+  console.log("📊 Se mostró resultadosContainer");
 
-  mostrarResultado('resA'); // ✅ Asegura que #resA esté visible
-
-  // Espera un momento a que el DOM actualice la visibilidad del canvas
+  mostrarResultados();
+  mostrarResultado('resA');
   setTimeout(() => {
-    mostrarGraficoGastos();  // ✅ Ahora sí, canvas ya visible
+    mostrarGraficoGastos();
   }, 50);
 }
 function mostrarResultado(id) {
