@@ -187,8 +187,9 @@ function procesarResultados(event) {
   data = capturarDatos();
   console.log("📦 Datos capturados:", data);
 
-  document.getElementById("formularioContainer").style.display = "none";
-  document.getElementById("resultadosContainer").style.display = "block";
+document.getElementById("formularioContainer").style.display = "none";
+document.getElementById("resultadosContainer").style.display = "block";
+document.getElementById("resultadosContainer").style.visibility = "visible"; // (por si acaso)
   console.log("📊 Se mostró resultadosContainer");
 
   mostrarResultados();
