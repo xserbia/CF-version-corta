@@ -31,7 +31,7 @@ function irASeccion(stepId) {
 
   // 🔄 Actualizar el estado global
   seccionActual = stepId;
-}
+} //HERE
 
 // ✅ Variables de navegación
 let seccionActual = 'stepIngresos';
@@ -87,7 +87,7 @@ function validarCamposPasoActual() {
     });
   }
   return camposValidos;
-} //HERE
+}
 
 // ✅ Validar y avanzar al siguiente paso
 function guardarDatosYAvanzar(siguientePasoId) {
