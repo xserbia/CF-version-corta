@@ -271,23 +271,6 @@ function mostrarFlujo() {
 
   mostrarGraficoGastos(); // ahora que está definida globalmente
 }
-    <h3>🅰️ A. Flujo de efectivo y liquidez</h3>
-    <p><strong>Ingreso anual:</strong> $${ingreso.toLocaleString()}</p>
-    <p><strong>Impuestos:</strong> $${impuestos.toLocaleString()}</p>
-    <p><strong>Seguros:</strong> $${seguros.toLocaleString()}</p>
-    <p><strong>Gastos diarios:</strong> $${gastoDiario.toLocaleString()}</p>
-    <p><strong>Pago de deuda:</strong> $${deuda.toLocaleString()}</p>
-    <p><strong>Ahorro:</strong> $${ahorro.toLocaleString()}</p>
-    <p><strong>Superávit:</strong> $${superavit.toLocaleString()} ${iconoSuperavit}</p>
-    <hr>
-    <p><strong>Tasa de ahorro:</strong> ${(tasaAhorro * 100).toFixed(1)}% ${iconoAhorro}</p>
-    <p><strong>Reserva de emergencia:</strong> ${reservaEmergencia.toFixed(1)} meses ${iconoReserva}</p>
-    <p><strong>Razón corriente:</strong> ${razonCorriente.toFixed(2)} ${iconoRazonCorriente}</p>
-    <p><strong>Capacidad de acumulación:</strong> ${(capacidadAcumulacion * 100).toFixed(1)}% ${iconoCapacidad}</p>
-  `;
-
-  mostrarGraficoGastos(); // ahora que está definida globalmente
-}
 
 // ✅ Función separada
 function mostrarGraficoGastos() {
