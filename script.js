@@ -209,6 +209,7 @@ function mostrarResultado(id) {
 }
 
 function mostrarResultados() {
+  console.log("✅ mostrarResultados ejecutado");
   mostrarFlujo();
   mostrarDeuda();
   mostrarPatrimonio();
@@ -225,6 +226,7 @@ function mostrarResultados() {
 //---SECCION A LIQUIDEZ---
 
 function mostrarFlujo() {
+  console.log("✅ mostrarFlujo ejecutado");
   const ingreso = data.ingreso_bruto || 0;
 
   const ahorro = (data.aporte_personal_retiro || 0) +
