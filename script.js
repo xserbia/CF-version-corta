@@ -850,6 +850,7 @@ function mostrarResultadosFinales() {
   resA.style.outline = "2px dashed green";
 
   console.log("✅ resA se está mostrando:", resA);
+  document.getElementById("navResultados").style.display = "flex";
 }
 
 
