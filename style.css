@@ -216,5 +216,17 @@ button:active {
   opacity: 1 !important;
   visibility: visible !important;
 }
+.resultado-categoria {
+  background-color: #fffad0;
+  border: 2px solid #000;
+  padding: 20px;
+  min-height: 200px;
+  display: none;
+}
+
+.resultado-categoria.mostrar {
+  display: block !important;
+}
+
 
 
