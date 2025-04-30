@@ -87,7 +87,7 @@ function validarCamposPasoActual() {
     });
   }
   return camposValidos;
-}
+} //HERE
 
 // ✅ Validar y avanzar al siguiente paso
 function guardarDatosYAvanzar(siguientePasoId) {
