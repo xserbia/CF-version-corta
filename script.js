@@ -98,43 +98,46 @@ function guardarDatosYAvanzar(siguientePasoId) {
     }
   }
 }
-
 // ✅ Retroceder libremente
 function prevStep(prevPasoId) {
   irASeccion(prevPasoId);
 }
+
+// ✅ Establecer la sección actual
+let seccionActual = 'stepIngresos';
+
+// 🔄 Inicializar al cargar el DOM
+document.addEventListener('DOMContentLoaded', inicializarFormulario);
+
+function inicializarFormulario() {
+  console.log("✅ DOMContentLoaded event fired");
+
+  ocultarTodasLasSecciones();
+
+  const primerPaso = document.getElementById(seccionActual);
+  if (primerPaso) {
+    primerPaso.classList.add('active');
+    primerPaso.style.display = "block";
+  }
+
   seccionActual = 'stepIngresos';
-  
-  // 🔄 Eliminar atributos required que generan conflicto en campos ocultos
-  document.querySelectorAll('input[required]').forEach(input => {
-    input.removeAttribute('required');
-  });
-};
 
-document.addEventListener('DOMContentLoaded', function() {
-      console.log("DOMContentLoaded event fired!");
-      ocultarTodasLasSecciones();
-      const step = document.getElementById('stepIngresos');
-      if (step) {
-        step.classList.add('active');
-        step.style.display = "block";
+  // 🔄 Obtener todos los campos marcados como required inicialmente
+  const camposRequeridos = document.querySelectorAll('input[required], select[required], textarea[required]');
+
+  camposRequeridos.forEach(el => {
+    el.removeAttribute('required');
+
+    // ✅ Si es input, agregar clase y validación en tiempo real
+    if (el.tagName.toLowerCase() === 'input') {
+      const label = el.previousElementSibling;
+      if (label && label.tagName.toLowerCase() === 'label') {
+        label.classList.add('required-label');
       }
-      seccionActual = 'stepIngresos';
-
-      // ✅ Agregar asteriscos y validar mientras escribe
-        const inputsRequeridos = document.querySelectorAll('input[required]');
-
-        inputsRequeridos.forEach(input => {
-          const label = input.previousElementSibling;
-          if (label && label.tagName.toLowerCase() === 'label') {
-            label.classList.add('required-label');
-          }
-          input.addEventListener('input', function() {
-            validarCampo(input);
-          });
-        });
-    });
-
+      el.addEventListener('input', () => validarCampo(el));
+    }
+  });
+}
 
 // ✅ Validar Seguros y Herencia antes de pasar
 function guardarDatosSegurosHerencia() {
