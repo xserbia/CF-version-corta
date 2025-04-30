@@ -114,20 +114,19 @@ function inicializarFormulario() {
 
   ocultarTodasLasSecciones();
 
+  // ✅ Primero define qué paso quieres mostrar
+  seccionActual = 'stepIngresos';
+
   const primerPaso = document.getElementById(seccionActual);
   if (primerPaso) {
     primerPaso.classList.add('active');
   }
 
-  seccionActual = 'stepIngresos';
-
-  // 🔄 Obtener todos los campos marcados como required inicialmente
+  // 🔄 Eliminar required y aplicar validación dinámica
   const camposRequeridos = document.querySelectorAll('input[required], select[required], textarea[required]');
-
   camposRequeridos.forEach(el => {
     el.removeAttribute('required');
 
-    // ✅ Si es input, agregar clase y validación en tiempo real
     if (el.tagName.toLowerCase() === 'input') {
       const label = el.previousElementSibling;
       if (label && label.tagName.toLowerCase() === 'label') {
@@ -137,6 +136,7 @@ function inicializarFormulario() {
     }
   });
 }
+
 
 // ✅ Validar Seguros y Herencia antes de pasar
 function guardarDatosSegurosHerencia() {
