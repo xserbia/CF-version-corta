@@ -103,15 +103,6 @@ function guardarDatosYAvanzar(siguientePasoId) {
 function prevStep(prevPasoId) {
   irASeccion(prevPasoId);
 }
-
-// ✅ Configurar al cargar
-window.onload = function() {
-  ocultarTodasLasSecciones();
-  const step = document.getElementById('stepIngresos');
-  if (step) {
-    step.classList.add('active');
-    step.style.display = "block";
-  }
   seccionActual = 'stepIngresos';
   
   // 🔄 Eliminar atributos required que generan conflicto en campos ocultos
@@ -120,20 +111,30 @@ window.onload = function() {
   });
 };
 
-// ✅ Agregar asteriscos y validar mientras escribe
 document.addEventListener('DOMContentLoaded', function() {
-  const inputsRequeridos = document.querySelectorAll('input[required]');
+      console.log("DOMContentLoaded event fired!");
+      ocultarTodasLasSecciones();
+      const step = document.getElementById('stepIngresos');
+      if (step) {
+        step.classList.add('active');
+        step.style.display = "block";
+      }
+      seccionActual = 'stepIngresos';
 
-  inputsRequeridos.forEach(input => {
-    const label = input.previousElementSibling;
-    if (label && label.tagName.toLowerCase() === 'label') {
-      label.classList.add('required-label');
-    }
-    input.addEventListener('input', function() {
-      validarCampo(input);
+      // ✅ Agregar asteriscos y validar mientras escribe
+        const inputsRequeridos = document.querySelectorAll('input[required]');
+
+        inputsRequeridos.forEach(input => {
+          const label = input.previousElementSibling;
+          if (label && label.tagName.toLowerCase() === 'label') {
+            label.classList.add('required-label');
+          }
+          input.addEventListener('input', function() {
+            validarCampo(input);
+          });
+        });
     });
-  });
-});
+
 
 // ✅ Validar Seguros y Herencia antes de pasar
 function guardarDatosSegurosHerencia() {
