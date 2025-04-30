@@ -104,7 +104,7 @@ function prevStep(prevPasoId) {
 }
 
 // ✅ Establecer la sección actual
-let seccionActual = 'stepIngresos';
+seccionActual = 'stepIngresos';
 
 // 🔄 Inicializar al cargar el DOM
 document.addEventListener('DOMContentLoaded', inicializarFormulario);
