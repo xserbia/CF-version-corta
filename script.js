@@ -847,7 +847,7 @@ function mostrarResultadosFinales() {
 
   // ✅ Mostrar solo la sección A
   document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
-  resA.style.display = "block";
+  resA.classList.add("mostrar");
   resA.style.outline = "2px dashed green";
 
   console.log("✅ resA se está mostrando:", resA);
