@@ -819,4 +819,33 @@ function mostrarEstres() {
 
   document.getElementById("resH").innerHTML = tabla;
 }
+function mostrarResultadosFinales() {
+  // 🔍 Verificamos si los elementos existen
+  const formulario = document.getElementById("formularioContainer");
+  const resultados = document.getElementById("resultadosContainer");
+  const resA = document.getElementById("resA");
+
+  if (!formulario || !resultados || !resA) {
+    console.warn("🚨 Uno o más elementos no fueron encontrados en el DOM");
+    return;
+  }
+
+  // 🔒 Ocultamos el formulario
+  formulario.style.display = "none";
+
+  // ✅ Mostramos el contenedor de resultados
+  resultados.style.display = "block";
+  console.log("📊 Mostrando resultadosContainer");
+
+  // ✅ Mostramos solo la sección resA
+  document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
+  resA.style.display = "block";
+
+  // 🎯 Opcional: destacar visualmente
+  resA.style.outline = "2px dashed green";
+
+  // 🧪 Confirmamos por consola
+  console.log("✅ resA se está mostrando:", resA);
+}
+
 
