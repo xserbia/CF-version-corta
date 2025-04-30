@@ -113,6 +113,11 @@ window.onload = function() {
     step.style.display = "block";
   }
   seccionActual = 'stepIngresos';
+  
+  // 🔄 Eliminar atributos required que generan conflicto en campos ocultos
+  document.querySelectorAll('input[required]').forEach(input => {
+    input.removeAttribute('required');
+  });
 };
 
 // ✅ Agregar asteriscos y validar mientras escribe
