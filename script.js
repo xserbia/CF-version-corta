@@ -6,7 +6,6 @@ function ocultarTodasLasSecciones() {
     div.style.display = "none";
   });
 }
-
 // ✅ Ir a una sección específica
 function irASeccion(stepId) {
   ocultarTodasLasSecciones();
@@ -16,8 +15,8 @@ function irASeccion(stepId) {
     step.classList.add('active');
     step.style.display = "block";
   }
-}
 
+  // 🔄 Actualizar los botones de navegación
   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
   const buttons = document.querySelectorAll('.nav-btn');
   const index = {
@@ -29,7 +28,8 @@ function irASeccion(stepId) {
     stepRetiro: 5
   }[stepId];
   if (buttons[index]) buttons[index].classList.add('active');
-  
+
+  // 🔄 Actualizar el estado global
   seccionActual = stepId;
 }
 
