@@ -198,10 +198,25 @@ function procesarResultados(event) {
   }, 50);
 }
 function mostrarResultado(id) {
-  document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
-  document.getElementById(id).style.display = "block";
+  console.log(`🟦 mostrarResultado('${id}') ejecutado`);
 
-  // Cambiar estilo de navegación
+  // Ocultar todas las secciones y quitar bordes
+  document.querySelectorAll(".resultado-categoria").forEach(div => {
+    div.style.display = "none";
+    div.style.outline = "none"; // eliminar cualquier borde anterior
+  });
+
+  // Mostrar y remarcar la sección seleccionada
+  const seccion = document.getElementById(id);
+  if (seccion) {
+    seccion.style.display = "block";
+    seccion.style.outline = "3px dashed orange"; // ✅ borde permanente
+    console.log(`✅ Se mostró #${id}`);
+  } else {
+    console.warn(`🚨 No se encontró el elemento con ID: ${id}`);
+  }
+
+  // Actualizar estado visual del navegador de resultados
   document.querySelectorAll('#navResultados .nav-btn').forEach(btn => btn.classList.remove('active'));
   const botones = document.querySelectorAll('#navResultados .nav-btn');
   const indices = { resA: 0, resB: 1, resC: 2, resD: 3, resE: 4, resF: 5, resG: 6, resH: 7 };
