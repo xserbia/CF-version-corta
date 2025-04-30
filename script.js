@@ -16,6 +16,7 @@ function irASeccion(stepId) {
     step.classList.add('active');
     step.style.display = "block";
   }
+}
 
   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
   const buttons = document.querySelectorAll('.nav-btn');
