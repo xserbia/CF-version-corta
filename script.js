@@ -13,7 +13,6 @@ function irASeccion(stepId) {
   const step = document.getElementById(stepId);
   if (step) {
     step.classList.add('active');
-    step.style.display = "block";
   }
 
   // 🔄 Actualizar los botones de navegación
