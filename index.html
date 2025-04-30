@@ -23,7 +23,7 @@
 
 <!-- Formulario -->
 <div id="formularioContainer">
-  <form id="calculadoraFormulario" onsubmit="procesarResultados(event)">
+  <form id="calculadoraFormulario">
 
 <!-- 1. Ingresos -->
 <div class="step" id="stepIngresos">
@@ -297,9 +297,8 @@
 
   </fieldset>
 
-  <div class="nav-buttons">
-    <button type="submit">Calcular</button>
-  </div>
+<div class="nav-buttons">
+  <button type="button" onclick="procesarResultados()">Calcular</button>
 </div>
 
 <!-- 🔵 Contenedor de Resultados -->
