@@ -830,22 +830,27 @@ function mostrarResultadosFinales() {
     return;
   }
 
+  // ✅ Capturar datos
+  data = capturarDatos();
+  console.log("📦 Datos capturados:", data);
+
   // 🔒 Ocultamos el formulario
   formulario.style.display = "none";
 
   // ✅ Mostramos el contenedor de resultados
   resultados.style.display = "block";
-  console.log("📊 Mostrando resultadosContainer");
+  resultados.style.visibility = "visible"; // por si acaso
 
-  // ✅ Mostramos solo la sección resA
+  // ✅ Ejecutar todos los cálculos y poblar resultados
+  mostrarResultados();
+
+  // ✅ Mostrar solo la sección A
   document.querySelectorAll(".resultado-categoria").forEach(div => div.style.display = "none");
   resA.style.display = "block";
-
-  // 🎯 Opcional: destacar visualmente
   resA.style.outline = "2px dashed green";
 
-  // 🧪 Confirmamos por consola
   console.log("✅ resA se está mostrando:", resA);
 }
+
 
 
