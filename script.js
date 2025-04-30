@@ -271,6 +271,7 @@ function mostrarFlujo() {
    console.log("🔍 resA existe?", document.getElementById("resA"));
   document.getElementById("resA").innerHTML = `
     <h3>🅰️ A. Flujo de efectivo y liquidez</h3>
+    <span style="color:red; font-size: 32px;">🚨 PRUEBA VISIBLE</span>
     <p><strong>Ingreso anual:</strong> $${ingreso.toLocaleString()}</p>
     <p><strong>Impuestos:</strong> $${impuestos.toLocaleString()}</p>
     <p><strong>Seguros:</strong> $${seguros.toLocaleString()}</p>
