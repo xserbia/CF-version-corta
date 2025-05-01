@@ -215,7 +215,7 @@ if (seccion) {
   // Mostrar y remarcar la sección seleccionada
   const seccion = document.getElementById(id);
   if (seccion) {
-    seccion.style.display = "block";
+    seccion.classList.add("mostrar"); // ✅ Usa clases para controlar visibilidad
     seccion.style.outline = "3px dashed orange"; // ✅ borde permanente
     console.log(`✅ Se mostró #${id}`);
   } else {
