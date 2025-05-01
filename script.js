@@ -203,21 +203,26 @@ document.getElementById("resultadosContainer").style.visibility = "visible"; // 
 function mostrarResultado(id) {
   console.log(`🟦 mostrarResultado('${id}') ejecutado`);
 
-document.querySelectorAll(".resultado-categoria").forEach(div => {
-  div.classList.remove("mostrar");
-});
+  // Ocultar todas las secciones de resultado
+  document.querySelectorAll(".resultado-categoria").forEach(div => {
+    div.classList.remove("mostrar");
+    div.style.display = ""; // Limpia display inline si fue alterado
+    div.style.outline = "none"; // Elimina bordes previos
+  });
 
   // Mostrar y remarcar la sección seleccionada
   const seccion = document.getElementById(id);
   if (seccion) {
-    seccion.classList.add("mostrar"); // ✅ Usa clases para controlar visibilidad
-    seccion.style.outline = "3px dashed orange"; // ✅ borde permanente
+    seccion.classList.add("mostrar");             // ✅ Visibilidad por clase
+    seccion.style.display = "";                   // ✅ Limpieza defensiva
+    seccion.style.outline = "3px dashed orange";  // ✅ Borde visual
+    seccion.scrollIntoView({ behavior: 'smooth' }); // 🧭 Auto scroll si está fuera de vista
     console.log(`✅ Se mostró #${id}`);
   } else {
     console.warn(`🚨 No se encontró el elemento con ID: ${id}`);
   }
 
-  // Actualizar estado visual del navegador de resultados
+  // Navegación visual (botones activos)
   document.querySelectorAll('#navResultados .nav-btn').forEach(btn => btn.classList.remove('active'));
   const botones = document.querySelectorAll('#navResultados .nav-btn');
   const indices = { resA: 0, resB: 1, resC: 2, resD: 3, resE: 4, resF: 5, resG: 6, resH: 7 };
