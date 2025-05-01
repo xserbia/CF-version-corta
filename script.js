@@ -203,10 +203,14 @@ document.getElementById("resultadosContainer").style.visibility = "visible"; // 
 function mostrarResultado(id) {
   console.log(`🟦 mostrarResultado('${id}') ejecutado`);
 
-  // Ocultar todas las secciones y quitar bordes
-  document.querySelectorAll(".resultado-categoria").forEach(div => {
-    div.style.outline = "none"; // eliminar cualquier borde anterior
-  });
+document.querySelectorAll(".resultado-categoria").forEach(div => {
+  div.classList.remove("mostrar");
+});
+
+const seccion = document.getElementById(id);
+if (seccion) {
+  seccion.classList.add("mostrar");
+}
 
   // Mostrar y remarcar la sección seleccionada
   const seccion = document.getElementById(id);
