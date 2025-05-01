@@ -205,7 +205,6 @@ function mostrarResultado(id) {
 
   // Ocultar todas las secciones y quitar bordes
   document.querySelectorAll(".resultado-categoria").forEach(div => {
-    div.style.display = "none";
     div.style.outline = "none"; // eliminar cualquier borde anterior
   });
 
