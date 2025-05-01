@@ -3,7 +3,6 @@
 function ocultarTodasLasSecciones() {
   document.querySelectorAll('.step').forEach(div => {
     div.classList.remove('active');
-    div.style.display = "none";
   });
 }
 // ✅ Ir a una sección específica
