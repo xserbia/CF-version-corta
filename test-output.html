@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Resultado A</title>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+
+    .resultado-categoria {
+      display: none;
+      padding: 20px;
+      background-color: #f0fdf4;
+      border: 2px solid #2563eb;
+      margin-top: 20px;
+    }
+
+    .resultado-categoria.mostrar {
+      display: block !important;
+    }
+
+    #navResultados {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .nav-btn {
+      padding: 10px 20px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      background-color: #1e40af;
+    }
+  </style>
+</head>
+<body>
+
+<div id="navResultados">
+  <button class="nav-btn" onclick="mostrarResultado('resA')">Ver Resultado A</button>
+</div>
+
+<div id="resultadosContainer">
+  <div id="resA" class="resultado-categoria">
+    <h3>🅰️ Resultado A</h3>
+    <p>Este es el contenido visible si todo funciona.</p>
+  </div>
+</div>
+
+<script>
+function mostrarResultado(id) {
+  console.log(`🟦 mostrarResultado('${id}') ejecutado`);
+
+  // Ocultar todos
+  document.querySelectorAll(".resultado-categoria").forEach(div => {
+    div.classList.remove("mostrar");
+    div.style.outline = "none";
+  });
+
+  const seccion = document.getElementById(id);
+  if (seccion) {
+    seccion.classList.add("mostrar");
+    seccion.style.outline = "3px dashed orange";
+    console.log("✅ Se mostró:", id);
+  }
+
+  // Activar botón visual
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  const indices = { resA: 0 };
+  const botones = document.querySelectorAll('.nav-btn');
+  if (botones[indices[id]]) botones[indices[id]].classList.add('active');
+}
+</script>
+
+</body>
+</html>
