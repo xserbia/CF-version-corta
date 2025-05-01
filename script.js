@@ -211,16 +211,16 @@ function mostrarResultado(id) {
   });
 
   // Mostrar y remarcar la sección seleccionada
-  const seccion = document.getElementById(id);
-  if (seccion) {
-    seccion.classList.add("mostrar");             // ✅ Visibilidad por clase
-    seccion.style.display = "";                   // ✅ Limpieza defensiva
-    seccion.style.outline = "3px dashed orange";  // ✅ Borde visual
-    seccion.scrollIntoView({ behavior: 'smooth' }); // 🧭 Auto scroll si está fuera de vista
-    console.log(`✅ Se mostró #${id}`);
-  } else {
-    console.warn(`🚨 No se encontró el elemento con ID: ${id}`);
-  }
+const seccion = document.getElementById(id);
+if (seccion) {
+  seccion.style.display = "";                   // ✅ 1. limpia cualquier style inline conflictivo
+  seccion.classList.add("mostrar");             // ✅ 2. aplica clase para visibilidad
+  seccion.style.outline = "3px dashed orange";  // ✅ 3. borde visual opcional
+  seccion.scrollIntoView({ behavior: 'smooth' }); // ✅ 4. scroll automático
+  console.log(`✅ Se mostró #${id}`);
+} else {
+  console.warn(`🚨 No se encontró el elemento con ID: ${id}`);
+}
 
   // Navegación visual (botones activos)
   document.querySelectorAll('#navResultados .nav-btn').forEach(btn => btn.classList.remove('active'));
