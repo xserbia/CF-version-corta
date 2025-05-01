@@ -248,11 +248,12 @@ function mostrarResultados() {
 
 function mostrarFlujo() {
   console.log("✅ mostrarFlujo ejecutado");
-  const ingreso = data.ingreso_bruto || 0;
 
-  const ahorro = (data.aporte_personal_retiro || 0) +
-                 (data.aporte_empleador_retiro || 0) +
-                 (data.otros_ahorros || 0);
+  const ingreso = data.ingreso_bruto || 0;
+  const ahorro =
+    (data.aporte_personal_retiro || 0) +
+    (data.aporte_empleador_retiro || 0) +
+    (data.otros_ahorros || 0);
 
   const impuestos = data.impuestos_anuales || 0;
   const seguros = data.seguros_anuales || 0;
@@ -273,25 +274,30 @@ function mostrarFlujo() {
   const iconoRazonCorriente = razonCorriente > 1 ? '✅' : '🚨';
   const iconoCapacidad = capacidadAcumulacion > 0.5 ? '🔁' : capacidadAcumulacion >= 0.15 ? '✅' : capacidadAcumulacion >= 0 ? '⚠️' : '🚨';
 
-   console.log("🔍 resA existe?", document.getElementById("resA"));
-  document.getElementById("resA").innerHTML = `
-    <h3>🅰️ A. Flujo de efectivo y liquidez</h3>
-    <span style="color:red; font-size: 32px;">🚨 PRUEBA VISIBLE</span>
-    <p><strong>Ingreso anual:</strong> $${ingreso.toLocaleString()}</p>
-    <p><strong>Impuestos:</strong> $${impuestos.toLocaleString()}</p>
-    <p><strong>Seguros:</strong> $${seguros.toLocaleString()}</p>
-    <p><strong>Gastos diarios:</strong> $${gastoDiario.toLocaleString()}</p>
-    <p><strong>Pago de deuda:</strong> $${deuda.toLocaleString()}</p>
-    <p><strong>Ahorro:</strong> $${ahorro.toLocaleString()}</p>
-    <p><strong>Superávit:</strong> $${superavit.toLocaleString()} ${iconoSuperavit}</p>
-    <hr>
-    <p><strong>Tasa de ahorro:</strong> ${(tasaAhorro * 100).toFixed(1)}% ${iconoAhorro}</p>
-    <p><strong>Reserva de emergencia:</strong> ${reservaEmergencia.toFixed(1)} meses ${iconoReserva}</p>
-    <p><strong>Razón corriente:</strong> ${razonCorriente.toFixed(2)} ${iconoRazonCorriente}</p>
-    <p><strong>Capacidad de acumulación:</strong> ${(capacidadAcumulacion * 100).toFixed(1)}% ${iconoCapacidad}</p>
-  `;
+  const resA = document.getElementById("resA");
+  console.log("🔍 resA existe?", resA);
 
-  mostrarGraficoGastos(); // ahora que está definida globalmente
+  if (resA) {
+    resA.innerHTML = `
+      <h3>🅰️ A. Flujo de efectivo y liquidez</h3>
+      <span style="color:red; font-size: 32px;">🚨 PRUEBA VISIBLE</span>
+      <p><strong>Ingreso anual:</strong> $${ingreso.toLocaleString()}</p>
+      <p><strong>Impuestos:</strong> $${impuestos.toLocaleString()}</p>
+      <p><strong>Seguros:</strong> $${seguros.toLocaleString()}</p>
+      <p><strong>Gastos diarios:</strong> $${gastoDiario.toLocaleString()}</p>
+      <p><strong>Pago de deuda:</strong> $${deuda.toLocaleString()}</p>
+      <p><strong>Ahorro:</strong> $${ahorro.toLocaleString()}</p>
+      <p><strong>Superávit:</strong> $${superavit.toLocaleString()} ${iconoSuperavit}</p>
+      <hr>
+      <p><strong>Tasa de ahorro:</strong> ${(tasaAhorro * 100).toFixed(1)}% ${iconoAhorro}</p>
+      <p><strong>Reserva de emergencia:</strong> ${reservaEmergencia.toFixed(1)} meses ${iconoReserva}</p>
+      <p><strong>Razón corriente:</strong> ${razonCorriente.toFixed(2)} ${iconoRazonCorriente}</p>
+      <p><strong>Capacidad de acumulación:</strong> ${(capacidadAcumulacion * 100).toFixed(1)}% ${iconoCapacidad}</p>
+    `;
+    mostrarGraficoGastos();
+  } else {
+    console.warn("🚨 #resA no existe en el DOM");
+  }
 }
 
 // ✅ Función separada
