@@ -13,7 +13,7 @@
 <!-- 🔝 Navegación superior -->
 <div id="topNav" class="top-navigation">
   <button class="nav-btn active" onclick="irASeccion('stepIngresos')">Ingreso</button>
-  <button class="nav-btn" onclick="validarAntesDeIrAGastos()">Gastos</button>
+  <button id="btnGastos" class="nav-btn" onclick="validarAntesDeIrAGastos()" disabled>Gastos</button>
 </div>
 
 <!-- 🔹 FORMULARIO: Step Ingresos -->
@@ -163,7 +163,11 @@
       document.getElementById("resultadosContainer").style.display = "block";
     }
 
-    // Cambiar a sección gastos
+    // ✅ Activar botón de navegación a Gastos
+    const btnGastos = document.getElementById("btnGastos");
+    if (btnGastos) btnGastos.disabled = false;
+
+    // ✅ Cambiar a sección gastos
     irASeccion("stepGastos");
 
     // Aplicar shake si campos de gastos están vacíos
@@ -219,14 +223,14 @@
       <p><strong>Total de gastos:</strong> $${total.toLocaleString()}</p>
     `;
 
-    const contenedor = document.getElementById("resultadoGastos");
+    const contenedor = document.getElementById("resB");
     if (contenedor) {
       contenedor.innerHTML = html;
       document.getElementById("resultadosContainer").style.display = "block";
     }
   }
 
-  // Bloquear acceso a sección gastos desde top nav si no se han completado ingresos
+  // ✅ Prevenir acceso a Gastos desde nav si Ingresos no está completo
   function validarAntesDeIrAGastos() {
     const camposIngresos = [
       "ingreso_bruto",
@@ -260,6 +264,7 @@
     irASeccion("stepIngresos");
   });
 </script>
+
 
 </body>
 </html>
