@@ -227,6 +227,14 @@ button:active {
 .resultado-categoria.mostrar {
   display: block !important;
 }
+#resultadosContainer {
+  display: none;
+  margin-top: 40px;
+  padding: 20px;
+  background: #e0f7fa;
+  border: 2px solid #00796b;
+  border-radius: 10px;
+}
 
 
 
