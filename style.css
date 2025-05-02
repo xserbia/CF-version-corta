@@ -243,6 +243,13 @@ button:active {
   border: 2px solid #00796b;
   border-radius: 10px;
 }
+.nav-btn:disabled {
+  background-color: #e5e7eb;
+  border-color: #cbd5e1;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
 
 
 
