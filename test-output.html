@@ -119,27 +119,27 @@
   <button class="nav-btn" onclick="mostrarResultado('resB')">🅱 Gastos</button>
   <button class="nav-btn" onclick="mostrarResultado('resC')">🅲 Activos</button>
 </div>
-<div id="resultadosContainer" style="display: none;">
+<!-- 🧾 Contenedor de resultados -->
+<div id="resultadosContainer" style="display: block;">
   <h2>🧮 Resultado Calculado</h2>
 
   <!-- 🅰 Ingresos -->
   <div id="resA" class="resultado-categoria mostrar">
-    <p id="resultadoBasico">Resultado aún no calculado.</p>
+    <p>✅ Este es el resultado A: Ingresos</p>
   </div>
 
   <!-- 🅱 Gastos -->
-  <div id="resB" class="resultado-categoria"></div>
+  <div id="resB" class="resultado-categoria">
+    <p>📘 Este es el resultado B: Gastos</p>
+  </div>
 
   <!-- 🅲 Activos -->
-  <div id="resC" class="resultado-categoria"></div>
+  <div id="resC" class="resultado-categoria">
+    <p>💰 Este es el resultado C: Activos</p>
+  </div>
 </div>
-
-  <!-- 🔁 En uso temporal -->
-  <div id="resultadoGastos" style="margin-top: 20px;"></div>
-</div>
-  
 <script>
-  // ✅ Navegar entre secciones
+  // ✅ Cambiar de sección del formulario
   function irASeccion(id) {
     const pasos = document.querySelectorAll(".step");
     pasos.forEach(p => p.classList.remove("active"));
@@ -152,7 +152,7 @@
     if (botonActivo) botonActivo.classList.add("active");
   }
 
-  // ✅ Validar campo individual al salir
+  // ✅ Validación visual individual
   function validarCampo(input) {
     const valor = parseFloat(input.value);
     if (isNaN(valor) || valor < 0) {
@@ -162,7 +162,7 @@
     }
   }
 
-  // ✅ Validar ingresos y activar botón de gastos
+  // ✅ Validar ingreso y activar botón "Gastos"
   function validarIngresoYActivarGastos() {
     const campos = [
       "ingreso_bruto",
@@ -191,7 +191,7 @@
     }
   }
 
-  // ✅ Validar gastos y activar botón de activos
+  // ✅ Validar gastos y activar botón "Activos"
   function validarGastosYActivarActivos() {
     const campos = [
       "pago_deudas",
@@ -220,15 +220,7 @@
     }
   }
 
-  // ✅ Mostrar resultados por pestañas (resA, resB, resC...)
-  function mostrarResultado(id) {
-    const secciones = document.querySelectorAll(".resultado-categoria");
-    secciones.forEach(s => s.classList.remove("mostrar"));
-    const activa = document.getElementById(id);
-    if (activa) activa.classList.add("mostrar");
-  }
-
-  // ✅ Validar antes de ir a gastos desde el nav
+  // ✅ Validar antes de ir a gastos desde top nav
   function validarAntesDeIrAGastos() {
     const campos = [
       "ingreso_bruto",
@@ -255,7 +247,7 @@
     }
   }
 
-  // ✅ Validar antes de ir a activos desde el nav
+  // ✅ Validar antes de ir a activos desde top nav
   function validarAntesDeIrAActivos() {
     const campos = [
       "pago_deudas",
@@ -282,7 +274,23 @@
     }
   }
 
-  // ✅ Iniciar con sección ingresos visible
+  // ✅ Mostrar resultado por pestaña (resA, resB, resC) y activar estilo del botón
+  function mostrarResultado(id) {
+    const secciones = document.querySelectorAll(".resultado-categoria");
+    secciones.forEach(s => s.classList.remove("mostrar"));
+
+    const activa = document.getElementById(id);
+    if (activa) activa.classList.add("mostrar");
+
+    // 🔵 Estilo visual activo en el navegador de resultados
+    const botones = document.querySelectorAll("#navResultados .nav-btn");
+    botones.forEach(b => b.classList.remove("resultado-activo"));
+
+    const botonActivo = Array.from(botones).find(b => b.getAttribute("onclick")?.includes(id));
+    if (botonActivo) botonActivo.classList.add("resultado-activo");
+  }
+
+  // ✅ Mostrar sección de ingresos al iniciar
   document.addEventListener("DOMContentLoaded", () => {
     irASeccion("stepIngresos");
   });
