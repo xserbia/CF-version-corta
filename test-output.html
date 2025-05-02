@@ -39,14 +39,11 @@
       <span class="tooltip" data-tooltip="Cualquier otra forma de ahorro anual: ahorro bancario, fondos de emergencia, etc.">🛈</span>
     </label>
     <input type="number" id="otros_ahorros" name="otros_ahorros" required onblur="validarCampo(this)">
-
+  </fieldset>
     <div class="nav-buttons">
       <button type="button" onclick="mostrarResultadoBasico()">Calcular</button>
     </div>
-  </fieldset>
 </div>
-
-<script>
 <script>
   function validarCampo(input) {
     const valor = parseFloat(input.value);
