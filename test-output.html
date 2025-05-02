@@ -108,6 +108,11 @@
 </div>
 
 <!-- 🔵 Contenedor de Resultados -->
+  <div id="navResultados">
+  <button class="nav-btn" onclick="mostrarResultado('resA')">🅰 Ingresos</button>
+  <button class="nav-btn" onclick="mostrarResultado('resB')">🅱 Gastos</button>
+  <button class="nav-btn" onclick="mostrarResultado('resC')">🅲 Activos</button>
+</div>
 <div id="resultadosContainer" style="display: none;">
   <h2>🧮 Resultado Calculado</h2>
 
@@ -127,7 +132,6 @@
   <div id="resultadoGastos" style="margin-top: 20px;"></div>
 </div>
   
-
 <script>
   // Navegar entre secciones
   function irASeccion(id) {
@@ -203,17 +207,6 @@
 
     // Ir a sección gastos
     irASeccion("stepGastos");
-
-    // Shake campos si no han sido completados
-    ["pago_deudas", "gastos_diarios", "impuestos_anuales", "seguros_anuales"].forEach(id => {
-      const input = document.getElementById(id);
-      const valor = parseFloat(input.value);
-      if (isNaN(valor) || valor < 0) {
-        input.classList.add("shake");
-        input.style.borderColor = "red";
-        setTimeout(() => input.classList.remove("shake"), 300);
-      }
-    });
   }
 
   // 🅱️ Mostrar resultado de gastos y pasar a activos
@@ -267,7 +260,7 @@
     irASeccion("stepActivos");
   }
 
-  // 🟦 Mostrar resultado de activos
+  // 🅲 Mostrar resultado de activos
   function mostrarResultadoActivos() {
     const campos = [
       "efectivo_similar",
@@ -314,11 +307,10 @@
     document.getElementById("resC").innerHTML = html;
     document.getElementById("resultadosContainer").style.display = "block";
 
-    // Si quisieras activar btnPasivos aquí, podrías hacerlo:
-    // document.getElementById("btnPasivos").disabled = false;
+    // Si luego deseas activar btnPasivos, puedes hacerlo aquí
   }
 
-  // Validar antes de pasar a Gastos desde topNav
+  // Validar antes de pasar a Gastos desde el topNav
   function validarAntesDeIrAGastos() {
     const campos = [
       "ingreso_bruto",
@@ -347,7 +339,7 @@
     }
   }
 
-  // Validar antes de pasar a Activos desde topNav
+  // Validar antes de pasar a Activos desde el topNav
   function validarAntesDeIrAActivos() {
     const campos = [
       "pago_deudas",
@@ -374,10 +366,18 @@
     }
   }
 
-  // Al cargar, mostrar la sección de ingresos
+  // Mostrar la sección de ingresos al cargar
   document.addEventListener("DOMContentLoaded", () => {
     irASeccion("stepIngresos");
   });
+
+  // Navegación entre pestañas de resultados
+  function mostrarResultado(id) {
+    const secciones = document.querySelectorAll(".resultado-categoria");
+    secciones.forEach(s => s.classList.remove("mostrar"));
+    const activa = document.getElementById(id);
+    if (activa) activa.classList.add("mostrar");
+  }
 </script>
 
 </body>
