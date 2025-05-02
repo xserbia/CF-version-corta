@@ -126,9 +126,9 @@ body {
     color: white;
   }
 
-  .step {
+  /* .step {
     display: none;
-  }
+  } */
 
   .step.active {
     display: block;
