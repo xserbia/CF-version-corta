@@ -10,28 +10,41 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!-- 🔝 Navegación superior -->
+<div id="topNav">
+  <button class="nav-btn active" onclick="irASeccion('stepIngresos')">Ingreso</button>
+</div>
+
 <!-- 🔹 FORMULARIO: Step Ingresos -->
 <div class="step active" id="stepIngresos">
   <fieldset>
     <legend>Ingresos y Ahorros</legend>
 
     <label for="ingreso_bruto">Ingreso anual bruto
-      <span title="Suma total de ingresos antes de impuestos">🛈</span>
+      <span class="tooltip">🛈
+        <span class="tooltiptext">Suma total de ingresos antes de impuestos: salario, negocio, bonos, dividendos, rentas, etc.</span>
+      </span>
     </label><br>
     <input type="number" id="ingreso_bruto" name="ingreso_bruto" required onblur="validarCampo(this)"><br><br>
 
     <label for="aporte_personal_retiro">Aporte personal a retiro
-      <span title="Aporte de tu salario a tu fondo de retiro">🛈</span>
+      <span class="tooltip">🛈
+        <span class="tooltiptext">Aporte que realizas de tu salario hacia tu fondo de retiro 401k, IRA, o similar.</span>
+      </span>
     </label><br>
     <input type="number" id="aporte_personal_retiro" name="aporte_personal_retiro" required onblur="validarCampo(this)"><br><br>
 
     <label for="aporte_empleador_retiro">Aporte del empleador a retiro
-      <span title="Aporte de tu empleador a tu fondo de retiro">🛈</span>
+      <span class="tooltip">🛈
+        <span class="tooltiptext">Aporte que tu empleador realiza a tu fondo de retiro, si aplica.</span>
+      </span>
     </label><br>
     <input type="number" id="aporte_empleador_retiro" name="aporte_empleador_retiro" required onblur="validarCampo(this)"><br><br>
 
     <label for="otros_ahorros">Otros ahorros
-      <span title="Ahorros bancarios, fondos, etc.">🛈</span>
+      <span class="tooltip">🛈
+        <span class="tooltiptext">Cualquier otra forma de ahorro anual: ahorro bancario, fondos de emergencia, etc.</span>
+      </span>
     </label><br>
     <input type="number" id="otros_ahorros" name="otros_ahorros" required onblur="validarCampo(this)"><br><br>
 
@@ -41,22 +54,7 @@
   </fieldset>
 </div>
 
-<!-- 🔵 Contenedor de Resultados -->
-<div id="resultadosContainer" style="display: none;">
-  <h2>🟩 Resultado Calculado</h2>
-  <div id="resA" class="resultado-categoria">
-    <p id="resultadoBasico">Resultado aún no calculado.</p>
-  </div>
-</div>
-    
-  <!-- 🔵 Contenedor de Resultados -->
-  <div id="resultadosContainer">
-    <h2>🟩 Resultado Calculado</h2>
-    <div id="resA" class="resultado-categoria">
-      <p id="resultadoBasico">Resultado aún no calculado.</p>
-    </div>
-  </div>
-
+<script>
 <script>
   function validarCampo(input) {
     const valor = parseFloat(input.value);
@@ -65,11 +63,6 @@
     } else {
       input.style.borderColor = "#44008f";
     }
-  }
-
-  function guardarDatosYAvanzar(idSiguientePaso) {
-    mostrarResultadoBasico();
-    irASeccion(idSiguientePaso);
   }
 
   function mostrarResultadoBasico() {
@@ -98,6 +91,11 @@
     pasos.forEach(p => p.classList.remove("active"));
     const pasoActual = document.getElementById(id);
     if (pasoActual) pasoActual.classList.add("active");
+
+    const botones = document.querySelectorAll(".nav-btn");
+    botones.forEach(b => b.classList.remove("active"));
+    const botonActivo = Array.from(botones).find(b => b.getAttribute("onclick")?.includes(id));
+    if (botonActivo) botonActivo.classList.add("active");
   }
 
   document.addEventListener("DOMContentLoaded", () => {
