@@ -187,7 +187,7 @@
 </div>
   
 <script>
-  // ✅ Cambiar de sección del formulario
+  // ✅ Navegar entre secciones del formulario
   function irASeccion(id) {
     const pasos = document.querySelectorAll(".step");
     pasos.forEach(p => p.classList.remove("active"));
@@ -268,7 +268,53 @@
     }
   }
 
-  // ✅ Validar antes de ir a gastos desde top nav
+  // ✅ Validar activos y activar botón "Pasivos"
+  function validarActivosYActivarPasivos() {
+    const campos = [
+      "efectivo_similar",
+      "cuentas_inversion",
+      "cuentas_retiro",
+      "valor_propiedades",
+      "otros_activos"
+    ];
+
+    let validos = true;
+
+    campos.forEach(id => {
+      const input = document.getElementById(id);
+      const valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < 0) {
+        input.classList.add("shake");
+        input.style.borderColor = "red";
+        validos = false;
+        setTimeout(() => input.classList.remove("shake"), 300);
+      } else {
+        input.style.borderColor = "#44008f";
+      }
+    });
+
+    if (validos) {
+      document.getElementById("btnPasivos").disabled = false;
+    }
+  }
+
+  // ✅ Mostrar resultados por pestañas
+  function mostrarResultado(id) {
+    const secciones = document.querySelectorAll(".resultado-categoria");
+    secciones.forEach(s => s.classList.remove("mostrar"));
+
+    const activa = document.getElementById(id);
+    if (activa) activa.classList.add("mostrar");
+
+    // Estilo visual activo
+    const botones = document.querySelectorAll("#navResultados .nav-btn");
+    botones.forEach(b => b.classList.remove("resultado-activo"));
+
+    const botonActivo = Array.from(botones).find(b => b.getAttribute("onclick")?.includes(id));
+    if (botonActivo) botonActivo.classList.add("resultado-activo");
+  }
+
+  // ✅ Validar desde top nav si puede entrar a siguiente sección
   function validarAntesDeIrAGastos() {
     const campos = [
       "ingreso_bruto",
@@ -290,12 +336,9 @@
       }
     });
 
-    if (completado) {
-      irASeccion("stepGastos");
-    }
+    if (completado) irASeccion("stepGastos");
   }
 
-  // ✅ Validar antes de ir a activos desde top nav
   function validarAntesDeIrAActivos() {
     const campos = [
       "pago_deudas",
@@ -317,28 +360,90 @@
       }
     });
 
-    if (completado) {
-      irASeccion("stepActivos");
-    }
+    if (completado) irASeccion("stepActivos");
   }
 
-  // ✅ Mostrar resultado por pestaña (resA, resB, resC) y activar estilo del botón
-  function mostrarResultado(id) {
-    const secciones = document.querySelectorAll(".resultado-categoria");
-    secciones.forEach(s => s.classList.remove("mostrar"));
+  function validarAntesDeIrAPasivos() {
+    const campos = [
+      "efectivo_similar",
+      "cuentas_inversion",
+      "cuentas_retiro",
+      "valor_propiedades",
+      "otros_activos"
+    ];
 
-    const activa = document.getElementById(id);
-    if (activa) activa.classList.add("mostrar");
+    let completado = true;
 
-    // 🔵 Estilo visual activo en el navegador de resultados
-    const botones = document.querySelectorAll("#navResultados .nav-btn");
-    botones.forEach(b => b.classList.remove("resultado-activo"));
+    campos.forEach(id => {
+      const input = document.getElementById(id);
+      const valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < 0) {
+        input.classList.add("shake");
+        input.style.borderColor = "red";
+        completado = false;
+        setTimeout(() => input.classList.remove("shake"), 300);
+      }
+    });
 
-    const botonActivo = Array.from(botones).find(b => b.getAttribute("onclick")?.includes(id));
-    if (botonActivo) botonActivo.classList.add("resultado-activo");
+    if (completado) irASeccion("stepPasivos");
   }
 
-  // ✅ Mostrar sección de ingresos al iniciar
+  // ✅ Mostrar resultado de PASIVOS
+  function mostrarResultadoPasivos() {
+    const campos = [
+      "deuda_tarjetas",
+      "deuda_hipotecaria",
+      "deuda_comercial",
+      "deuda_vehiculos",
+      "deuda_estudios",
+      "deuda_otros"
+    ];
+
+    let validos = true;
+
+    campos.forEach(id => {
+      const input = document.getElementById(id);
+      const valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < 0) {
+        input.classList.add("shake");
+        input.style.borderColor = "red";
+        validos = false;
+        setTimeout(() => input.classList.remove("shake"), 300);
+      } else {
+        input.style.borderColor = "#44008f";
+      }
+    });
+
+    if (!validos) return;
+
+    const tarjeta = parseFloat(document.getElementById("deuda_tarjetas").value) || 0;
+    const hipoteca = parseFloat(document.getElementById("deuda_hipotecaria").value) || 0;
+    const comercial = parseFloat(document.getElementById("deuda_comercial").value) || 0;
+    const vehiculo = parseFloat(document.getElementById("deuda_vehiculos").value) || 0;
+    const estudio = parseFloat(document.getElementById("deuda_estudios").value) || 0;
+    const otros = parseFloat(document.getElementById("deuda_otros").value) || 0;
+    const total = tarjeta + hipoteca + comercial + vehiculo + estudio + otros;
+
+    const html = `
+      <h4>📉 Deudas Totales</h4>
+      <p><strong>Tarjetas de crédito:</strong> $${tarjeta.toLocaleString()}</p>
+      <p><strong>Hipoteca:</strong> $${hipoteca.toLocaleString()}</p>
+      <p><strong>Deuda comercial:</strong> $${comercial.toLocaleString()}</p>
+      <p><strong>Vehículos:</strong> $${vehiculo.toLocaleString()}</p>
+      <p><strong>Estudios:</strong> $${estudio.toLocaleString()}</p>
+      <p><strong>Otras deudas:</strong> $${otros.toLocaleString()}</p>
+      <p><strong>Total pasivos:</strong> $${total.toLocaleString()}</p>
+    `;
+
+    document.getElementById("resD").innerHTML = html;
+    document.getElementById("resultadosContainer").style.display = "block";
+    mostrarResultado("resD");
+
+    // (Opcional) Activar siguiente botón
+    // document.getElementById("btnSeguros").disabled = false;
+  }
+
+  // ✅ Al cargar
   document.addEventListener("DOMContentLoaded", () => {
     irASeccion("stepIngresos");
   });
