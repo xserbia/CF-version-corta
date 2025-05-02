@@ -164,27 +164,33 @@
 
 </div>
 <!-- 🧾 Contenedor de resultados -->
-<div id="resultadosContainer" style="display: block;">
+<div id="resultadosContainer" style="display:none;">
   <h2>🧮 Resultado Calculado</h2>
 
-  <!-- 🅰 Ingresos -->
-  <div id="resA" class="resultado-categoria mostrar">
-    <p>✅ Este es el resultado A: Liquidez</p>
+  <!-- 🅰 Liquidez -->
+  <div id="resA" class="resultado-categoria">
+    <h4>💧 Indicadores de Liquidez</h4>
+    <p><strong>Tasa de ahorro:</strong> <span id="liquidez_tasa_ahorro">--</span></p>
+    <p><strong>Superávit:</strong> <span id="liquidez_superavit">--</span></p>
+    <p><strong>Reserva de emergencia:</strong> <span id="liquidez_reserva">--</span></p>
+    <p><strong>Razón corriente:</strong> <span id="liquidez_razon_corriente">--</span></p>
+    <p><strong>Capacidad de acumulación:</strong> <span id="liquidez_capacidad">--</span></p>
   </div>
 
-  <!-- 🅱 Gastos -->
+  <!-- 🅱 Deuda -->
   <div id="resB" class="resultado-categoria">
-    <p>📘 Este es el resultado B: Deuda</p>
+    <p>📘 Resultado B (placeholder – aún no implementado)</p>
   </div>
 
-  <!-- 🅲 Activos -->
+  <!-- 🅲 Patrimonio Neto -->
   <div id="resC" class="resultado-categoria">
-    <p>💰 Este es el resultado C: Patrimonio Neto</p>
+    <p>💰 Resultado C (placeholder – aún no implementado)</p>
   </div>
-  
-  <!-- 🅳 Pasivos -->
-<div id="resD" class="resultado-categoria">
-  <p>📉 Este es el resultado D: Seguridad Financiera</p>
+
+  <!-- 🅳 Seguridad Financiera -->
+  <div id="resD" class="resultado-categoria">
+    <!-- Este será llenado dinámicamente por mostrarResultadoPasivos -->
+  </div>
 </div>
 
 <!-- ✅ Script externo cargado al final -->
