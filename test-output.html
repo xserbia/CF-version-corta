@@ -11,8 +11,9 @@
 </head>
 <body>
 <!-- 🔝 Navegación superior -->
-<div id="topNav">
+<div id="topNav" class="top-navigation">
   <button class="nav-btn active" onclick="irASeccion('stepIngresos')">Ingreso</button>
+  <button class="nav-btn" onclick="irASeccion('stepGastos')">Gastos</button>
 </div>
 
 <!-- 🔹 FORMULARIO: Step Ingresos -->
@@ -40,10 +41,39 @@
     </label>
     <input type="number" id="otros_ahorros" name="otros_ahorros" required onblur="validarCampo(this)">
   </fieldset>
-    <div class="nav-buttons">
-      <button type="button" onclick="mostrarResultadoBasico()">Calcular</button>
-    </div>
 </div>
+  
+  <!-- 2. Gastos -->
+<div class="step" id="stepGastos">
+  <fieldset>
+    <legend>Gastos Anuales</legend>
+
+    <label for="pago_deudas">Pago por deudas
+      <span class="tooltip" data-tooltip="Pagos anuales de hipotecas, préstamos personales, automotrices, educativos y tarjetas de crédito.">🛈</span>
+    </label>
+    <input type="number" id="pago_deudas" name="pago_deudas" required onblur="validarCampo(this)">
+
+    <label for="gastos_diarios">Gastos diarios esenciales
+      <span class="tooltip" data-tooltip="Incluye supermercado, transporte, servicios públicos, telecomunicaciones y mantenimiento básico.">🛈</span>
+    </label>
+    <input type="number" id="gastos_diarios" name="gastos_diarios" required onblur="validarCampo(this)">
+
+    <label for="impuestos_anuales">Impuestos anuales
+      <span class="tooltip" data-tooltip="Pagos de impuestos federales, estatales, municipales, de propiedad y de vehículo.">🛈</span>
+    </label>
+    <input type="number" id="impuestos_anuales" name="impuestos_anuales" required onblur="validarCampo(this)">
+
+    <label for="seguros_anuales">Seguros anuales
+      <span class="tooltip" data-tooltip="Pagos de seguros de salud, vida, propiedad, auto y umbrella.">🛈</span>
+    </label>
+    <input type="number" id="seguros_anuales" name="seguros_anuales" required onblur="validarCampo(this)">
+
+    <div class="nav-buttons">
+      <button type="button" onclick="mostrarResultadoGastos()">Calcular</button>
+    </div>
+  </fieldset>
+</div>
+
   <!-- 🔵 Contenedor de Resultados -->
 <div id="resultadosContainer" style="display: none;">
   <h2>🟩 Resultado Calculado</h2>
@@ -51,8 +81,31 @@
     <p id="resultadoBasico">Resultado aún no calculado.</p>
   </div>
 </div>
-
 <script>
+  // Navegar entre secciones
+  function irASeccion(id) {
+    const pasos = document.querySelectorAll(".step");
+    pasos.forEach(p => p.classList.remove("active"));
+    const pasoActual = document.getElementById(id);
+    if (pasoActual) pasoActual.classList.add("active");
+
+    const botones = document.querySelectorAll(".nav-btn");
+    botones.forEach(b => b.classList.remove("active"));
+    const botonActivo = Array.from(botones).find(b => b.getAttribute("onclick")?.includes(id));
+    if (botonActivo) botonActivo.classList.add("active");
+  }
+
+  // Validar campo individual
+  function validarCampo(input) {
+    const valor = parseFloat(input.value);
+    if (isNaN(valor) || valor < 0) {
+      input.style.borderColor = "red";
+    } else {
+      input.style.borderColor = "#44008f";
+    }
+  }
+
+  // Calcular y mostrar resultado de Ingresos
   function mostrarResultadoBasico() {
     const campos = [
       "ingreso_bruto",
@@ -66,7 +119,6 @@
     campos.forEach(id => {
       const input = document.getElementById(id);
       const valor = parseFloat(input.value);
-
       if (isNaN(valor) || valor < 0) {
         input.classList.add("shake");
         input.style.borderColor = "red";
@@ -77,11 +129,8 @@
       }
     });
 
-    if (!camposValidos) {
-      return; // ⚠️ No calcules si hay campos inválidos
-    }
+    if (!camposValidos) return;
 
-    // ✅ Si todos los campos son válidos, calculamos
     const ingresoBruto = parseFloat(document.getElementById("ingreso_bruto").value) || 0;
     const aportePersonal = parseFloat(document.getElementById("aporte_personal_retiro").value) || 0;
     const aporteEmpleador = parseFloat(document.getElementById("aporte_empleador_retiro").value) || 0;
@@ -90,6 +139,7 @@
     const tasaAhorro = ingresoBruto > 0 ? (totalAhorros / ingresoBruto) * 100 : 0;
 
     const html = `
+      <h4>🟩 Ingresos Anuales</h4>
       <p><strong>Ingreso anual bruto:</strong> $${ingresoBruto.toLocaleString()}</p>
       <p><strong>Aporte personal a retiro:</strong> $${aportePersonal.toLocaleString()}</p>
       <p><strong>Aporte del empleador:</strong> $${aporteEmpleador.toLocaleString()}</p>
@@ -103,7 +153,74 @@
       contenedor.innerHTML = html;
       document.getElementById("resultadosContainer").style.display = "block";
     }
+
+    // Ir a gastos automáticamente
+    irASeccion("stepGastos");
+
+    // Aplicar shake si campos de gastos están vacíos
+    ["pago_deudas", "gastos_diarios", "impuestos_anuales", "seguros_anuales"].forEach(id => {
+      const input = document.getElementById(id);
+      const valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < 0) {
+        input.classList.add("shake");
+        input.style.borderColor = "red";
+        setTimeout(() => input.classList.remove("shake"), 300);
+      }
+    });
   }
+
+  // Calcular y mostrar resultado de Gastos
+  function mostrarResultadoGastos() {
+    const campos = [
+      "pago_deudas",
+      "gastos_diarios",
+      "impuestos_anuales",
+      "seguros_anuales"
+    ];
+
+    let camposValidos = true;
+
+    campos.forEach(id => {
+      const input = document.getElementById(id);
+      const valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < 0) {
+        input.classList.add("shake");
+        input.style.borderColor = "red";
+        camposValidos = false;
+        setTimeout(() => input.classList.remove("shake"), 300);
+      } else {
+        input.style.borderColor = "#44008f";
+      }
+    });
+
+    if (!camposValidos) return;
+
+    const deudas = parseFloat(document.getElementById("pago_deudas").value) || 0;
+    const diarios = parseFloat(document.getElementById("gastos_diarios").value) || 0;
+    const impuestos = parseFloat(document.getElementById("impuestos_anuales").value) || 0;
+    const seguros = parseFloat(document.getElementById("seguros_anuales").value) || 0;
+    const total = deudas + diarios + impuestos + seguros;
+
+    const html = `
+      <h4>🟨 Gastos Anuales</h4>
+      <p><strong>Pago por deudas:</strong> $${deudas.toLocaleString()}</p>
+      <p><strong>Gastos diarios esenciales:</strong> $${diarios.toLocaleString()}</p>
+      <p><strong>Impuestos:</strong> $${impuestos.toLocaleString()}</p>
+      <p><strong>Seguros:</strong> $${seguros.toLocaleString()}</p>
+      <p><strong>Total de gastos:</strong> $${total.toLocaleString()}</p>
+    `;
+
+    const contenedor = document.getElementById("resultadoGastos");
+    if (contenedor) {
+      contenedor.innerHTML = html;
+      document.getElementById("resultadosContainer").style.display = "block";
+    }
+  }
+
+  // Mostrar ingreso al cargar
+  document.addEventListener("DOMContentLoaded", () => {
+    irASeccion("stepIngresos");
+  });
 </script>
 
 </body>
