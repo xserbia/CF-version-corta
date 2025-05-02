@@ -53,16 +53,35 @@
 </div>
 
 <script>
-  function validarCampo(input) {
-    const valor = parseFloat(input.value);
-    if (isNaN(valor) || valor < 0) {
-      input.style.borderColor = "red";
-    } else {
-      input.style.borderColor = "#44008f";
-    }
-  }
-
   function mostrarResultadoBasico() {
+    const campos = [
+      "ingreso_bruto",
+      "aporte_personal_retiro",
+      "aporte_empleador_retiro",
+      "otros_ahorros"
+    ];
+
+    let camposValidos = true;
+
+    campos.forEach(id => {
+      const input = document.getElementById(id);
+      const valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < 0) {
+        input.classList.add("shake");
+        input.style.borderColor = "red";
+        camposValidos = false;
+        setTimeout(() => input.classList.remove("shake"), 300); // remover shake luego
+      } else {
+        input.style.borderColor = "#44008f";
+      }
+    });
+
+    if (!camposValidos) {
+      alert("❌ Por favor completa todos los campos con valores válidos.");
+      return;
+    }
+
+    // ✅ Si todos los campos están OK, mostrar resultados
     const ingresoBruto = parseFloat(document.getElementById("ingreso_bruto").value) || 0;
     const aportePersonal = parseFloat(document.getElementById("aporte_personal_retiro").value) || 0;
     const aporteEmpleador = parseFloat(document.getElementById("aporte_empleador_retiro").value) || 0;
@@ -79,26 +98,17 @@
       <p><strong>Tasa de ahorro:</strong> ${tasaAhorro.toFixed(1)}%</p>
     `;
 
-    document.getElementById("resultadoBasico").innerHTML = html;
+    const contenedor = document.getElementById("resultadoBasico");
+    if (!contenedor) {
+      console.warn("🚨 No se encontró el elemento #resultadoBasico en el DOM");
+      return;
+    }
+
+    contenedor.innerHTML = html;
     document.getElementById("resultadosContainer").style.display = "block";
   }
-
-  function irASeccion(id) {
-    const pasos = document.querySelectorAll(".step");
-    pasos.forEach(p => p.classList.remove("active"));
-    const pasoActual = document.getElementById(id);
-    if (pasoActual) pasoActual.classList.add("active");
-
-    const botones = document.querySelectorAll(".nav-btn");
-    botones.forEach(b => b.classList.remove("active"));
-    const botonActivo = Array.from(botones).find(b => b.getAttribute("onclick")?.includes(id));
-    if (botonActivo) botonActivo.classList.add("active");
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    irASeccion("stepIngresos");
-  });
 </script>
+
 
 
 </body>
