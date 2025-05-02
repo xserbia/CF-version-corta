@@ -14,6 +14,7 @@
 <div id="topNav" class="top-navigation">
   <button class="nav-btn active" onclick="irASeccion('stepIngresos')">Ingreso</button>
   <button id="btnGastos" class="nav-btn" onclick="validarAntesDeIrAGastos()" disabled>Gastos</button>
+  <button id="btnActivos" class="nav-btn" onclick="validarAntesDeIrAActivos()" disabled>Activos</button>
 </div>
 
 <!-- 🔹 FORMULARIO: Step Ingresos -->
@@ -67,28 +68,65 @@
       <span class="tooltip" data-tooltip="Pagos de seguros de salud, vida, propiedad, auto y umbrella.">🛈</span>
     </label>
     <input type="number" id="seguros_anuales" name="seguros_anuales" required onblur="validarCampo(this)">
+  </fieldset>
+</div>
+
+  <!-- 3. Activos -->
+<div class="step" id="stepActivos">
+  <fieldset>
+    <legend>Activos</legend>
+
+    <label for="efectivo_similar">Efectivo y similares
+      <span class="tooltip" data-tooltip="Cuentas bancarias, efectivo, money market.">🛈</span>
+    </label>
+    <input type="number" id="efectivo_similar" name="efectivo_similar" required onblur="validarCampo(this)">
+
+    <label for="cuentas_inversion">Cuentas de inversión (no retiro)
+      <span class="tooltip" data-tooltip="Fondos mutuos, acciones, bonos.">🛈</span>
+    </label>
+    <input type="number" id="cuentas_inversion" name="cuentas_inversion" required onblur="validarCampo(this)">
+
+    <label for="cuentas_retiro">Cuentas de retiro
+      <span class="tooltip" data-tooltip="401(k), IRA, Roth, etc.">🛈</span>
+    </label>
+    <input type="number" id="cuentas_retiro" name="cuentas_retiro" required onblur="validarCampo(this)">
+
+    <label for="valor_propiedades">Propiedades
+      <span class="tooltip" data-tooltip="Valor de tus viviendas o propiedades de inversión.">🛈</span>
+    </label>
+    <input type="number" id="valor_propiedades" name="valor_propiedades" required onblur="validarCampo(this)">
+
+    <label for="otros_activos">Otros activos
+      <span class="tooltip" data-tooltip="Autos, joyas, arte, etc.">🛈</span>
+    </label>
+    <input type="number" id="otros_activos" name="otros_activos" required onblur="validarCampo(this)">
 
     <div class="nav-buttons">
-      <button type="button" onclick="mostrarResultadoGastos()">Calcular</button>
+      <button type="button" onclick="mostrarResultadoActivos()">Calcular</button>
     </div>
   </fieldset>
 </div>
 
 <!-- 🔵 Contenedor de Resultados -->
 <div id="resultadosContainer" style="display: none;">
-  <h2>🟩 Resultado Calculado</h2>
+  <h2>🧮 Resultado Calculado</h2>
 
-  <!-- 🅰️ Resultados de Ingresos -->
-  <div id="resA" class="resultado-categoria">
+  <!-- 🅰 Ingresos -->
+  <div id="resA" class="resultado-categoria mostrar">
     <p id="resultadoBasico">Resultado aún no calculado.</p>
   </div>
 
-  <!-- 🅱️ Resultados de Gastos -->
+  <!-- 🅱 Gastos -->
   <div id="resB" class="resultado-categoria"></div>
+
+  <!-- 🅲 Activos -->
+  <div id="resC" class="resultado-categoria"></div>
+</div>
 
   <!-- 🔁 En uso temporal -->
   <div id="resultadoGastos" style="margin-top: 20px;"></div>
 </div>
+  
 
 <script>
   // Navegar entre secciones
@@ -114,7 +152,7 @@
     }
   }
 
-  // Mostrar resultado de ingresos y pasar a gastos
+  // 🅰️ Mostrar resultado de ingresos y pasar a gastos
   function mostrarResultadoBasico() {
     const campos = [
       "ingreso_bruto",
@@ -157,20 +195,16 @@
       <p><strong>Tasa de ahorro:</strong> ${tasaAhorro.toFixed(1)}%</p>
     `;
 
-    const contenedor = document.getElementById("resultadoBasico");
-    if (contenedor) {
-      contenedor.innerHTML = html;
-      document.getElementById("resultadosContainer").style.display = "block";
-    }
+    document.getElementById("resultadoBasico").innerHTML = html;
+    document.getElementById("resultadosContainer").style.display = "block";
 
     // ✅ Activar botón de navegación a Gastos
-    const btnGastos = document.getElementById("btnGastos");
-    if (btnGastos) btnGastos.disabled = false;
+    document.getElementById("btnGastos").disabled = false;
 
-    // ✅ Cambiar a sección gastos
+    // Ir a sección gastos
     irASeccion("stepGastos");
 
-    // Aplicar shake si campos de gastos están vacíos
+    // Shake campos si no han sido completados
     ["pago_deudas", "gastos_diarios", "impuestos_anuales", "seguros_anuales"].forEach(id => {
       const input = document.getElementById(id);
       const valor = parseFloat(input.value);
@@ -182,7 +216,7 @@
     });
   }
 
-  // Mostrar resultado de gastos
+  // 🅱️ Mostrar resultado de gastos y pasar a activos
   function mostrarResultadoGastos() {
     const campos = [
       "pago_deudas",
@@ -223,16 +257,70 @@
       <p><strong>Total de gastos:</strong> $${total.toLocaleString()}</p>
     `;
 
-    const contenedor = document.getElementById("resB");
-    if (contenedor) {
-      contenedor.innerHTML = html;
-      document.getElementById("resultadosContainer").style.display = "block";
-    }
+    document.getElementById("resB").innerHTML = html;
+    document.getElementById("resultadosContainer").style.display = "block";
+
+    // ✅ Activar botón de navegación a Activos
+    document.getElementById("btnActivos").disabled = false;
+
+    // Ir a sección activos
+    irASeccion("stepActivos");
   }
 
-  // ✅ Prevenir acceso a Gastos desde nav si Ingresos no está completo
+  // 🟦 Mostrar resultado de activos
+  function mostrarResultadoActivos() {
+    const campos = [
+      "efectivo_similar",
+      "cuentas_inversion",
+      "cuentas_retiro",
+      "valor_propiedades",
+      "otros_activos"
+    ];
+
+    let camposValidos = true;
+
+    campos.forEach(id => {
+      const input = document.getElementById(id);
+      const valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < 0) {
+        input.classList.add("shake");
+        input.style.borderColor = "red";
+        camposValidos = false;
+        setTimeout(() => input.classList.remove("shake"), 300);
+      } else {
+        input.style.borderColor = "#44008f";
+      }
+    });
+
+    if (!camposValidos) return;
+
+    const efectivo = parseFloat(document.getElementById("efectivo_similar").value) || 0;
+    const inversiones = parseFloat(document.getElementById("cuentas_inversion").value) || 0;
+    const retiro = parseFloat(document.getElementById("cuentas_retiro").value) || 0;
+    const propiedades = parseFloat(document.getElementById("valor_propiedades").value) || 0;
+    const otros = parseFloat(document.getElementById("otros_activos").value) || 0;
+    const total = efectivo + inversiones + retiro + propiedades + otros;
+
+    const html = `
+      <h4>🟦 Activos Totales</h4>
+      <p><strong>Efectivo y similares:</strong> $${efectivo.toLocaleString()}</p>
+      <p><strong>Cuentas de inversión:</strong> $${inversiones.toLocaleString()}</p>
+      <p><strong>Cuentas de retiro:</strong> $${retiro.toLocaleString()}</p>
+      <p><strong>Propiedades:</strong> $${propiedades.toLocaleString()}</p>
+      <p><strong>Otros activos:</strong> $${otros.toLocaleString()}</p>
+      <p><strong>Total de activos:</strong> $${total.toLocaleString()}</p>
+    `;
+
+    document.getElementById("resC").innerHTML = html;
+    document.getElementById("resultadosContainer").style.display = "block";
+
+    // Si quisieras activar btnPasivos aquí, podrías hacerlo:
+    // document.getElementById("btnPasivos").disabled = false;
+  }
+
+  // Validar antes de pasar a Gastos desde topNav
   function validarAntesDeIrAGastos() {
-    const camposIngresos = [
+    const campos = [
       "ingreso_bruto",
       "aporte_personal_retiro",
       "aporte_empleador_retiro",
@@ -241,7 +329,7 @@
 
     let completado = true;
 
-    camposIngresos.forEach(id => {
+    campos.forEach(id => {
       const input = document.getElementById(id);
       const valor = parseFloat(input.value);
       if (isNaN(valor) || valor < 0) {
@@ -259,12 +347,38 @@
     }
   }
 
-  // Mostrar ingreso por defecto al cargar
+  // Validar antes de pasar a Activos desde topNav
+  function validarAntesDeIrAActivos() {
+    const campos = [
+      "pago_deudas",
+      "gastos_diarios",
+      "impuestos_anuales",
+      "seguros_anuales"
+    ];
+
+    let completado = true;
+
+    campos.forEach(id => {
+      const input = document.getElementById(id);
+      const valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < 0) {
+        input.classList.add("shake");
+        input.style.borderColor = "red";
+        completado = false;
+        setTimeout(() => input.classList.remove("shake"), 300);
+      }
+    });
+
+    if (completado) {
+      irASeccion("stepActivos");
+    }
+  }
+
+  // Al cargar, mostrar la sección de ingresos
   document.addEventListener("DOMContentLoaded", () => {
     irASeccion("stepIngresos");
   });
 </script>
-
 
 </body>
 </html>
