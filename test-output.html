@@ -13,7 +13,7 @@
 <!-- 🔝 Navegación superior -->
 <div id="topNav" class="top-navigation">
   <button class="nav-btn active" onclick="irASeccion('stepIngresos')">Ingreso</button>
-  <button class="nav-btn" onclick="irASeccion('stepGastos')">Gastos</button>
+  <button class="nav-btn" onclick="validarAntesDeIrAGastos()">Gastos</button>
 </div>
 
 <!-- 🔹 FORMULARIO: Step Ingresos -->
@@ -95,7 +95,7 @@
     if (botonActivo) botonActivo.classList.add("active");
   }
 
-  // Validar campo individual
+  // Validar campo individual visualmente
   function validarCampo(input) {
     const valor = parseFloat(input.value);
     if (isNaN(valor) || valor < 0) {
@@ -105,7 +105,7 @@
     }
   }
 
-  // Calcular y mostrar resultado de Ingresos
+  // Mostrar resultado de ingresos y pasar a gastos
   function mostrarResultadoBasico() {
     const campos = [
       "ingreso_bruto",
@@ -154,7 +154,7 @@
       document.getElementById("resultadosContainer").style.display = "block";
     }
 
-    // Ir a gastos automáticamente
+    // Cambiar a sección gastos
     irASeccion("stepGastos");
 
     // Aplicar shake si campos de gastos están vacíos
@@ -169,7 +169,7 @@
     });
   }
 
-  // Calcular y mostrar resultado de Gastos
+  // Mostrar resultado de gastos
   function mostrarResultadoGastos() {
     const campos = [
       "pago_deudas",
@@ -217,7 +217,36 @@
     }
   }
 
-  // Mostrar ingreso al cargar
+  // Bloquear acceso a sección gastos desde top nav si no se han completado ingresos
+  function validarAntesDeIrAGastos() {
+    const camposIngresos = [
+      "ingreso_bruto",
+      "aporte_personal_retiro",
+      "aporte_empleador_retiro",
+      "otros_ahorros"
+    ];
+
+    let completado = true;
+
+    camposIngresos.forEach(id => {
+      const input = document.getElementById(id);
+      const valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < 0) {
+        input.classList.add("shake");
+        input.style.borderColor = "red";
+        completado = false;
+        setTimeout(() => input.classList.remove("shake"), 300);
+      } else {
+        input.style.borderColor = "#44008f";
+      }
+    });
+
+    if (completado) {
+      irASeccion("stepGastos");
+    }
+  }
+
+  // Mostrar ingreso por defecto al cargar
   document.addEventListener("DOMContentLoaded", () => {
     irASeccion("stepIngresos");
   });
