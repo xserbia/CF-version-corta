@@ -21,32 +21,24 @@
     <legend>Ingresos y Ahorros</legend>
 
     <label for="ingreso_bruto">Ingreso anual bruto
-      <span class="tooltip">🛈
-        <span class="tooltiptext">Suma total de ingresos antes de impuestos: salario, negocio, bonos, dividendos, rentas, etc.</span>
-      </span>
-    </label><br>
-    <input type="number" id="ingreso_bruto" name="ingreso_bruto" required onblur="validarCampo(this)"><br><br>
+      <span class="tooltip" data-tooltip="Suma total de ingresos antes de impuestos: salario, negocio, bonos, dividendos, rentas, etc.">🛈</span>
+    </label>
+    <input type="number" id="ingreso_bruto" name="ingreso_bruto" required onblur="validarCampo(this)">
 
     <label for="aporte_personal_retiro">Aporte personal a retiro
-      <span class="tooltip">🛈
-        <span class="tooltiptext">Aporte que realizas de tu salario hacia tu fondo de retiro 401k, IRA, o similar.</span>
-      </span>
-    </label><br>
-    <input type="number" id="aporte_personal_retiro" name="aporte_personal_retiro" required onblur="validarCampo(this)"><br><br>
+      <span class="tooltip" data-tooltip="Aporte que realizas de tu salario hacia tu fondo de retiro 401k, IRA, o similar.">🛈</span>
+    </label>
+    <input type="number" id="aporte_personal_retiro" name="aporte_personal_retiro" required onblur="validarCampo(this)">
 
     <label for="aporte_empleador_retiro">Aporte del empleador a retiro
-      <span class="tooltip">🛈
-        <span class="tooltiptext">Aporte que tu empleador realiza a tu fondo de retiro, si aplica.</span>
-      </span>
-    </label><br>
-    <input type="number" id="aporte_empleador_retiro" name="aporte_empleador_retiro" required onblur="validarCampo(this)"><br><br>
+      <span class="tooltip" data-tooltip="Aporte que tu empleador realiza a tu fondo de retiro, si aplica.">🛈</span>
+    </label>
+    <input type="number" id="aporte_empleador_retiro" name="aporte_empleador_retiro" required onblur="validarCampo(this)">
 
     <label for="otros_ahorros">Otros ahorros
-      <span class="tooltip">🛈
-        <span class="tooltiptext">Cualquier otra forma de ahorro anual: ahorro bancario, fondos de emergencia, etc.</span>
-      </span>
-    </label><br>
-    <input type="number" id="otros_ahorros" name="otros_ahorros" required onblur="validarCampo(this)"><br><br>
+      <span class="tooltip" data-tooltip="Cualquier otra forma de ahorro anual: ahorro bancario, fondos de emergencia, etc.">🛈</span>
+    </label>
+    <input type="number" id="otros_ahorros" name="otros_ahorros" required onblur="validarCampo(this)">
 
     <div class="nav-buttons">
       <button type="button" onclick="mostrarResultadoBasico()">Calcular</button>
