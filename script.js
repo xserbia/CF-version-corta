@@ -1,5 +1,3 @@
-// --- script.js completo ---
-
 // ✅ Navegar entre secciones del formulario
 function irASeccion(id) {
   const pasos = document.querySelectorAll(".step");
@@ -168,33 +166,11 @@ function mostrarResultadoPasivos() {
   document.getElementById("resultadosContainer").style.display = "block";
   mostrarResultado("resD");
 
+  // Autoejecutar liquidez
   mostrarResultadoLiquidez(data);
 }
 
-// ✅ Al cargar la página
+// ✅ Al cargar
 document.addEventListener("DOMContentLoaded", () => {
   irASeccion("stepIngresos");
 });
-function validarAntesDeIrAGastos() {
-  const campos = [
-    "ingreso_bruto",
-    "aporte_personal_retiro",
-    "aporte_empleador_retiro",
-    "otros_ahorros"
-  ];
-
-  let completado = true;
-  campos.forEach(id => {
-    const input = document.getElementById(id);
-    const valor = parseFloat(input.value);
-    if (isNaN(valor) || valor < 0) {
-      input.classList.add("shake");
-      input.style.borderColor = "red";
-      completado = false;
-      setTimeout(() => input.classList.remove("shake"), 300);
-    }
-  });
-
-  if (completado) irASeccion("stepGastos");
-}
-
