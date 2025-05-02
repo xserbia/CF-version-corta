@@ -307,15 +307,16 @@
     </div>
   </div>
 
-  <script>
-    function mostrarResultadoBasico() {
-      const resultadoContainer = document.getElementById("resultadosContainer");
-      const resultadoTexto = document.getElementById("resultadoBasico");
+<script>
+  function mostrarResultadoBasico() {
+    const resultadoContainer = document.getElementById("resultadosContainer");
+    const resultadoTexto = document.getElementById("resultadoBasico");
 
-      resultadoTexto.textContent = "✅ Cálculo exitoso. Resultado mostrado correctamente.";
-      resultadoContainer.style.display = "block";
-    }
-      function irASeccion(id) {
+    resultadoTexto.textContent = "✅ Cálculo exitoso. Resultado mostrado correctamente.";
+    resultadoContainer.style.display = "block";
+  }
+
+  function irASeccion(id) {
     // Oculta todos los pasos
     const pasos = document.querySelectorAll(".step");
     pasos.forEach(p => p.classList.remove("active"));
@@ -327,7 +328,12 @@
     // Marca el botón del topNav como activo
     const botones = document.querySelectorAll(".nav-btn");
     botones.forEach(b => b.classList.remove("active"));
-    const btn = Array.from(botones).find(b => b.textContent.trim().toLowerCase().includes(pasoActual.id.replace('step', '').toLowerCase()));
+
+    const btn = Array.from(botones).find(b => {
+      const onclickAttr = b.getAttribute("onclick");
+      return onclickAttr && onclickAttr.includes(id);
+    });
+
     if (btn) btn.classList.add("active");
   }
 
@@ -348,7 +354,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     irASeccion("stepIngresos");
   });
-  </script>
+</script>
 
 </body>
 </html>
