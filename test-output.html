@@ -44,6 +44,14 @@
       <button type="button" onclick="mostrarResultadoBasico()">Calcular</button>
     </div>
 </div>
+  <!-- 🔵 Contenedor de Resultados -->
+<div id="resultadosContainer" style="display: none;">
+  <h2>🟩 Resultado Calculado</h2>
+  <div id="resA" class="resultado-categoria">
+    <p id="resultadoBasico">Resultado aún no calculado.</p>
+  </div>
+</div>
+
 <script>
   function validarCampo(input) {
     const valor = parseFloat(input.value);
