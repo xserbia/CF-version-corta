@@ -315,6 +315,39 @@
       resultadoTexto.textContent = "✅ Cálculo exitoso. Resultado mostrado correctamente.";
       resultadoContainer.style.display = "block";
     }
+      function irASeccion(id) {
+    // Oculta todos los pasos
+    const pasos = document.querySelectorAll(".step");
+    pasos.forEach(p => p.classList.remove("active"));
+
+    // Muestra el paso actual
+    const pasoActual = document.getElementById(id);
+    if (pasoActual) pasoActual.classList.add("active");
+
+    // Marca el botón del topNav como activo
+    const botones = document.querySelectorAll(".nav-btn");
+    botones.forEach(b => b.classList.remove("active"));
+    const btn = Array.from(botones).find(b => b.textContent.trim().toLowerCase().includes(pasoActual.id.replace('step', '').toLowerCase()));
+    if (btn) btn.classList.add("active");
+  }
+
+  function guardarDatosYAvanzar(idSiguientePaso) {
+    irASeccion(idSiguientePaso);
+  }
+
+  function validarCampo(input) {
+    const valor = parseFloat(input.value);
+    if (isNaN(valor) || valor < 0) {
+      input.style.borderColor = "red";
+    } else {
+      input.style.borderColor = "#44008f";
+    }
+  }
+
+  // Mostrar el primer paso al cargar
+  document.addEventListener("DOMContentLoaded", () => {
+    irASeccion("stepIngresos");
+  });
   </script>
 
 </body>
