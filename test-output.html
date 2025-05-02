@@ -108,9 +108,50 @@
     <input type="number" id="otros_activos" name="otros_activos" required onblur="validarCampo(this)">
 
     <div class="nav-buttons">
-      <button type="button" onclick="mostrarResultadoActivos()">Calcular</button>
+      <button type="button" onclick="validarActivosYActivarPasivos()">Calcular</button>
     </div>
   </fieldset>
+</div>
+
+  <!-- 4. Pasivos -->
+<div class="step" id="stepPasivos">
+  <fieldset>
+    <legend>Pasivos</legend>
+
+    <label for="deuda_tarjetas">Deuda de tarjetas de crédito
+      <span class="tooltip" data-tooltip="Saldo total actual de todas tus tarjetas de crédito.">🛈</span>
+    </label>
+    <input type="number" id="deuda_tarjetas" name="deuda_tarjetas" required onblur="validarCampo(this)">
+
+    <label for="deuda_hipotecaria">Hipoteca o préstamo de vivienda
+      <span class="tooltip" data-tooltip="Saldo pendiente de tu hipoteca principal o préstamo de vivienda.">🛈</span>
+    </label>
+    <input type="number" id="deuda_hipotecaria" name="deuda_hipotecaria" required onblur="validarCampo(this)">
+
+    <label for="deuda_comercial">Deuda comercial
+      <span class="tooltip" data-tooltip="Saldo actual de préstamos comerciales si eres dueño de un negocio.">🛈</span>
+    </label>
+    <input type="number" id="deuda_comercial" name="deuda_comercial" required onblur="validarCampo(this)">
+
+    <label for="deuda_vehiculos">Préstamos de vehículos
+      <span class="tooltip" data-tooltip="Saldo pendiente de tus préstamos de autos, motocicletas u otros vehículos.">🛈</span>
+    </label>
+    <input type="number" id="deuda_vehiculos" name="deuda_vehiculos" required onblur="validarCampo(this)">
+
+    <label for="deuda_estudios">Deuda estudiantil
+      <span class="tooltip" data-tooltip="Saldo restante de tus préstamos educativos o universitarios.">🛈</span>
+    </label>
+    <input type="number" id="deuda_estudios" name="deuda_estudios" required onblur="validarCampo(this)">
+
+    <label for="deuda_otros">Otras deudas
+      <span class="tooltip" data-tooltip="Cualquier otro saldo de deuda no clasificada anteriormente.">🛈</span>
+    </label>
+    <input type="number" id="deuda_otros" name="deuda_otros" required onblur="validarCampo(this)">
+
+  </fieldset>
+  <div class="nav-buttons">
+    <button type="button" onclick="mostrarResultadoPasivos()">Calcular</button>
+  </div>
 </div>
 
 <!-- 🔵 Contenedor de Resultados -->
@@ -118,6 +159,8 @@
   <button class="nav-btn" onclick="mostrarResultado('resA')">🅰 Liquidez</button>
   <button class="nav-btn" onclick="mostrarResultado('resB')">🅱 Deuda</button>
   <button class="nav-btn" onclick="mostrarResultado('resC')">🅲 Patrimonio Neto</button>
+  <button class="nav-btn" onclick="mostrarResultado('resD')">🅳 Seguridad Financiera</button>
+
 </div>
 <!-- 🧾 Contenedor de resultados -->
 <div id="resultadosContainer" style="display: block;">
@@ -137,7 +180,12 @@
   <div id="resC" class="resultado-categoria">
     <p>💰 Este es el resultado C: Patrimonio Neto</p>
   </div>
+  
+  <!-- 🅳 Pasivos -->
+<div id="resD" class="resultado-categoria">
+  <p>📉 Este es el resultado D: Pasivos</p>
 </div>
+  
 <script>
   // ✅ Cambiar de sección del formulario
   function irASeccion(id) {
