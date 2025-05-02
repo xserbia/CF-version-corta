@@ -66,22 +66,22 @@
     campos.forEach(id => {
       const input = document.getElementById(id);
       const valor = parseFloat(input.value);
+
       if (isNaN(valor) || valor < 0) {
         input.classList.add("shake");
         input.style.borderColor = "red";
         camposValidos = false;
-        setTimeout(() => input.classList.remove("shake"), 300); // remover shake luego
+        setTimeout(() => input.classList.remove("shake"), 300);
       } else {
         input.style.borderColor = "#44008f";
       }
     });
 
     if (!camposValidos) {
-      alert("❌ Por favor completa todos los campos con valores válidos.");
-      return;
+      return; // ⚠️ No calcules si hay campos inválidos
     }
 
-    // ✅ Si todos los campos están OK, mostrar resultados
+    // ✅ Si todos los campos son válidos, calculamos
     const ingresoBruto = parseFloat(document.getElementById("ingreso_bruto").value) || 0;
     const aportePersonal = parseFloat(document.getElementById("aporte_personal_retiro").value) || 0;
     const aporteEmpleador = parseFloat(document.getElementById("aporte_empleador_retiro").value) || 0;
@@ -99,17 +99,12 @@
     `;
 
     const contenedor = document.getElementById("resultadoBasico");
-    if (!contenedor) {
-      console.warn("🚨 No se encontró el elemento #resultadoBasico en el DOM");
-      return;
+    if (contenedor) {
+      contenedor.innerHTML = html;
+      document.getElementById("resultadosContainer").style.display = "block";
     }
-
-    contenedor.innerHTML = html;
-    document.getElementById("resultadosContainer").style.display = "block";
   }
 </script>
-
-
 
 </body>
 </html>
