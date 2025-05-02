@@ -74,13 +74,22 @@
   </fieldset>
 </div>
 
-  <!-- 🔵 Contenedor de Resultados -->
+<!-- 🔵 Contenedor de Resultados -->
 <div id="resultadosContainer" style="display: none;">
   <h2>🟩 Resultado Calculado</h2>
+
+  <!-- 🅰️ Resultados de Ingresos -->
   <div id="resA" class="resultado-categoria">
     <p id="resultadoBasico">Resultado aún no calculado.</p>
   </div>
+
+  <!-- 🅱️ Resultados de Gastos -->
+  <div id="resB" class="resultado-categoria"></div>
+
+  <!-- 🔁 En uso temporal -->
+  <div id="resultadoGastos" style="margin-top: 20px;"></div>
 </div>
+
 <script>
   // Navegar entre secciones
   function irASeccion(id) {
