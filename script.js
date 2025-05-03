@@ -197,4 +197,33 @@ function validarAntesDeIrAGastos() {
 
   if (completado) irASeccion("stepGastos");
 }
+function validarCampo(input) {
+  if (!input.value || isNaN(input.value) || parseFloat(input.value) < 0) {
+    input.classList.add("shake");
+    input.style.borderColor = "red";
+    setTimeout(() => input.classList.remove("shake"), 300);
+    return false;
+  } else {
+    input.style.borderColor = "#2563eb";
+    return true;
+  }
+}
+function validarAntesDeIrAActivos() {
+  const campos = [
+    document.getElementById("pago_deudas"),
+    document.getElementById("gastos_diarios"),
+    document.getElementById("impuestos_anuales"),
+    document.getElementById("seguros_anuales")
+  ];
 
+  let todoValido = true;
+  campos.forEach(campo => {
+    if (!validarCampo(campo)) {
+      todoValido = false;
+    }
+  });
+
+  if (todoValido) {
+    irASeccion('stepActivos');
+  }
+}
