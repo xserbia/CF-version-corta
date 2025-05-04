@@ -227,3 +227,28 @@ function validarAntesDeIrAActivos() {
     irASeccion('stepActivos');
   }
 }
+function validarAntesDeIrAPasivos() {
+  const campos = [
+    "efectivo_similar",
+    "cuentas_inversion",
+    "cuentas_retiro",
+    "valor_propiedades",
+    "otros_activos"
+  ];
+
+  let completado = true;
+
+  campos.forEach(id => {
+    const input = document.getElementById(id);
+    const valor = parseFloat(input.value);
+    if (isNaN(valor) || valor < 0) {
+      input.classList.add("shake");
+      input.style.borderColor = "red";
+      completado = false;
+      setTimeout(() => input.classList.remove("shake"), 300);
+    }
+  });
+
+  if (completado) irASeccion("stepPasivos");
+}
+
