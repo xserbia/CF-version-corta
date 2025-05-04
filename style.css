@@ -215,12 +215,17 @@ button:active {
 /* Navegador de resultados */
 #navResultados {
   display: flex !important;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* ⬅️ Fuerza alineación horizontal */
   justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
+  overflow-x: auto; /* ⬅️ Permite scroll horizontal si hay muchos botones */
   opacity: 1 !important;
   visibility: visible !important;
+}
+
+.nav-btn {
+  flex: 0 0 auto; /* ⬅️ Evita que se compriman y permite scroll */
 }
 
 .resultado-categoria {
