@@ -162,51 +162,51 @@ function mostrarResultadoLiquidez(data) {
   const capacidad = ingreso > 0 ? ((ahorro + superavit) / ingreso) * 100 : 0;
   const tasaAhorro = ingreso > 0 ? (ahorro / ingreso) * 100 : 0;
 
-  const html = `
-    <h4>💧 Indicadores de Liquidez</h4>
-    <table class="tabla-resultados">
-      <thead>
-        <tr>
-          <th>Indicador</th>
-          <th>Resultado</th>
-          <th>Benchmark</th>
-          <th>Explicación</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Tasa de ahorro</td>
-          <td>${tasaAhorro.toFixed(1)}% ${iconoLiquidez(tasaAhorro, "tasa_ahorro")}</td>
-          <td>≥ 30% ✅ · 15%-29% ⚠️ · < 15% 🚨</td>
-          <td>Porcentaje del ingreso que se destina al ahorro anual</td>
-        </tr>
-        <tr>
-          <td>Superávit</td>
-          <td>${superavitPct.toFixed(1)}% ${iconoLiquidez(superavitPct, "superavit")}</td>
-          <td>< 0 🚨 · 0–15% ⚠️ · >15% ✅</td>
-          <td>Diferencia entre ingreso y gastos (sin contar ahorro)</td>
-        </tr>
-        <tr>
-          <td>Reserva de emergencia</td>
-          <td>${reservaMeses.toFixed(1)} meses ${iconoLiquidez(reservaMeses, "reserva")}</td>
-          <td>> 36 🔁 · 12–36 ✅ · 6–12 ⚠️ · < 6 🚨</td>
-          <td>Meses de gastos cubiertos con efectivo disponible</td>
-        </tr>
-        <tr>
-          <td>Razón corriente</td>
-          <td>${razonCorriente.toFixed(2)} ${iconoLiquidez(razonCorriente, "razon")}</td>
-          <td>> 1.00 ✅ · < 1.00 🚨</td>
-          <td>Relación entre efectivo y deuda anual</td>
-        </tr>
-        <tr>
-          <td>Capacidad de acumulación</td>
-          <td>${capacidad.toFixed(1)}% ${iconoLiquidez(capacidad, "capacidad")}</td>
-          <td>> 50% 🔁 · 15%-50% ✅ · 0%-15% ⚠️ · < 0% 🚨</td>
-          <td>Suma de ahorro y superávit sobre ingreso anual</td>
-        </tr>
-      </tbody>
-    </table>
-  `;
+const html = `
+  <h4>💧 Indicadores de Liquidez</h4>
+  <table class="tabla-resultados">
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>Resultado</th>
+        <th>Benchmark</th>
+        <th>Explicación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Indicador">Tasa de ahorro</td>
+        <td data-label="Resultado">${tasaAhorro.toFixed(1)}% ${iconoLiquidez(tasaAhorro, "tasa_ahorro")}</td>
+        <td data-label="Benchmark">≥ 30% ✅ · 15%-29% ⚠️ · < 15% 🚨</td>
+        <td data-label="Explicación">Porcentaje del ingreso que se destina al ahorro anual</td>
+      </tr>
+      <tr>
+        <td data-label="Indicador">Superávit</td>
+        <td data-label="Resultado">${superavitPct.toFixed(1)}% ${iconoLiquidez(superavitPct, "superavit")}</td>
+        <td data-label="Benchmark">< 0 🚨 · 0–15% ⚠️ · >15% ✅</td>
+        <td data-label="Explicación">Diferencia entre ingreso y gastos (sin contar ahorro)</td>
+      </tr>
+      <tr>
+        <td data-label="Indicador">Reserva de emergencia</td>
+        <td data-label="Resultado">${reservaMeses.toFixed(1)} meses ${iconoLiquidez(reservaMeses, "reserva")}</td>
+        <td data-label="Benchmark">> 36 🔁 · 12–36 ✅ · 6–12 ⚠️ · < 6 🚨</td>
+        <td data-label="Explicación">Meses de gastos cubiertos con efectivo disponible</td>
+      </tr>
+      <tr>
+        <td data-label="Indicador">Razón corriente</td>
+        <td data-label="Resultado">${razonCorriente.toFixed(2)} ${iconoLiquidez(razonCorriente, "razon")}</td>
+        <td data-label="Benchmark">> 1.00 ✅ · < 1.00 🚨</td>
+        <td data-label="Explicación">Relación entre efectivo y deuda anual</td>
+      </tr>
+      <tr>
+        <td data-label="Indicador">Capacidad de acumulación</td>
+        <td data-label="Resultado">${capacidad.toFixed(1)}% ${iconoLiquidez(capacidad, "capacidad")}</td>
+        <td data-label="Benchmark">> 50% 🔁 · 15%-50% ✅ · 0%-15% ⚠️ · < 0% 🚨</td>
+        <td data-label="Explicación">Suma de ahorro y superávit sobre ingreso anual</td>
+      </tr>
+    </tbody>
+  </table>
+`;
 
   document.getElementById("resA").innerHTML = html;
 }
@@ -238,39 +238,39 @@ function mostrarResultadoPasivos() {
   const deudaActivos = activos > 0 ? (deudaTotal / activos) * 100 : 0;
   const deudaPatrimonio = patrimonio > 0 ? (deudaTotal / patrimonio) * 100 : 999;
 
-  const htmlB = `
-    <h4>🅱️ Indicadores de Endeudamiento</h4>
-    <table class="tabla-resultados">
-      <thead>
-        <tr>
-          <th>Indicador</th>
-          <th>Resultado</th>
-          <th>Benchmark</th>
-          <th>Explicación</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>DTI / ingreso bruto</td>
-          <td>${dti.toFixed(1)}% ${iconoEndeudamiento(dti, "dti")}</td>
-          <td>≤ 30% ✅ · > 30% 🚨</td>
-          <td>Porcentaje del ingreso bruto destinado a todas las deudas</td>
-        </tr>
-        <tr>
-          <td>Deuda / activos totales</td>
-          <td>${deudaActivos.toFixed(1)}% ${iconoEndeudamiento(deudaActivos, "deuda_activos")}</td>
-          <td>≤ 50% ✅ · > 50% ⚠️</td>
-          <td>Proporción de deuda total sobre activos</td>
-        </tr>
-        <tr>
-          <td>Deuda / patrimonio neto</td>
-          <td>${deudaPatrimonio.toFixed(1)}% ${iconoEndeudamiento(deudaPatrimonio, "deuda_patrimonio")}</td>
-          <td>≤ 50% ✅ · 51–100% ⚠️ · > 100% 🚨</td>
-          <td>Proporción de deuda total sobre patrimonio</td>
-        </tr>
-      </tbody>
-    </table>
-  `;
+const htmlB = `
+  <h4>🅱️ Indicadores de Endeudamiento</h4>
+  <table class="tabla-resultados">
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>Resultado</th>
+        <th>Benchmark</th>
+        <th>Explicación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Indicador">DTI / ingreso bruto</td>
+        <td data-label="Resultado">${dti.toFixed(1)}% ${iconoEndeudamiento(dti, "dti")}</td>
+        <td data-label="Benchmark">≤ 30% ✅ · > 30% 🚨</td>
+        <td data-label="Explicación">Porcentaje del ingreso bruto destinado a todas las deudas</td>
+      </tr>
+      <tr>
+        <td data-label="Indicador">Deuda / activos totales</td>
+        <td data-label="Resultado">${deudaActivos.toFixed(1)}% ${iconoEndeudamiento(deudaActivos, "deuda_activos")}</td>
+        <td data-label="Benchmark">≤ 50% ✅ · > 50% ⚠️</td>
+        <td data-label="Explicación">Proporción de deuda total sobre activos</td>
+      </tr>
+      <tr>
+        <td data-label="Indicador">Deuda / patrimonio neto</td>
+        <td data-label="Resultado">${deudaPatrimonio.toFixed(1)}% ${iconoEndeudamiento(deudaPatrimonio, "deuda_patrimonio")}</td>
+        <td data-label="Benchmark">≤ 50% ✅ · 51–100% ⚠️ · > 100% 🚨</td>
+        <td data-label="Explicación">Proporción de deuda total sobre patrimonio</td>
+      </tr>
+    </tbody>
+  </table>
+`;
 
 document.getElementById("resB").innerHTML = htmlB;
 mostrarResultadoLiquidez(data);
@@ -337,38 +337,38 @@ function mostrarResultadoPatrimonio(data) {
   const iconoRelPasivo = relacionPasivos >= 200 ? "✅" : relacionPasivos >= 100 ? "⚠️" : "🚨";
 
   const html = `
-    <h4>🅲 Indicadores de Patrimonio Neto</h4>
-    <table class="tabla-resultados">
-      <thead>
-        <tr>
-          <th>Indicador</th>
-          <th>Resultado</th>
-          <th>Benchmark</th>
-          <th>Explicación</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Relación patrimonio / activos</td>
-          <td>${relacionActivos.toFixed(1)}% ${iconoRelActivo}</td>
-          <td>≥ 70% ✅ · 50%-69% ⚠️ · < 50% 🚨</td>
-          <td>Qué proporción de tus activos no tiene deuda</td>
-        </tr>
-        <tr>
-          <td>Relación patrimonio / pasivos</td>
-          <td>${relacionPasivos.toFixed(1)}% ${iconoRelPasivo}</td>
-          <td>≥ 200% ✅ · 100%-199% ⚠️ · < 100% 🚨</td>
-          <td>Capacidad para cubrir deudas con tu patrimonio</td>
-        </tr>
-        <tr>
-          <td>Patrimonio neto absoluto</td>
-          <td>$${patrimonio.toLocaleString()} ${iconoPatrimonio}</td>
-          <td>${edadClave} años: Good $${valorGood.toLocaleString()} ✅ · Great $${valorGreat.toLocaleString()} ⭐</td>
-          <td>Tu patrimonio comparado con personas de tu edad</td>
-        </tr>
-      </tbody>
-    </table>
-  `;
+  <h4>🅲 Indicadores de Patrimonio Neto</h4>
+  <table class="tabla-resultados">
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>Resultado</th>
+        <th>Benchmark</th>
+        <th>Explicación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Indicador">Relación patrimonio / activos</td>
+        <td data-label="Resultado">${relacionActivos.toFixed(1)}% ${iconoRelActivo}</td>
+        <td data-label="Benchmark">≥ 70% ✅ · 50%-69% ⚠️ · < 50% 🚨</td>
+        <td data-label="Explicación">Qué proporción de tus activos no tiene deuda</td>
+      </tr>
+      <tr>
+        <td data-label="Indicador">Relación patrimonio / pasivos</td>
+        <td data-label="Resultado">${relacionPasivos.toFixed(1)}% ${iconoRelPasivo}</td>
+        <td data-label="Benchmark">≥ 200% ✅ · 100%-199% ⚠️ · < 100% 🚨</td>
+        <td data-label="Explicación">Capacidad para cubrir deudas con tu patrimonio</td>
+      </tr>
+      <tr>
+        <td data-label="Indicador">Patrimonio neto absoluto</td>
+        <td data-label="Resultado">$${patrimonio.toLocaleString()} ${iconoPatrimonio}</td>
+        <td data-label="Benchmark">${edadClave} años: Good $${valorGood.toLocaleString()} ✅ · Great $${valorGreat.toLocaleString()} ⭐</td>
+        <td data-label="Explicación">Tu patrimonio comparado con personas de tu edad</td>
+      </tr>
+    </tbody>
+  </table>
+`;
 
   const contenedor = document.getElementById("resC");
   if (contenedor) {
