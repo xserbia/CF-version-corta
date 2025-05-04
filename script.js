@@ -176,8 +176,29 @@ function mostrarResultadoLiquidez(data) {
   document.getElementById("navResultados").style.display = "flex";
   mostrarResultado("resA");
 }
+// ✅ Icono evaluador para categoría B
+function iconoEndeudamiento(valor, tipo) {
+  switch (tipo) {
+    case "vivienda": return valor <= 24 ? "✅" : "🚨";
+    case "dti": return valor <= 30 ? "✅" : "🚨";
+    case "deuda_activos": return valor <= 50 ? "✅" : "⚠️";
+    case "deuda_patrimonio": return valor <= 50 ? "✅" : valor <= 100 ? "⚠️" : "🚨";
+    default: return "";
+  }
+}
 
-// ✅ Resultado de Pasivos
+// ✅ Icono evaluador para categoría B
+function iconoEndeudamiento(valor, tipo) {
+  switch (tipo) {
+    case "vivienda": return valor <= 24 ? "✅" : "🚨";
+    case "dti": return valor <= 30 ? "✅" : "🚨";
+    case "deuda_activos": return valor <= 50 ? "✅" : "⚠️";
+    case "deuda_patrimonio": return valor <= 50 ? "✅" : valor <= 100 ? "⚠️" : "🚨";
+    default: return "";
+  }
+}
+
+// ✅ Resultado de Pasivos y Endeudamiento (B y D)
 function mostrarResultadoPasivos() {
   const campos = [
     "deuda_tarjetas", "deuda_hipotecaria", "deuda_comercial",
@@ -193,7 +214,8 @@ function mostrarResultadoPasivos() {
 
   const data = recolectarDatosFinancieros();
 
-  const html = `
+  // 🔷 Resultado 🅳: Seguridad Financiera - Resumen de Deudas
+  const htmlD = `
     <h4>📉 Deudas Totales</h4>
     <p><strong>Tarjetas de crédito:</strong> $${data.deuda_tarjetas.toLocaleString()}</p>
     <p><strong>Hipoteca:</strong> $${data.deuda_hipotecaria.toLocaleString()}</p>
@@ -210,12 +232,82 @@ function mostrarResultadoPasivos() {
       data.deuda_otros
     ).toLocaleString()}</p>
   `;
+  document.getElementById("resD").innerHTML = htmlD;
 
-  document.getElementById("resD").innerHTML = html;
+  // 🔷 Resultado 🅱: Endeudamiento
+  const ingreso = data.ingreso_bruto || 0;
+  const deudaTotal = (
+    data.deuda_tarjetas +
+    data.deuda_hipotecaria +
+    data.deuda_comercial +
+    data.deuda_vehiculos +
+    data.deuda_estudios +
+    data.deuda_otros
+  );
+
+  const activos = (
+    data.efectivo_similar +
+    data.cuentas_inversion +
+    data.cuentas_retiro +
+    data.valor_propiedades +
+    data.otros_activos
+  );
+
+  const patrimonio = activos - deudaTotal;
+
+  const pctVivienda = ingreso > 0 ? (data.deuda_hipotecaria / ingreso) * 100 : 0;
+  const dti = ingreso > 0 ? (deudaTotal / ingreso) * 100 : 0;
+  const deudaActivos = activos > 0 ? (deudaTotal / activos) * 100 : 0;
+  const deudaPatrimonio = patrimonio > 0 ? (deudaTotal / patrimonio) * 100 : 999;
+
+  const htmlB = `
+    <h4>🅱️ Indicadores de Endeudamiento</h4>
+    <table class="tabla-resultados">
+      <thead>
+        <tr>
+          <th>Indicador</th>
+          <th>Resultado</th>
+          <th>Benchmark</th>
+          <th>Explicación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>% Vivienda / ingreso bruto</td>
+          <td>${pctVivienda.toFixed(1)}% ${iconoEndeudamiento(pctVivienda, "vivienda")}</td>
+          <td>≤ 24% ✅ · > 24% 🚨</td>
+          <td>Porcentaje del ingreso bruto destinado a vivienda</td>
+        </tr>
+        <tr>
+          <td>DTI / ingreso bruto</td>
+          <td>${dti.toFixed(1)}% ${iconoEndeudamiento(dti, "dti")}</td>
+          <td>≤ 30% ✅ · > 30% 🚨</td>
+          <td>Porcentaje del ingreso bruto destinado a todas las deudas</td>
+        </tr>
+        <tr>
+          <td>Deuda / activos totales</td>
+          <td>${deudaActivos.toFixed(1)}% ${iconoEndeudamiento(deudaActivos, "deuda_activos")}</td>
+          <td>≤ 50% ✅ · > 50% ⚠️</td>
+          <td>Proporción de deuda total sobre activos</td>
+        </tr>
+        <tr>
+          <td>Deuda / patrimonio neto</td>
+          <td>${deudaPatrimonio.toFixed(1)}% ${iconoEndeudamiento(deudaPatrimonio, "deuda_patrimonio")}</td>
+          <td>≤ 50% ✅ · 51–100% ⚠️ · > 100% 🚨</td>
+          <td>Proporción de deuda total sobre patrimonio</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+  document.getElementById("resB").innerHTML = htmlB;
+
+  // 🔷 Mostrar contenedor y abrir sección D por defecto
   document.getElementById("resultadosContainer").style.display = "block";
+  document.getElementById("navResultados").style.display = "flex";
+
   mostrarResultado("resD");
 
-  // También mostrar liquidez
+  // También mostrar liquidez y endeudamiento actualizados
   mostrarResultadoLiquidez(data);
 }
 
