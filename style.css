@@ -204,7 +204,24 @@ button:active {
   transform: scale(0.98);
 }
 
-/* Gráfico gastos (si se usa) */
+/* 🔧 Responsive para botones principales */
+@media (max-width: 900px) {
+  button {
+    font-size: 0.9rem;
+    padding: 10px 16px;
+    width: auto;
+    min-width: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  button {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+/* Gráfico gastos */
 #graficoGastos {
   display: block;
   margin: 20px auto 0 auto;
@@ -215,17 +232,17 @@ button:active {
 /* Navegador de resultados */
 #navResultados {
   display: flex !important;
-  flex-wrap: nowrap; /* ⬅️ Fuerza alineación horizontal */
+  flex-wrap: nowrap;
   justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
-  overflow-x: auto; /* ⬅️ Permite scroll horizontal si hay muchos botones */
+  overflow-x: auto;
   opacity: 1 !important;
   visibility: visible !important;
 }
 
 .nav-btn {
-  flex: 0 0 auto; /* ⬅️ Evita que se compriman y permite scroll */
+  flex: 0 0 auto;
 }
 
 .resultado-categoria {
@@ -248,13 +265,15 @@ button:active {
   border: 2px solid #00796b;
   border-radius: 10px;
 }
+
 .nav-btn:disabled {
   background-color: #e5e7eb;
   border-color: #cbd5e1;
   color: #9ca3af;
   cursor: not-allowed;
 }
-/* 🌊 Tabla de resultados de liquidez */
+
+/* 🌊 Tabla de resultados */
 .tabla-resultados {
   width: 100%;
   border-collapse: collapse;
@@ -280,6 +299,7 @@ button:active {
 .tabla-resultados tr:nth-child(even) {
   background-color: #f9f9f9;
 }
+
 /* 📱 Responsive tabla de resultados */
 @media (max-width: 768px) {
   .tabla-resultados {
@@ -316,7 +336,3 @@ button:active {
     padding-right: 10px;
   }
 }
-
-
-
-
