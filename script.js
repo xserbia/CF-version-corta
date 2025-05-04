@@ -249,6 +249,7 @@ function mostrarResultadoPasivos() {
   document.getElementById("navResultados").style.display = "flex";
   mostrarResultado("resB");
   mostrarResultadoLiquidez(data);
+  mostrarResultadoPatrimonio(data)
 }
 function mostrarResultadoPatrimonio(data) {
   const activos = (
