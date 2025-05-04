@@ -8,7 +8,21 @@ function irASeccion(id) {
   const botones = document.querySelectorAll(".nav-btn");
   botones.forEach(b => b.classList.remove("active"));
   const botonActivo = Array.from(botones).find(b => b.getAttribute("onclick")?.includes(id));
-  if (botonActivo) botonActivo.classList.add("active");
+  if (botonActivo) {
+    botonActivo.classList.add("active");
+
+    // ✅ Scroll horizontal centrado automático del botón activo
+    const contenedor = botonActivo.closest(".top-navigation");
+    if (contenedor) {
+      const offsetLeft = botonActivo.offsetLeft;
+      const offsetWidth = botonActivo.offsetWidth;
+      const contenedorWidth = contenedor.offsetWidth;
+      contenedor.scrollTo({
+        left: offsetLeft - (contenedorWidth / 2) + (offsetWidth / 2),
+        behavior: 'smooth'
+      });
+    }
+  }
 }
 
 // ✅ Validación visual individual
