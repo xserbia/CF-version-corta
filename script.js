@@ -108,6 +108,15 @@ function iconoLiquidez(valor, tipo) {
   }
 }
 
+function iconoEndeudamiento(valor, tipo) {
+  switch (tipo) {
+    case "dti": return valor <= 30 ? "✅" : "🚨";
+    case "deuda_activos": return valor <= 50 ? "✅" : "⚠️";
+    case "deuda_patrimonio": return valor <= 50 ? "✅" : valor <= 100 ? "⚠️" : "🚨";
+    default: return "";
+  }
+}
+
 // ✅ Resultado de Liquidez
 function mostrarResultadoLiquidez(data) {
   const ingreso = data.ingreso_bruto || 0;
@@ -172,22 +181,9 @@ function mostrarResultadoLiquidez(data) {
   `;
 
   document.getElementById("resA").innerHTML = html;
-  document.getElementById("resultadosContainer").style.display = "block";
-  document.getElementById("navResultados").style.display = "flex";
-  mostrarResultado("resA");
-}
-// ✅ Icono evaluador para categoría B
-function iconoEndeudamiento(valor, tipo) {
-  switch (tipo) {
-    case "vivienda": return valor <= 24 ? "✅" : "🚨";
-    case "dti": return valor <= 30 ? "✅" : "🚨";
-    case "deuda_activos": return valor <= 50 ? "✅" : "⚠️";
-    case "deuda_patrimonio": return valor <= 50 ? "✅" : valor <= 100 ? "⚠️" : "🚨";
-    default: return "";
-  }
 }
 
-// ✅ Resultado de Pasivos y Endeudamiento (B y D)
+// ✅ Resultado de Pasivos y Endeudamiento (sin línea de vivienda)
 function mostrarResultadoPasivos() {
   const campos = [
     "deuda_tarjetas", "deuda_hipotecaria", "deuda_comercial",
@@ -203,48 +199,13 @@ function mostrarResultadoPasivos() {
 
   const data = recolectarDatosFinancieros();
 
-  // 🔷 Resultado 🅳: Seguridad Financiera - Resumen de Deudas
-  const htmlD = `
-    <h4>📉 Deudas Totales</h4>
-    <p><strong>Tarjetas de crédito:</strong> $${data.deuda_tarjetas.toLocaleString()}</p>
-    <p><strong>Hipoteca:</strong> $${data.deuda_hipotecaria.toLocaleString()}</p>
-    <p><strong>Deuda comercial:</strong> $${data.deuda_comercial.toLocaleString()}</p>
-    <p><strong>Vehículos:</strong> $${data.deuda_vehiculos.toLocaleString()}</p>
-    <p><strong>Estudios:</strong> $${data.deuda_estudios.toLocaleString()}</p>
-    <p><strong>Otras deudas:</strong> $${data.deuda_otros.toLocaleString()}</p>
-    <p><strong>Total pasivos:</strong> $${(
-      data.deuda_tarjetas +
-      data.deuda_hipotecaria +
-      data.deuda_comercial +
-      data.deuda_vehiculos +
-      data.deuda_estudios +
-      data.deuda_otros
-    ).toLocaleString()}</p>
-  `;
-  document.getElementById("resD").innerHTML = htmlD;
-
-  // 🔷 Resultado 🅱: Endeudamiento
+  // 🅱️ Endeudamiento
   const ingreso = data.ingreso_bruto || 0;
-  const deudaTotal = (
-    data.deuda_tarjetas +
-    data.deuda_hipotecaria +
-    data.deuda_comercial +
-    data.deuda_vehiculos +
-    data.deuda_estudios +
-    data.deuda_otros
-  );
-
-  const activos = (
-    data.efectivo_similar +
-    data.cuentas_inversion +
-    data.cuentas_retiro +
-    data.valor_propiedades +
-    data.otros_activos
-  );
-
+  const deudaTotal = campos.reduce((sum, id) => sum + (data[id] || 0), 0);
+  const activos = (data.efectivo_similar || 0) + (data.cuentas_inversion || 0) +
+                  (data.cuentas_retiro || 0) + (data.valor_propiedades || 0) + (data.otros_activos || 0);
   const patrimonio = activos - deudaTotal;
 
-  const pctVivienda = ingreso > 0 ? (data.deuda_hipotecaria / ingreso) * 100 : 0;
   const dti = ingreso > 0 ? (deudaTotal / ingreso) * 100 : 0;
   const deudaActivos = activos > 0 ? (deudaTotal / activos) * 100 : 0;
   const deudaPatrimonio = patrimonio > 0 ? (deudaTotal / patrimonio) * 100 : 999;
@@ -261,12 +222,6 @@ function mostrarResultadoPasivos() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>% Vivienda / ingreso bruto</td>
-          <td>${pctVivienda.toFixed(1)}% ${iconoEndeudamiento(pctVivienda, "vivienda")}</td>
-          <td>≤ 24% ✅ · > 24% 🚨</td>
-          <td>Porcentaje del ingreso bruto destinado a vivienda</td>
-        </tr>
         <tr>
           <td>DTI / ingreso bruto</td>
           <td>${dti.toFixed(1)}% ${iconoEndeudamiento(dti, "dti")}</td>
@@ -288,16 +243,105 @@ function mostrarResultadoPasivos() {
       </tbody>
     </table>
   `;
-  document.getElementById("resB").innerHTML = htmlB;
 
-  // 🔷 Mostrar contenedor y abrir sección D por defecto
+  document.getElementById("resB").innerHTML = htmlB;
   document.getElementById("resultadosContainer").style.display = "block";
   document.getElementById("navResultados").style.display = "flex";
-
-  mostrarResultado("resD");
-
-  // También mostrar liquidez y endeudamiento actualizados
+  mostrarResultado("resB");
   mostrarResultadoLiquidez(data);
+}
+function mostrarResultadoPatrimonio(data) {
+  const activos = (
+    data.efectivo_similar +
+    data.cuentas_inversion +
+    data.cuentas_retiro +
+    data.valor_propiedades +
+    data.otros_activos
+  );
+
+  const pasivos = (
+    data.deuda_tarjetas +
+    data.deuda_hipotecaria +
+    data.deuda_comercial +
+    data.deuda_vehiculos +
+    data.deuda_estudios +
+    data.deuda_otros
+  );
+
+  const patrimonio = activos - pasivos;
+
+  const relacionActivos = activos > 0 ? (patrimonio / activos) * 100 : 0;
+  const relacionPasivos = pasivos > 0 ? (patrimonio / pasivos) * 100 : 999;
+
+  // Benchmarks patrimonio absoluto
+  const edad = data.edad || 0;
+  const ingreso = data.ingreso_bruto || 0;
+
+  const multiplicadores = {
+    25: [2.5, 5],
+    30: [3, 6],
+    35: [3.5, 7],
+    40: [4, 8],
+    45: [4.5, 9],
+    50: [5, 10],
+    55: [5.5, 11],
+    60: [6, 12],
+    65: [6.5, 13],
+    70: [7, 14],
+  };
+
+  const edadClave = Object.keys(multiplicadores).reduce((prev, curr) => {
+    return Math.abs(curr - edad) < Math.abs(prev - edad) ? curr : prev;
+  }, 25);
+
+  const [multiploGood, multiploGreat] = multiplicadores[edadClave];
+  const valorGood = ingreso * multiploGood;
+  const valorGreat = ingreso * multiploGreat;
+
+  let iconoPatrimonio;
+  if (patrimonio >= valorGreat) iconoPatrimonio = "⭐";
+  else if (patrimonio >= valorGood) iconoPatrimonio = "✅";
+  else if (patrimonio >= valorGood * 0.8) iconoPatrimonio = "⚠️";
+  else iconoPatrimonio = "🚨";
+
+  const iconoRelActivo = relacionActivos >= 70 ? "✅" : relacionActivos >= 50 ? "⚠️" : "🚨";
+  const iconoRelPasivo = relacionPasivos >= 200 ? "✅" : relacionPasivos >= 100 ? "⚠️" : "🚨";
+
+  const html = `
+    <h4>🅲 Indicadores de Patrimonio Neto</h4>
+    <table class="tabla-resultados">
+      <thead>
+        <tr>
+          <th>Indicador</th>
+          <th>Resultado</th>
+          <th>Benchmark</th>
+          <th>Explicación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Relación patrimonio / activos</td>
+          <td>${relacionActivos.toFixed(1)}% ${iconoRelActivo}</td>
+          <td>≥ 70% ✅ · 50%-69% ⚠️ · < 50% 🚨</td>
+          <td>Qué proporción de tus activos no tiene deuda</td>
+        </tr>
+        <tr>
+          <td>Relación patrimonio / pasivos</td>
+          <td>${relacionPasivos.toFixed(1)}% ${iconoRelPasivo}</td>
+          <td>≥ 200% ✅ · 100%-199% ⚠️ · < 100% 🚨</td>
+          <td>Capacidad para cubrir deudas con tu patrimonio</td>
+        </tr>
+        <tr>
+          <td>Patrimonio neto absoluto</td>
+          <td>$${patrimonio.toLocaleString()} ${iconoPatrimonio}</td>
+          <td>${edadClave} años: Good $${valorGood.toLocaleString()} ✅ · Great $${valorGreat.toLocaleString()} ⭐</td>
+          <td>Tu patrimonio comparado con personas de tu edad</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  document.getElementById("resC").innerHTML = html;
 }
 
 // ✅ Al cargar
