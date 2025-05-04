@@ -96,7 +96,21 @@ function mostrarResultado(id) {
   const botones = document.querySelectorAll("#navResultados .nav-btn");
   botones.forEach(b => b.classList.remove("resultado-activo"));
   const botonActivo = Array.from(botones).find(b => b.getAttribute("onclick")?.includes(id));
-  if (botonActivo) botonActivo.classList.add("resultado-activo");
+  if (botonActivo) {
+    botonActivo.classList.add("resultado-activo");
+
+    // ✅ Scroll horizontal centrado automático del botón de resultado activo
+    const contenedor = botonActivo.closest("#navResultados");
+    if (contenedor) {
+      const offsetLeft = botonActivo.offsetLeft;
+      const offsetWidth = botonActivo.offsetWidth;
+      const contenedorWidth = contenedor.offsetWidth;
+      contenedor.scrollTo({
+        left: offsetLeft - (contenedorWidth / 2) + (offsetWidth / 2),
+        behavior: 'smooth'
+      });
+    }
+  }
 }
 
 // ✅ Recolectar datos
