@@ -171,10 +171,36 @@
 <div id="resA" class="resultado-categoria">
     <p>📘 Resultado C (placeholder – aún no implementado)</p>
   </div>
-  <!-- 🅱 Deuda -->
-  <div id="resB" class="resultado-categoria">
-    <p>📘 Resultado B (placeholder – aún no implementado)</p>
-  </div>
+<!-- 🅱 Endeudamiento -->
+<div id="resB" class="resultado-categoria">
+  <h4>🅱 Indicadores de Endeudamiento</h4>
+  <table class="tabla-resultados">
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>Resultado</th>
+        <th>Benchmark</th>
+        <th>Explicación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pago de deuda / ingreso bruto</td>
+        <td id="b_dti_ingreso">--</td>
+        <td>≤ 30% ✅ · > 30% 🚨</td>
+        <td>Porcentaje del ingreso bruto destinado a todas las deudas</td>
+      </tr>
+      <tr>
+        <td>Deudas / activos totales</td>
+        <td id="b_deuda_activos">--</td>
+        <td>≤ 50% ✅ · > 50% ⚠️</td>
+        <td>Proporción de deuda total sobre activos</td>
+      </tr>
+      <tr>
+        <td>Deudas / patrimonio neto</td>
+        <td id="b_deuda_patrimonio">--</td>
+        <td>≤ 50% ✅ · 51–100% ⚠️ · > 100% 🚨</td>
+
 
   <!-- 🅲 Patrimonio Neto -->
   <div id="resC" class="resultado-categoria">
