@@ -244,12 +244,12 @@ function mostrarResultadoPasivos() {
     </table>
   `;
 
-  document.getElementById("resB").innerHTML = htmlB;
-  document.getElementById("resultadosContainer").style.display = "block";
-  document.getElementById("navResultados").style.display = "flex";
-  mostrarResultado("resB");
-  mostrarResultadoLiquidez(data);
-  mostrarResultadoPatrimonio(data)
+document.getElementById("resB").innerHTML = htmlB;
+mostrarResultadoLiquidez(data);
+mostrarResultadoPatrimonio(data);
+document.getElementById("resultadosContainer").style.display = "block";
+document.getElementById("navResultados").style.display = "flex";
+mostrarResultado("resA");
 }
 function mostrarResultadoPatrimonio(data) {
   const activos = (
