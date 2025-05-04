@@ -168,52 +168,9 @@
   <h2>🧮 Resultado Calculado</h2>
 
   <!-- 🅰 Liquidez -->
-  <div id="resA" class="resultado-categoria">
-const html = `
-  <h4>💧 Indicadores de Liquidez</h4>
-  <table class="tabla-resultados">
-    <thead>
-      <tr>
-        <th>Indicador</th>
-        <th>Resultado</th>
-        <th>Benchmark</th>
-        <th>Explicación</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Tasa de ahorro</td>
-        <td>${tasaAhorro.toFixed(1)}% ${iconoLiquidez(tasaAhorro, "tasa_ahorro")}</td>
-        <td>≥ 30% ✅ · 15%-29% ⚠️ · < 15% 🚨</td>
-        <td>Porcentaje del ingreso que se destina al ahorro anual</td>
-      </tr>
-      <tr>
-        <td>Superávit</td>
-        <td>${superavitPorcentaje.toFixed(1)}% ${iconoLiquidez(superavitPorcentaje, "superavit")}</td>
-        <td>< 0 🚨 · 0–15% ⚠️ · >15% ✅</td>
-        <td>Diferencia entre ingreso y gastos (sin contar ahorro)</td>
-      </tr>
-      <tr>
-        <td>Reserva de emergencia</td>
-        <td>${mesesReserva.toFixed(1)} meses ${iconoLiquidez(mesesReserva, "reserva")}</td>
-        <td>> 36 🔁 · 12–36 ✅ · 6–12 ⚠️ · < 6 🚨</td>
-        <td>Meses de gastos cubiertos con efectivo disponible</td>
-      </tr>
-      <tr>
-        <td>Razón corriente</td>
-        <td>${razonCorriente.toFixed(2)} ${iconoLiquidez(razonCorriente, "razon")}</td>
-        <td>> 1.00 ✅ · < 1.00 🚨</td>
-        <td>Relación entre efectivo y deuda anual</td>
-      </tr>
-      <tr>
-        <td>Capacidad de acumulación</td>
-        <td>${capacidad.toFixed(1)}% ${iconoLiquidez(capacidad, "capacidad")}</td>
-        <td>> 50% 🔁 · 15%-50% ✅ · 0%-15% ⚠️ · < 0% 🚨</td>
-        <td>Suma de ahorro y superávit sobre ingreso anual</td>
-      </tr>
-    </tbody>
-  </table>
-`;
+<div id="resA" class="resultado-categoria">
+    <p>📘 Resultado C (placeholder – aún no implementado)</p>
+  </div>
   <!-- 🅱 Deuda -->
   <div id="resB" class="resultado-categoria">
     <p>📘 Resultado B (placeholder – aún no implementado)</p>
