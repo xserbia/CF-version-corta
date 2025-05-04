@@ -187,17 +187,6 @@ function iconoEndeudamiento(valor, tipo) {
   }
 }
 
-// ✅ Icono evaluador para categoría B
-function iconoEndeudamiento(valor, tipo) {
-  switch (tipo) {
-    case "vivienda": return valor <= 24 ? "✅" : "🚨";
-    case "dti": return valor <= 30 ? "✅" : "🚨";
-    case "deuda_activos": return valor <= 50 ? "✅" : "⚠️";
-    case "deuda_patrimonio": return valor <= 50 ? "✅" : valor <= 100 ? "⚠️" : "🚨";
-    default: return "";
-  }
-}
-
 // ✅ Resultado de Pasivos y Endeudamiento (B y D)
 function mostrarResultadoPasivos() {
   const campos = [
