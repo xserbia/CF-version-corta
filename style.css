@@ -173,10 +173,11 @@ select {
     margin-right: 4px;
   }
 
-  .nav-buttons {
-    margin-top: 16px;
-    margin-bottom: 24px;
-  }
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
 
   .resultado-categoria {
     padding: 16px;
