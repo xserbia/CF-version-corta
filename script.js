@@ -14,7 +14,15 @@ function irASeccion(id) {
 // ✅ Validación visual individual
 function validarCampo(input) {
   const valor = parseFloat(input.value);
-  input.style.borderColor = isNaN(valor) || valor < 0 ? "red" : "#44008f";
+  if (isNaN(valor) || valor < 0) {
+    input.classList.add("shake");
+    input.style.borderColor = "red";
+    setTimeout(() => input.classList.remove("shake"), 300);
+    return false;
+  } else {
+    input.style.borderColor = "#44008f";
+    return true;
+  }
 }
 
 // ✅ Validaciones por sección
@@ -37,17 +45,31 @@ function validarYActivarBoton(campos, btnId) {
   let validos = true;
   campos.forEach(id => {
     const input = document.getElementById(id);
-    const valor = parseFloat(input.value);
-    if (isNaN(valor) || valor < 0) {
-      input.classList.add("shake");
-      input.style.borderColor = "red";
-      validos = false;
-      setTimeout(() => input.classList.remove("shake"), 300);
-    } else {
-      input.style.borderColor = "#44008f";
-    }
+    if (!validarCampo(input)) validos = false;
   });
   if (validos) document.getElementById(btnId).disabled = false;
+}
+
+// ✅ Navegación con validación
+function validarAntesDeIrAGastos() {
+  const campos = ["ingreso_bruto", "aporte_personal_retiro", "aporte_empleador_retiro", "otros_ahorros"];
+  if (campos.every(id => validarCampo(document.getElementById(id)))) {
+    irASeccion("stepGastos");
+  }
+}
+
+function validarAntesDeIrAActivos() {
+  const campos = ["pago_deudas", "gastos_diarios", "impuestos_anuales", "seguros_anuales"];
+  if (campos.every(id => validarCampo(document.getElementById(id)))) {
+    irASeccion("stepActivos");
+  }
+}
+
+function validarAntesDeIrAPasivos() {
+  const campos = ["efectivo_similar", "cuentas_inversion", "cuentas_retiro", "valor_propiedades", "otros_activos"];
+  if (campos.every(id => validarCampo(document.getElementById(id)))) {
+    irASeccion("stepPasivos");
+  }
 }
 
 // ✅ Mostrar resultado por pestañas
@@ -63,19 +85,13 @@ function mostrarResultado(id) {
   if (botonActivo) botonActivo.classList.add("resultado-activo");
 }
 
-// ✅ Recolectar todos los datos del formulario
+// ✅ Recolectar datos
 function recolectarDatosFinancieros() {
   const data = {};
-  const inputs = document.querySelectorAll("input");
-  inputs.forEach(input => {
-    const name = input.name;
-    if (!name) return;
-    if (input.type === "checkbox") {
-      data[name] = input.checked;
-    } else {
-      const valor = parseFloat(input.value);
-      data[name] = isNaN(valor) ? 0 : valor;
-    }
+  document.querySelectorAll("input").forEach(input => {
+    if (!input.name) return;
+    const val = input.type === "checkbox" ? input.checked : parseFloat(input.value);
+    data[input.name] = isNaN(val) ? 0 : val;
   });
   return data;
 }
@@ -92,35 +108,76 @@ function iconoLiquidez(valor, tipo) {
   }
 }
 
-// ✅ Mostrar resultado de Liquidez
+// ✅ Resultado de Liquidez
 function mostrarResultadoLiquidez(data) {
-  const ingresoAnual = data.ingreso_bruto || 0;
-  const ahorroAnual = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
+  const ingreso = data.ingreso_bruto || 0;
+  const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
   const impuestos = data.impuestos_anuales || 0;
   const seguros = data.seguros_anuales || 0;
-  const gastoDiario = data.gastos_diarios || 0;
+  const diarios = data.gastos_diarios || 0;
   const deuda = data.pago_deudas || 0;
 
-  const gastoTotal = impuestos + seguros + gastoDiario + deuda;
-  const superavitAnual = ingresoAnual - gastoTotal - ahorroAnual;
-  const superavitPorcentaje = ingresoAnual > 0 ? (superavitAnual / ingresoAnual) * 100 : 0;
-  const mesesReserva = gastoTotal > 0 ? (data.efectivo_similar || 0) / (gastoTotal / 12) : 0;
+  const gastoTotal = impuestos + seguros + diarios + deuda;
+  const superavit = ingreso - gastoTotal - ahorro;
+  const superavitPct = ingreso > 0 ? (superavit / ingreso) * 100 : 0;
+  const reservaMeses = gastoTotal > 0 ? (data.efectivo_similar || 0) / (gastoTotal / 12) : 0;
   const razonCorriente = deuda > 0 ? (data.efectivo_similar || 0) / deuda : 0;
-  const capacidad = ingresoAnual > 0 ? ((ahorroAnual + superavitAnual) / ingresoAnual) * 100 : 0;
-  const tasaAhorro = ingresoAnual > 0 ? (ahorroAnual / ingresoAnual) * 100 : 0;
+  const capacidad = ingreso > 0 ? ((ahorro + superavit) / ingreso) * 100 : 0;
+  const tasaAhorro = ingreso > 0 ? (ahorro / ingreso) * 100 : 0;
 
-  document.getElementById("liquidez_tasa_ahorro").innerHTML = tasaAhorro.toFixed(1) + "% " + iconoLiquidez(tasaAhorro, "tasa_ahorro");
-  document.getElementById("liquidez_superavit").innerHTML = superavitPorcentaje.toFixed(1) + "% " + iconoLiquidez(superavitPorcentaje, "superavit");
-  document.getElementById("liquidez_reserva").innerHTML = mesesReserva.toFixed(1) + " meses " + iconoLiquidez(mesesReserva, "reserva");
-  document.getElementById("liquidez_razon_corriente").innerHTML = razonCorriente.toFixed(2) + " " + iconoLiquidez(razonCorriente, "razon");
-  document.getElementById("liquidez_capacidad").innerHTML = capacidad.toFixed(1) + "% " + iconoLiquidez(capacidad, "capacidad");
+  const html = `
+    <h4>💧 Indicadores de Liquidez</h4>
+    <table class="tabla-resultados">
+      <thead>
+        <tr>
+          <th>Indicador</th>
+          <th>Resultado</th>
+          <th>Benchmark</th>
+          <th>Explicación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tasa de ahorro</td>
+          <td>${tasaAhorro.toFixed(1)}% ${iconoLiquidez(tasaAhorro, "tasa_ahorro")}</td>
+          <td>≥ 30% ✅ · 15%-29% ⚠️ · < 15% 🚨</td>
+          <td>Porcentaje del ingreso que se destina al ahorro anual</td>
+        </tr>
+        <tr>
+          <td>Superávit</td>
+          <td>${superavitPct.toFixed(1)}% ${iconoLiquidez(superavitPct, "superavit")}</td>
+          <td>< 0 🚨 · 0–15% ⚠️ · >15% ✅</td>
+          <td>Diferencia entre ingreso y gastos (sin contar ahorro)</td>
+        </tr>
+        <tr>
+          <td>Reserva de emergencia</td>
+          <td>${reservaMeses.toFixed(1)} meses ${iconoLiquidez(reservaMeses, "reserva")}</td>
+          <td>> 36 🔁 · 12–36 ✅ · 6–12 ⚠️ · < 6 🚨</td>
+          <td>Meses de gastos cubiertos con efectivo disponible</td>
+        </tr>
+        <tr>
+          <td>Razón corriente</td>
+          <td>${razonCorriente.toFixed(2)} ${iconoLiquidez(razonCorriente, "razon")}</td>
+          <td>> 1.00 ✅ · < 1.00 🚨</td>
+          <td>Relación entre efectivo y deuda anual</td>
+        </tr>
+        <tr>
+          <td>Capacidad de acumulación</td>
+          <td>${capacidad.toFixed(1)}% ${iconoLiquidez(capacidad, "capacidad")}</td>
+          <td>> 50% 🔁 · 15%-50% ✅ · 0%-15% ⚠️ · < 0% 🚨</td>
+          <td>Suma de ahorro y superávit sobre ingreso anual</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
 
+  document.getElementById("resA").innerHTML = html;
   document.getElementById("resultadosContainer").style.display = "block";
   document.getElementById("navResultados").style.display = "flex";
   mostrarResultado("resA");
 }
 
-// ✅ Mostrar resultado de Pasivos
+// ✅ Resultado de Pasivos
 function mostrarResultadoPasivos() {
   const campos = [
     "deuda_tarjetas", "deuda_hipotecaria", "deuda_comercial",
@@ -130,15 +187,7 @@ function mostrarResultadoPasivos() {
   let validos = true;
   campos.forEach(id => {
     const input = document.getElementById(id);
-    const valor = parseFloat(input.value);
-    if (isNaN(valor) || valor < 0) {
-      input.classList.add("shake");
-      input.style.borderColor = "red";
-      validos = false;
-      setTimeout(() => input.classList.remove("shake"), 300);
-    } else {
-      input.style.borderColor = "#44008f";
-    }
+    if (!validarCampo(input)) validos = false;
   });
   if (!validos) return;
 
@@ -166,7 +215,7 @@ function mostrarResultadoPasivos() {
   document.getElementById("resultadosContainer").style.display = "block";
   mostrarResultado("resD");
 
-  // Autoejecutar liquidez
+  // También mostrar liquidez
   mostrarResultadoLiquidez(data);
 }
 
@@ -174,81 +223,3 @@ function mostrarResultadoPasivos() {
 document.addEventListener("DOMContentLoaded", () => {
   irASeccion("stepIngresos");
 });
-function validarAntesDeIrAGastos() {
-  const campos = [
-    "ingreso_bruto",
-    "aporte_personal_retiro",
-    "aporte_empleador_retiro",
-    "otros_ahorros"
-  ];
-
-  let completado = true;
-
-  campos.forEach(id => {
-    const input = document.getElementById(id);
-    const valor = parseFloat(input.value);
-    if (isNaN(valor) || valor < 0) {
-      input.classList.add("shake");
-      input.style.borderColor = "red";
-      completado = false;
-      setTimeout(() => input.classList.remove("shake"), 300);
-    }
-  });
-
-  if (completado) irASeccion("stepGastos");
-}
-function validarCampo(input) {
-  if (!input.value || isNaN(input.value) || parseFloat(input.value) < 0) {
-    input.classList.add("shake");
-    input.style.borderColor = "red";
-    setTimeout(() => input.classList.remove("shake"), 300);
-    return false;
-  } else {
-    input.style.borderColor = "#2563eb";
-    return true;
-  }
-}
-function validarAntesDeIrAActivos() {
-  const campos = [
-    document.getElementById("pago_deudas"),
-    document.getElementById("gastos_diarios"),
-    document.getElementById("impuestos_anuales"),
-    document.getElementById("seguros_anuales")
-  ];
-
-  let todoValido = true;
-  campos.forEach(campo => {
-    if (!validarCampo(campo)) {
-      todoValido = false;
-    }
-  });
-
-  if (todoValido) {
-    irASeccion('stepActivos');
-  }
-}
-function validarAntesDeIrAPasivos() {
-  const campos = [
-    "efectivo_similar",
-    "cuentas_inversion",
-    "cuentas_retiro",
-    "valor_propiedades",
-    "otros_activos"
-  ];
-
-  let completado = true;
-
-  campos.forEach(id => {
-    const input = document.getElementById(id);
-    const valor = parseFloat(input.value);
-    if (isNaN(valor) || valor < 0) {
-      input.classList.add("shake");
-      input.style.borderColor = "red";
-      completado = false;
-      setTimeout(() => input.classList.remove("shake"), 300);
-    }
-  });
-
-  if (completado) irASeccion("stepPasivos");
-}
-
