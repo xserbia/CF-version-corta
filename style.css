@@ -1,4 +1,4 @@
-/* --- Financial Evaluator Short - style.css (actualizado) --- */
+/* --- Financial Evaluator Short - style.css (versión final corregida) --- */
 
 /* Configuración general */
 body {
@@ -76,20 +76,13 @@ select {
   text-align: center;
   white-space: normal;
   z-index: 1000;
+  pointer-events: none;
 }
 
-.tooltip:hover::after {
+.tooltip:hover::after,
+.tooltip:focus::after {
   opacity: 1;
   visibility: visible;
-}
-
-/* Mostrar tooltips en móviles */
-@media (max-width: 768px) {
-  .tooltip::after {
-    opacity: 1 !important;
-    visibility: visible !important;
-    bottom: 120%;
-  }
 }
 
 /* Navegador top */
@@ -109,10 +102,11 @@ select {
   flex-wrap: nowrap;
   justify-content: center;
   gap: 10px;
+  overflow-x: auto;
 }
 
 .nav-btn {
-  padding: 10px 20px;
+  padding: 10px 18px;
   border: 2px solid #2563eb;
   background-color: white;
   color: #2563eb;
@@ -121,7 +115,8 @@ select {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
-  min-width: 120px;
+  min-width: 100px;
+  max-width: 160px;
   text-align: center;
   flex: 0 0 auto;
 }
@@ -160,12 +155,7 @@ select {
 /* Responsive ajustes */
 @media (max-width: 768px) {
   .top-navigation {
-    overflow-x: auto;
     padding-bottom: 10px;
-  }
-
-  form, fieldset, .step {
-    overflow: visible;
   }
 
   .nav-btn {
@@ -203,8 +193,9 @@ button {
   border-radius: 8px;
   cursor: pointer;
   width: auto;
-  max-width: 250px;
+  max-width: 240px;
   transition: background-color 0.3s, transform 0.2s;
+  margin-top: 16px;
 }
 
 button:hover {
@@ -229,8 +220,8 @@ button:active {
   flex-wrap: nowrap;
   justify-content: center;
   gap: 10px;
-  margin-top: 30px;
-  margin-bottom: 20px;
+  margin-top: 40px;
+  margin-bottom: 24px;
   overflow-x: auto;
   opacity: 1 !important;
   visibility: visible !important;
