@@ -275,6 +275,42 @@ button:active {
 .tabla-resultados tr:nth-child(even) {
   background-color: #f9f9f9;
 }
+/* 📱 Responsive tabla de resultados */
+@media (max-width: 768px) {
+  .tabla-resultados {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    border: 0;
+  }
+
+  .tabla-resultados thead {
+    display: none;
+  }
+
+  .tabla-resultados tr {
+    display: block;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #ccc;
+    background-color: #fff;
+  }
+
+  .tabla-resultados td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .tabla-resultados td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #2563eb;
+    flex-basis: 50%;
+    padding-right: 10px;
+  }
+}
 
 
 
