@@ -161,10 +161,16 @@ select {
   .nav-btn {
     flex: 0 0 auto;
     width: auto;
-    min-width: 140px;
-    font-size: 0.9rem;
-    padding: 10px 20px;
+    min-width: 110px;
+    font-size: 0.85rem;
+    padding: 8px 14px;
     white-space: nowrap;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 10px 16px;
+    width: 100%;
   }
 }
 
@@ -204,24 +210,7 @@ button:active {
   transform: scale(0.98);
 }
 
-/* 🔧 Responsive para botones principales */
-@media (max-width: 900px) {
-  button {
-    font-size: 0.9rem;
-    padding: 10px 16px;
-    width: auto;
-    min-width: 160px;
-  }
-}
-
-@media (max-width: 480px) {
-  button {
-    width: 100%;
-    min-width: unset;
-  }
-}
-
-/* Gráfico gastos */
+/* Gráfico gastos (si se usa) */
 #graficoGastos {
   display: block;
   margin: 20px auto 0 auto;
@@ -273,7 +262,7 @@ button:active {
   cursor: not-allowed;
 }
 
-/* 🌊 Tabla de resultados */
+/* 🌊 Tabla de resultados de liquidez */
 .tabla-resultados {
   width: 100%;
   border-collapse: collapse;
