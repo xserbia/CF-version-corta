@@ -249,6 +249,32 @@ button:active {
   color: #9ca3af;
   cursor: not-allowed;
 }
+/* 🌊 Tabla de resultados de liquidez */
+.tabla-resultados {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+}
+
+.tabla-resultados th,
+.tabla-resultados td {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabla-resultados th {
+  background-color: #e0f2fe;
+  font-weight: bold;
+}
+
+.tabla-resultados tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
 
 
 
