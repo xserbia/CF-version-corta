@@ -152,10 +152,15 @@ select {
   margin-left: 4px;
 }
 
-/* Responsive ajustes */
+/* 📱 Responsive ajustes mejorados */
 @media (max-width: 768px) {
-  .top-navigation {
-    padding-bottom: 10px;
+  .top-navigation,
+  #navResultados {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+    gap: 8px;
   }
 
   .nav-btn {
@@ -165,6 +170,52 @@ select {
     font-size: 0.9rem;
     padding: 10px 16px;
     white-space: nowrap;
+    margin-right: 4px;
+  }
+
+  .nav-buttons {
+    margin-top: 16px;
+    margin-bottom: 24px;
+  }
+
+  .resultado-categoria {
+    padding: 16px;
+    font-size: 0.95rem;
+    overflow-x: auto;
+  }
+
+  .tabla-resultados {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border: 0;
+  }
+
+  .tabla-resultados thead {
+    display: none;
+  }
+
+  .tabla-resultados tr {
+    display: block;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #ccc;
+    background-color: #fff;
+  }
+
+  .tabla-resultados td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .tabla-resultados td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #2563eb;
+    flex-basis: 50%;
+    padding-right: 10px;
   }
 }
 
