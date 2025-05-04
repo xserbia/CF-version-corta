@@ -274,7 +274,7 @@ function mostrarResultadoPatrimonio(data) {
   const relacionActivos = activos > 0 ? (patrimonio / activos) * 100 : 0;
   const relacionPasivos = pasivos > 0 ? (patrimonio / pasivos) * 100 : 999;
 
-  // Benchmarks patrimonio absoluto
+  // Benchmarks patrimonio absoluto (edad × ingreso)
   const edad = data.edad || 0;
   const ingreso = data.ingreso_bruto || 0;
 
@@ -291,7 +291,7 @@ function mostrarResultadoPatrimonio(data) {
     70: [7, 14],
   };
 
-  const edadClave = Object.keys(multiplicadores).reduce((prev, curr) => {
+  let edadClave = Object.keys(multiplicadores).reduce((prev, curr) => {
     return Math.abs(curr - edad) < Math.abs(prev - edad) ? curr : prev;
   }, 25);
 
@@ -342,7 +342,12 @@ function mostrarResultadoPatrimonio(data) {
     </table>
   `;
 
-  document.getElementById("resC").innerHTML = html;
+  const contenedor = document.getElementById("resC");
+  if (contenedor) {
+    contenedor.innerHTML = html;
+  } else {
+    console.warn("⚠️ El contenedor #resC no existe en el DOM.");
+  }
 }
 
 // ✅ Al cargar
