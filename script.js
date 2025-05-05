@@ -288,16 +288,20 @@ const htmlB = `
     </tbody>
   </table>
 `;
-
 document.getElementById("resB").innerHTML = htmlB;
-mostrarResultadoLiquidez(data);
-mostrarResultadoPatrimonio(data);
-mostrarResultadoSeguridad(data);
-mostrarResultadoRiesgo(data);
-mostrarResultadoRetiro(data);
-document.getElementById("resultadosContainer").style.display = "block";
-document.getElementById("navResultados").style.display = "flex";
-mostrarResultado("resA");
+} // 👈 Esto cierra mostrarResultadoPasivos
+
+// ✅ Función principal para calcular resultados
+function calcularResultados(data) {
+  mostrarResultadoLiquidez(data);
+  mostrarResultadoPasivos(data);
+  mostrarResultadoPatrimonio(data);
+  mostrarResultadoSeguridad(data);
+  mostrarResultadoRiesgo(data);
+  mostrarResultadoRetiro(data);
+  document.getElementById("resultadosContainer").style.display = "block";
+  document.getElementById("navResultados").style.display = "flex";
+  mostrarResultado("resA");
 }
 function mostrarResultadoPatrimonio(data) {
   const activos = (
