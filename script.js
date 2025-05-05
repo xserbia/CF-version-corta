@@ -543,6 +543,9 @@ if (contenedor) {
 } else {
   console.warn("⚠️ El contenedor #resE no existe en el DOM.");
 }
+}
+
+// ✅ Resultado de Futuro Financiero
 function mostrarResultadoRetiro(data) {
   const edad = data.edad || 0;
   const edadRetiro = data.edad_retiro || 65;
