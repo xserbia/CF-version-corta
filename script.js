@@ -522,6 +522,7 @@ if (contenedor) {
 } else {
   console.warn("⚠️ El contenedor #resE no existe en el DOM.");
 }
+}
   function mostrarResultadoRetiro(data) {
   const edadActual = data.edad || 0;
   const edadRetiro = data.edad_retiro || 65;
