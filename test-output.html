@@ -268,49 +268,51 @@
   <!-- Se llenará dinámicamente -->
 </div>
 <!-- 🅶 Retiro -->
-<div id="resG" class="resultado-categoria">
-  <h4>🅶 Evaluación de Retiro</h4>
-  <table class="tabla-resultados">
-    <thead>
-      <tr>
-        <th>Indicador</th>
-        <th>Resultado</th>
-        <th>Explicación</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Capital necesario al retiro</td>
-        <td id="g_capital_requerido">--</td>
-        <td>Monto estimado para sostener el retiro hasta los 100 años</td>
-      </tr>
-      <tr>
-        <td>Capital acumulado estimado</td>
-        <td id="g_capital_estimado">--</td>
-        <td>Lo que habrás acumulado si mantienes tu ritmo actual</td>
-      </tr>
-      <tr>
-        <td>Faltante actual</td>
-        <td id="g_faltante">--</td>
-        <td>Diferencia entre lo que necesitas y lo que proyectas tener</td>
-      </tr>
-      <tr>
-        <td>Aporte anual recomendado</td>
-        <td id="g_aporte_anual">--</td>
-        <td>Lo que deberías ahorrar por año para cubrir el faltante</td>
-      </tr>
-      <tr>
-        <td>Aporte mensual recomendado</td>
-        <td id="g_aporte_mensual">--</td>
-        <td>Equivalente mensual para alcanzar la meta de retiro</td>
-      </tr>
-      <tr>
-        <td>Probabilidad de éxito estimada</td>
-        <td id="g_probabilidad">--</td>
-        <td>Según el capital acumulado y tus metas de retiro</td>
-      </tr>
-    </tbody>
-  </table>
+<h4>🅶 Evaluación de Futuro Financiero</h4>
+<table class="tabla-resultados">
+  <thead>
+    <tr>
+      <th>Ítem</th>
+      <th>Resultado</th>
+      <th>Evaluación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>🧱 Capital necesario</td>
+      <td id="g_capital_requerido">--</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>💼 Total acumulado estimado</td>
+      <td id="g_capital_estimado">--</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>⚠️ Faltante actual</td>
+      <td id="g_faltante">--</td>
+      <td id="g_eval_faltante">--</td>
+    </tr>
+    <tr>
+      <td>💸 Aporte anual recomendado</td>
+      <td id="g_aporte_anual">--</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>💰 Aporte mensual recomendado</td>
+      <td id="g_aporte_mensual">--</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>📏 Factor de ahorro por edad</td>
+      <td id="g_factor_ahorro">--</td>
+      <td id="g_eval_factor">--</td>
+    </tr>
+  </tbody>
+</table>
+
+<canvas id="graficoFuturo" height="220"></canvas>
+
 
   <!-- 📊 Gráfico comparativo -->
   <div style="margin-top: 20px;">
