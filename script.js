@@ -55,6 +55,11 @@ function validarActivosYActivarPasivos() {
   validarYActivarBoton(campos, "btnPasivos");
 }
 
+function validarPasivosYActivarRetiro() {
+  const campos = ["deuda_tarjetas", "deuda_hipotecaria", "deuda_comercial", "deuda_vehiculos", "deuda_estudios", "deuda_otros"];
+  validarYActivarBoton(campos, "btnRetiro");
+}
+
 function validarYActivarBoton(campos, btnId) {
   let validos = true;
   campos.forEach(id => {
