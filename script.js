@@ -543,65 +543,87 @@ if (contenedor) {
 } else {
   console.warn("⚠️ El contenedor #resE no existe en el DOM.");
 }
-}
-  function mostrarResultadoRetiro(data) {
-  const edadActual = data.edad || 0;
+function mostrarResultadoRetiro(data) {
+  const edad = data.edad || 0;
   const edadRetiro = data.edad_retiro || 65;
+  const añosAcumulacion = Math.max(edadRetiro - edad, 1);
+  const añosDistribucion = 100 - edadRetiro;
+
+  const ingresoBruto = data.ingreso_bruto || 0;
   const tasaAcumulacion = (data.tasa_acumulacion || 0) / 100;
   const tasaRetiro = (data.tasa_retiro || 0) / 100;
   const inflacion = (data.inflacion_esperada || 0) / 100;
   const reemplazo = (data.porcentaje_reemplazo || 70) / 100;
 
-  const ingresoBruto = data.ingreso_bruto || 0;
-  const ahorroExistente = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0);
-  const ahorroExtra = data.otros_ahorros || 0;
-  const capitalInicial = ahorroExistente + ahorroExtra;
-
-  const añosAcumulacion = Math.max(edadRetiro - edadActual, 1);
-  const añosDistribucion = Math.max(100 - edadRetiro, 20);
+  const capitalInicial = 
+    (data.aporte_personal_retiro || 0) +
+    (data.aporte_empleador_retiro || 0) +
+    (data.otros_ahorros || 0);
 
   const ingresoDeseadoAnual = ingresoBruto * reemplazo;
-  const ingresoDeseadoAjustado = ingresoDeseadoAnual * Math.pow(1 + inflacion, añosAcumulacion);
-
-  const capitalNecesario = ingresoDeseadoAjustado * (
-    (1 - Math.pow(1 + tasaRetiro, -añosDistribucion)) / tasaRetiro
-  );
-
+  const ingresoAjustado = ingresoDeseadoAnual * Math.pow(1 + inflacion, añosAcumulacion);
+  const capitalNecesario = ingresoAjustado * ((1 - Math.pow(1 + tasaRetiro, -añosDistribucion)) / tasaRetiro);
   const capitalEstimado = capitalInicial * Math.pow(1 + tasaAcumulacion, añosAcumulacion);
-
   const faltante = Math.max(capitalNecesario - capitalEstimado, 0);
 
-  const aporteAnualRecomendado = faltante > 0
+  const aporteAnual = faltante > 0
     ? faltante * tasaAcumulacion / (Math.pow(1 + tasaAcumulacion, añosAcumulacion) - 1)
     : 0;
+  const aporteMensual = aporteAnual / 12;
 
-  const aporteMensualRecomendado = aporteAnualRecomendado / 12;
+ let probabilidadSinDinero = 0;
+if (faltante <= 0) probabilidadSinDinero = 5;
+else if (faltante / capitalNecesario > 0.3) probabilidadSinDinero = 60;
+else probabilidadSinDinero = 25;
 
-  const probabilidad = faltante <= 0 ? 95 : faltante / capitalNecesario < 0.25 ? 75 : 40;
 
-  // Mostrar resultados
+  // Evaluación faltante
+  const evalFaltante = faltante <= 0 ? "✅" : "⚠️";
+
+  // Factor de ahorro recomendado
+  const factores = {
+    25: 0.35, 30: 0.85, 35: 1.5, 40: 2.58,
+    45: 3.14, 50: 4.92, 55: 6.35, 60: 7.23,
+    65: 10.84, 70: 11
+  };
+
+  const edadCercana = Object.keys(factores).reduce((a, b) => 
+    Math.abs(b - edad) < Math.abs(a - edad) ? b : a
+  , 25);
+
+  const factorEsperado = ingresoBruto * factores[edadCercana];
+  const porcentajeComparado = factorEsperado > 0 ? (capitalEstimado / factorEsperado) * 100 : 0;
+
+  let iconoFactor = "🚨";
+  if (porcentajeComparado >= 100) iconoFactor = "✅";
+  else if (porcentajeComparado >= 90) iconoFactor = "⚠️";
+
+  // Renderizar resultados
   document.getElementById("g_capital_requerido").textContent = "$" + capitalNecesario.toLocaleString();
   document.getElementById("g_capital_estimado").textContent = "$" + capitalEstimado.toLocaleString();
   document.getElementById("g_faltante").textContent = "$" + faltante.toLocaleString();
-  document.getElementById("g_aporte_anual").textContent = "$" + aporteAnualRecomendado.toLocaleString(undefined, { maximumFractionDigits: 0 });
-  document.getElementById("g_aporte_mensual").textContent = "$" + aporteMensualRecomendado.toLocaleString(undefined, { maximumFractionDigits: 0 });
-  document.getElementById("g_probabilidad").textContent = probabilidad + "% " + (probabilidad >= 90 ? "⭐" : probabilidad >= 70 ? "✅" : probabilidad >= 50 ? "⚠️" : "🚨");
+  document.getElementById("g_eval_faltante").textContent = evalFaltante;
+  document.getElementById("g_aporte_anual").textContent = "$" + aporteAnual.toLocaleString(undefined, {maximumFractionDigits: 0});
+  document.getElementById("g_aporte_mensual").textContent = "$" + aporteMensual.toLocaleString(undefined, {maximumFractionDigits: 0});
+  document.getElementById("g_factor_ahorro").textContent = porcentajeComparado.toFixed(0) + "%";
+  document.getElementById("g_eval_factor").textContent = iconoFactor;
 
   // Gráfico
-  const ctx = document.getElementById("graficoRetiro").getContext("2d");
-
-  if (window.graficoRetiroInstance) {
-    window.graficoRetiroInstance.destroy();
-  }
-
-  window.graficoRetiroInstance = new Chart(ctx, {
+  const canvas = document.getElementById("graficoFuturo");
+if (!canvas) {
+  console.warn("🚨 El canvas #graficoFuturo no existe.");
+  return;
+}
+const ctx = canvas.getContext("2d");
+  if (window.graficoFuturoInstance) window.graficoFuturoInstance.destroy();
+  window.graficoFuturoInstance = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: ["Capital necesario", "Capital estimado", "Faltante"],
+      labels: ["Capital necesario", "Acumulado estimado"],
       datasets: [{
-        label: "Proyección de Retiro",
-        data: [capitalNecesario, capitalEstimado, faltante],
-        backgroundColor: ["#44008f", "#ffc300", "#e63946"]
+        label: "Comparación",
+        data: [capitalNecesario, capitalEstimado],
+        backgroundColor: ["#44008f", "#ffc300"]
       }]
     },
     options: {
@@ -610,7 +632,7 @@ if (contenedor) {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: context => `$${context.raw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+            label: ctx => `$${ctx.raw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`
           }
         }
       },
@@ -618,12 +640,13 @@ if (contenedor) {
         y: {
           beginAtZero: true,
           ticks: {
-            callback: value => "$" + value.toLocaleString()
+            callback: val => "$" + val.toLocaleString()
           }
         }
       }
     }
   });
 }
+
 
 
