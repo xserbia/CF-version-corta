@@ -152,10 +152,51 @@
 
   </fieldset>
   <div class="nav-buttons">
-    <button type="button" onclick="mostrarResultadoPasivos()">Calcular</button>
+    <button type="button" onclick="validarPasivosYActivarRetiro()">Continuar</button>
   </div>
 </div>
+<!-- 5. Retiro -->
+<div class="step" id="stepRetiro">
+  <fieldset>
+    <legend>Planificación de retiro</legend>
 
+    <label for="edad">
+      Edad actual
+      <span class="tooltip" data-tooltip="Tu edad en este momento. Es el punto de partida para calcular tu plan de retiro.">🛈</span>
+    </label>
+    <input type="number" id="edad" name="edad" required onblur="validarCampo(this)">
+
+    <label for="edad_retiro">
+      Edad deseada de retiro
+      <span class="tooltip" data-tooltip="La edad a la cual planeas retirarte. Comúnmente entre 60 y 70 años.">🛈</span>
+    </label>
+    <input type="number" id="edad_retiro" name="edad_retiro" required onblur="validarCampo(this)">
+
+    <label for="tasa_acumulacion">
+      Tasa esperada de acumulación (%) 
+      <span class="tooltip" data-tooltip="Tasa de crecimiento promedio anual de tus inversiones hasta el retiro. Ejemplo típico: 7%-10%.">🛈</span>
+    </label>
+    <input type="number" id="tasa_acumulacion" name="tasa_acumulacion" step="0.01" required onblur="validarCampo(this)">
+
+    <label for="inflacion_esperada">
+      Inflación estimada (%) 
+      <span class="tooltip" data-tooltip="Incremento promedio esperado de los precios cada año. Ejemplo típico: 2%-3%.">🛈</span>
+    </label>
+    <input type="number" id="inflacion_esperada" name="inflacion_esperada" step="0.01" required onblur="validarCampo(this)">
+
+    <label for="tasa_retiro">
+      Tasa estimada durante retiro (%) 
+      <span class="tooltip" data-tooltip="Rendimiento esperado de tus inversiones después de retirarte. Ejemplo típico: 3%-5%.">🛈</span>
+    </label>
+    <input type="number" id="tasa_retiro" name="tasa_retiro" step="0.01" required onblur="validarCampo(this)">
+
+    <!-- Tasa de reemplazo oculta -->
+    <input type="hidden" name="porcentaje_reemplazo" value="70">
+  </fieldset>
+  <div class="nav-buttons">
+    <button type="button" "mostrarResultado()">Calcular</button>
+  </div>
+</div>
 <!-- 🔵 Contenedor de Resultados -->
 <div id="navResultados">
   <button class="nav-btn" onclick="mostrarResultado('resA')">🅰 Liquidez</button>
