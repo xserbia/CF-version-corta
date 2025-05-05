@@ -196,9 +196,13 @@
     <input type="hidden" name="porcentaje_reemplazo" value="70">
   </fieldset>
   <div class="nav-buttons">
-    <button type="button" "mostrarResultado()">Calcular</button>
+    <button type="button" onclick="calcularResultados(recolectarDatosFinancieros())">Calcular</button>
   </div>
 </div>
+  
+<!-- 🧾 Contenedor de resultados -->
+<div id="resultadosContainer" style="display:none;">
+  <h2>🧮 Resultado Calculado</h2>
 <!-- 🔵 Contenedor de Resultados -->
 <div id="navResultados">
   <button class="nav-btn" onclick="mostrarResultado('resA')">🅰 Liquidez</button>
@@ -207,11 +211,6 @@
   <button class="nav-btn" onclick="mostrarResultado('resD')">🅳 Seguridad Financiera</button>
   <button class="nav-btn" onclick="mostrarResultado('resE')">🅴 Manejo de riesgo</button>
 </div>
-  
-<!-- 🧾 Contenedor de resultados -->
-<div id="resultadosContainer" style="display:none;">
-  <h2>🧮 Resultado Calculado</h2>
-
   <!-- 🅰 Liquidez -->
 <div id="resA" class="resultado-categoria">
     <p>📘 Resultado C (placeholder – aún no implementado)</p>
