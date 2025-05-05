@@ -378,6 +378,84 @@ function mostrarResultadoPatrimonio(data) {
   }
 }
 
+function mostrarResultadoSeguridad(data) {
+  const ingreso = data.ingreso_bruto || 0;
+  const edad = data.edad || 0;
+
+  const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0);
+  const totalAhorro = ahorro + (data.otros_ahorros || 0);
+  const tasaAhorro = ingreso > 0 ? (ahorro / ingreso) * 100 : 0;
+  const capacidad = ingreso > 0 ? ((totalAhorro + (data.ingreso_bruto - data.impuestos_anuales - data.seguros_anuales - data.gastos_diarios - data.pago_deudas - totalAhorro)) / ingreso) * 100 : 0;
+
+  const activosInversion = (data.cuentas_inversion || 0) + (data.cuentas_retiro || 0);
+  const activosTotales = (data.efectivo_similar || 0) + activosInversion + (data.valor_propiedades || 0) + (data.otros_activos || 0);
+  const ratioInversionActivos = activosTotales > 0 ? (activosInversion / activosTotales) * 100 : 0;
+  const ratioInversionIngreso = ingreso > 0 ? activosInversion / ingreso : 0;
+
+  // Benchmark esperado por edad
+  const benchmarksEdad = {
+    25: 0.2, 30: 0.6, 35: 1.6, 45: 3.0, 55: 8.0, 65: 16.0
+  };
+
+  let edadClave = Object.keys(benchmarksEdad).reduce((prev, curr) => {
+    return Math.abs(curr - edad) < Math.abs(prev - edad) ? curr : prev;
+  }, 25);
+
+  const benchmarkRatio = benchmarksEdad[edadClave];
+  const porcentajeSobreBenchmark = benchmarkRatio > 0 ? (ratioInversionIngreso / benchmarkRatio) * 100 : 0;
+  let iconoIngresoInversion = "🚨";
+  if (porcentajeSobreBenchmark > 120) iconoIngresoInversion = "⭐";
+  else if (porcentajeSobreBenchmark >= 100) iconoIngresoInversion = "✅";
+  else if (porcentajeSobreBenchmark >= 90) iconoIngresoInversion = "⚠️";
+
+  const iconoAhorro = tasaAhorro >= 30 ? "✅" : tasaAhorro >= 15 ? "⚠️" : "🚨";
+  const iconoCapacidad = capacidad >= 30 ? "✅" : capacidad >= 15 ? "⚠️" : "🚨";
+  const iconoActivos = ratioInversionActivos >= 50 ? "✅" : ratioInversionActivos >= 30 ? "⚠️" : "🚨";
+
+  const html = `
+    <h4>🅳 Indicadores de Seguridad Financiera</h4>
+    <table class="tabla-resultados">
+      <thead>
+        <tr>
+          <th>Indicador</th>
+          <th>Resultado</th>
+          <th>Benchmark</th>
+          <th>Explicación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tasa de ahorro (retirement)</td>
+          <td>${tasaAhorro.toFixed(1)}% ${iconoAhorro}</td>
+          <td data-tooltip="≥ 30% ✅ · 15–29% ⚠️ · < 15% 🚨">≥ 30%</td>
+          <td>Porcentaje del ingreso destinado a cuentas de retiro</td>
+        </tr>
+        <tr>
+          <td>Capacidad de acumulación</td>
+          <td>${capacidad.toFixed(1)}% ${iconoCapacidad}</td>
+          <td data-tooltip="≥ 30% ✅ · 15–29% ⚠️ · < 15% 🚨">≥ 30%</td>
+          <td>Ahorro total más superávit sobre ingreso anual</td>
+        </tr>
+        <tr>
+          <td>Activos de inversión / activos totales</td>
+          <td>${ratioInversionActivos.toFixed(1)}% ${iconoActivos}</td>
+          <td data-tooltip="≥ 50% ✅ · 30–49% ⚠️ · < 30% 🚨">≥ 50%</td>
+          <td>Porcentaje de tus activos totales que están invertidos</td>
+        </tr>
+        <tr>
+          <td>Activos inversión / ingreso bruto</td>
+          <td>${(ratioInversionIngreso).toFixed(2)}× ${iconoIngresoInversion}</td>
+          <td data-tooltip="⭐ > 120% · ✅ 100–120% · ⚠️ 90–99% · 🚨 < 90% del benchmark por edad">Edad ${edadClave}: ${benchmarkRatio}×</td>
+          <td>Relación entre activos de inversión e ingreso bruto esperado</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  const contenedor = document.getElementById("resD");
+  if (contenedor) contenedor.innerHTML = html;
+}
+
 // ✅ Al cargar
 document.addEventListener("DOMContentLoaded", () => {
   irASeccion("stepIngresos");
