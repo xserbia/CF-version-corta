@@ -276,6 +276,7 @@ document.getElementById("resB").innerHTML = htmlB;
 mostrarResultadoLiquidez(data);
 mostrarResultadoPatrimonio(data);
 mostrarResultadoSeguridad(data);
+mostrarResultadoRiesgo(data); 
 document.getElementById("resultadosContainer").style.display = "block";
 document.getElementById("navResultados").style.display = "flex";
 mostrarResultado("resA");
@@ -450,8 +451,74 @@ function mostrarResultadoSeguridad(data) {
 
   document.getElementById("resD").innerHTML = html;
 }
+// ✅ Resultado de Manejo de Riesgo
+function mostrarResultadoRiesgo(data) {
+  const gastosAnuales = (data.impuestos_anuales || 0) + (data.seguros_anuales || 0) +
+                        (data.gastos_diarios || 0) + (data.pago_deudas || 0);
+  const gastosMensuales = gastosAnuales / 12 || 1;
 
-// ✅ Al cargar
-document.addEventListener("DOMContentLoaded", () => {
-  irASeccion("stepIngresos");
-});
+  const efectivo = data.efectivo_similar || 0;
+  const inversion = data.cuentas_inversion || 0;
+  const retiro = data.cuentas_retiro || 0;
+  const propiedades = data.valor_propiedades || 0;
+  const otrosActivos = data.otros_activos || 0;
+
+  const fondo1 = efectivo;
+  const fondo2 = efectivo + inversion * 0.9;
+  const fondo3 = fondo2 + retiro * 0.9;
+  const fondo4 = fondo3 + propiedades * 0.9;
+  const fondo5 = fondo4 + otrosActivos * 0.5;
+
+  const html = `
+  <h4>🅴 Evaluación de Manejo de Riesgo</h4>
+  <table class="tabla-resultados">
+    <thead>
+      <tr>
+        <th>Nivel de fondo</th>
+        <th>Valor disponible ($)</th>
+        <th>Meses de gastos cubiertos</th>
+        <th>Composición</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Fondos inmediatos</td>
+        <td>$${fondo1.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+        <td>${gastosMensuales > 0 ? (fondo1 / gastosMensuales).toFixed(1) : "—"}</td>
+        <td>Cuentas bancarias (100%)</td>
+      </tr>
+      <tr>
+        <td>Con inversiones</td>
+        <td>$${fondo2.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+        <td>${gastosMensuales > 0 ? (fondo2 / gastosMensuales).toFixed(1) : "—"}</td>
+        <td>+ Inversiones (90%)</td>
+      </tr>
+      <tr>
+        <td>Con retiro</td>
+        <td>$${fondo3.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+        <td>${gastosMensuales > 0 ? (fondo3 / gastosMensuales).toFixed(1) : "—"}</td>
+        <td>+ Cuentas de retiro (90%)</td>
+      </tr>
+      <tr>
+        <td>Con propiedades</td>
+        <td>$${fondo4.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+        <td>${gastosMensuales > 0 ? (fondo4 / gastosMensuales).toFixed(1) : "—"}</td>
+        <td>+ Propiedades (90%)</td>
+      </tr>
+      <tr>
+        <td>Fondos totales</td>
+        <td>$${fondo5.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+        <td>${gastosMensuales > 0 ? (fondo5 / gastosMensuales).toFixed(1) : "—"}</td>
+        <td>+ Activos físicos (50%)</td>
+      </tr>
+    </tbody>
+  </table>
+`;
+
+const contenedor = document.getElementById("resE");
+if (contenedor) {
+  contenedor.innerHTML = html;
+} else {
+  console.warn("⚠️ El contenedor #resE no existe en el DOM.");
+}
+
