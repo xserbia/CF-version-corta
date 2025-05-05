@@ -90,7 +90,19 @@ function validarAntesDeIrAPasivos() {
     irASeccion("stepPasivos");
   }
 }
-
+function validarAntesDeIrARetiro() {
+  const campos = [
+    "deuda_tarjetas",
+    "deuda_hipotecaria",
+    "deuda_comercial",
+    "deuda_vehiculos",
+    "deuda_estudios",
+    "deuda_otros"
+  ];
+  if (campos.every(id => validarCampo(document.getElementById(id)))) {
+    irASeccion("stepRetiro");
+  }
+}
 // ✅ Mostrar resultado por pestañas
 function mostrarResultado(id) {
   const secciones = document.querySelectorAll(".resultado-categoria");
