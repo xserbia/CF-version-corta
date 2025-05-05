@@ -370,3 +370,9 @@ button:active {
     padding-right: 10px;
   }
 }
+/* Soporte para móviles: mostrar tooltip al hacer tap (focus o active) */
+.tooltip:focus::after,
+.tooltip:active::after {
+  opacity: 1;
+  visibility: visible;
+}
