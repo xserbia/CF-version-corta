@@ -647,6 +647,11 @@ const ctx = canvas.getContext("2d");
     }
   });
 }
+  function calcularYMostrar() {
+  const data = recolectarDatosFinancieros();
+  calcularResultados(data);
+}
+
 
 
 
