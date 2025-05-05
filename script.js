@@ -275,6 +275,7 @@ const htmlB = `
 document.getElementById("resB").innerHTML = htmlB;
 mostrarResultadoLiquidez(data);
 mostrarResultadoPatrimonio(data);
+mostrarResultadoSeguridad(data);
 document.getElementById("resultadosContainer").style.display = "block";
 document.getElementById("navResultados").style.display = "flex";
 mostrarResultado("resA");
