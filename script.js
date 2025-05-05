@@ -276,7 +276,8 @@ document.getElementById("resB").innerHTML = htmlB;
 mostrarResultadoLiquidez(data);
 mostrarResultadoPatrimonio(data);
 mostrarResultadoSeguridad(data);
-mostrarResultadoRiesgo(data); 
+mostrarResultadoRiesgo(data);
+mostrarResultadoRetiro(data);
 document.getElementById("resultadosContainer").style.display = "block";
 document.getElementById("navResultados").style.display = "flex";
 mostrarResultado("resA");
@@ -521,4 +522,86 @@ if (contenedor) {
 } else {
   console.warn("⚠️ El contenedor #resE no existe en el DOM.");
 }
+  function mostrarResultadoRetiro(data) {
+  const edadActual = data.edad || 0;
+  const edadRetiro = data.edad_retiro || 65;
+  const tasaAcumulacion = (data.tasa_acumulacion || 0) / 100;
+  const tasaRetiro = (data.tasa_retiro || 0) / 100;
+  const inflacion = (data.inflacion_esperada || 0) / 100;
+  const reemplazo = (data.porcentaje_reemplazo || 70) / 100;
+
+  const ingresoBruto = data.ingreso_bruto || 0;
+  const ahorroExistente = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0);
+  const ahorroExtra = data.otros_ahorros || 0;
+  const capitalInicial = ahorroExistente + ahorroExtra;
+
+  const añosAcumulacion = Math.max(edadRetiro - edadActual, 1);
+  const añosDistribucion = Math.max(100 - edadRetiro, 20);
+
+  const ingresoDeseadoAnual = ingresoBruto * reemplazo;
+  const ingresoDeseadoAjustado = ingresoDeseadoAnual * Math.pow(1 + inflacion, añosAcumulacion);
+
+  const capitalNecesario = ingresoDeseadoAjustado * (
+    (1 - Math.pow(1 + tasaRetiro, -añosDistribucion)) / tasaRetiro
+  );
+
+  const capitalEstimado = capitalInicial * Math.pow(1 + tasaAcumulacion, añosAcumulacion);
+
+  const faltante = Math.max(capitalNecesario - capitalEstimado, 0);
+
+  const aporteAnualRecomendado = faltante > 0
+    ? faltante * tasaAcumulacion / (Math.pow(1 + tasaAcumulacion, añosAcumulacion) - 1)
+    : 0;
+
+  const aporteMensualRecomendado = aporteAnualRecomendado / 12;
+
+  const probabilidad = faltante <= 0 ? 95 : faltante / capitalNecesario < 0.25 ? 75 : 40;
+
+  // Mostrar resultados
+  document.getElementById("g_capital_requerido").textContent = "$" + capitalNecesario.toLocaleString();
+  document.getElementById("g_capital_estimado").textContent = "$" + capitalEstimado.toLocaleString();
+  document.getElementById("g_faltante").textContent = "$" + faltante.toLocaleString();
+  document.getElementById("g_aporte_anual").textContent = "$" + aporteAnualRecomendado.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  document.getElementById("g_aporte_mensual").textContent = "$" + aporteMensualRecomendado.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  document.getElementById("g_probabilidad").textContent = probabilidad + "% " + (probabilidad >= 90 ? "⭐" : probabilidad >= 70 ? "✅" : probabilidad >= 50 ? "⚠️" : "🚨");
+
+  // Gráfico
+  const ctx = document.getElementById("graficoRetiro").getContext("2d");
+
+  if (window.graficoRetiroInstance) {
+    window.graficoRetiroInstance.destroy();
+  }
+
+  window.graficoRetiroInstance = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Capital necesario", "Capital estimado", "Faltante"],
+      datasets: [{
+        label: "Proyección de Retiro",
+        data: [capitalNecesario, capitalEstimado, faltante],
+        backgroundColor: ["#44008f", "#ffc300", "#e63946"]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: context => `$${context.raw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: value => "$" + value.toLocaleString()
+          }
+        }
+      }
+    }
+  });
+}
+
 
