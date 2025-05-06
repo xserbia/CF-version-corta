@@ -687,7 +687,8 @@ function mostrarResultadoPruebasEstres(data) {
 
 function calcularYMostrar() {
   const data = recolectarDatosFinancieros();
-  calcularResultados(data);
+  calcularResultados(data); // ← Esta ya muestra A–F
+  mostrarResultadoEstres(data); // ← Agrega esta línea para mostrar G
 }
 
 
