@@ -131,7 +131,6 @@ select {
   color: white;
 }
 
-/* Control de pasos */
 .step {
   display: none;
 }
@@ -141,10 +140,11 @@ select {
 }
 
 .nav-buttons {
-  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
 }
 
-/* Asterisco rojo para campos requeridos */
 .required-label::after {
   content: " *";
   color: red;
@@ -152,6 +152,75 @@ select {
   margin-left: 4px;
 }
 
+.resultado-categoria {
+  background-color: #fffad0;
+  border: 2px solid #000;
+  padding: 20px;
+  min-height: 200px;
+  display: none;
+}
+
+.resultado-categoria.mostrar {
+  display: block !important;
+}
+
+#resultadosContainer {
+  display: none;
+  margin-top: 40px;
+  padding: 20px;
+  background: #e0f7fa;
+  border: 2px solid #00796b;
+  border-radius: 10px;
+}
+
+/* Navegador de resultados */
+#navResultados {
+  display: flex !important;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.nav-btn:disabled {
+  background-color: #e5e7eb;
+  border-color: #cbd5e1;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* 🌊 Tabla de resultados (modo escritorio) */
+.tabla-resultados {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+}
+
+.tabla-resultados th,
+.tabla-resultados td {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabla-resultados th {
+  background-color: #e0f2fe;
+  font-weight: bold;
+}
+
+.tabla-resultados tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* 📱 Responsive tabla de resultados */
 @media (max-width: 768px) {
   .top-navigation,
   #navResultados {
@@ -162,44 +231,10 @@ select {
     gap: 8px;
   }
 
-  /* 👇 Alinea texto de celdas de tabla a la derecha en móviles */
-  .tabla-resultados td,
-  .tabla-resultados th {
-    text-align: right;
-  }
-
-  /* Opcional: Asegurar que data-label también esté alineado a la derecha si usas diseño responsivo con ::before */
-  .tabla-resultados td::before {
-    text-align: right;
-  }
-}
-
-  .nav-btn {
-    flex: 0 0 auto;
-    width: auto;
-    min-width: 120px;
-    font-size: 0.9rem;
-    padding: 10px 16px;
-    white-space: nowrap;
-    margin-right: 4px;
-  }
-
-.nav-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;
-}
-
-  .resultado-categoria {
-    padding: 16px;
-    font-size: 0.95rem;
-    overflow-x: auto;
-  }
-
   .tabla-resultados {
     display: block;
-    width: 100%;
     overflow-x: auto;
+    width: 100%;
     border: 0;
   }
 
@@ -245,7 +280,7 @@ select {
   animation-iteration-count: 1;
 }
 
-/* 🌟 Botón azul estilo 'Continuar' */
+/* Botón estilo */
 button {
   background-color: #2563eb;
   color: white;
@@ -269,7 +304,6 @@ button:active {
   transform: scale(0.98);
 }
 
-/* Gráfico gastos */
 #graficoGastos {
   display: block;
   margin: 20px auto 0 auto;
@@ -277,100 +311,7 @@ button:active {
   width: 100%;
 }
 
-/* Navegador de resultados */
-#navResultados {
-  display: flex !important;
-  flex-wrap: nowrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 40px;
-  margin-bottom: 24px;
-  overflow-x: auto;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-.resultado-categoria {
-  background-color: #fffad0;
-  border: 2px solid #000;
-  padding: 20px;
-  min-height: 200px;
-  display: none;
-}
-
-.resultado-categoria.mostrar {
-  display: block !important;
-}
-
-#resultadosContainer {
-  display: none;
-  margin-top: 40px;
-  padding: 20px;
-  background: #e0f7fa;
-  border: 2px solid #00796b;
-  border-radius: 10px;
-}
-
-.nav-btn:disabled {
-  background-color: #e5e7eb;
-  border-color: #cbd5e1;
-  color: #9ca3af;
-  cursor: not-allowed;
-}
-
-/* 🌊 Tabla de resultados */
-.tabla-resultados {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  font-size: 0.95rem;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-}
-
-.tabla-resultados th,
-.tabla-resultados td {
-  border: 1px solid #ccc;
-  padding: 10px 12px;
-  text-align: left;
-  vertical-align: top;
-}
-
-.tabla-resultados th {
-  background-color: #e0f2fe;
-  font-weight: bold;
-}
-
-.tabla-resultados tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-/* 📱 Responsive tabla de resultados */
-@media (max-width: 768px) {
-  .tabla-resultados {
-    display: block;
-    overflow-x: auto;
-    width: 100%;
-    border: 0;
-  }
-
-  .tabla-resultados td {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: none;
-    border-bottom: 1px solid #eee;
-  }
-
-  .tabla-resultados td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    color: #2563eb;
-    flex-basis: 50%;
-    padding-right: 10px;
-  }
-}
-/* Soporte para móviles: mostrar tooltip al hacer tap (focus o active) */
+/* Tooltips en móvil (tap) */
 .tooltip:focus::after,
 .tooltip:active::after {
   opacity: 1;
