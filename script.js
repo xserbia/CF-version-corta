@@ -299,7 +299,7 @@ function calcularResultados(data) {
   mostrarResultadoSeguridad(data);
   mostrarResultadoRiesgo(data);
   mostrarResultadoRetiro(data);
-  mostrarResultadoPruebasEstres(data);
+  mostrarResultadoEstres(data);
   document.getElementById("resultadosContainer").style.display = "block";
   document.getElementById("navResultados").style.display = "flex";
   mostrarResultado("resA");
