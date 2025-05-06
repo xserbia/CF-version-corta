@@ -211,6 +211,7 @@
   <button class="nav-btn" onclick="mostrarResultado('resD')">🅳 Seguridad Financiera</button>
   <button class="nav-btn" onclick="mostrarResultado('resE')">🅴 Manejo de riesgo</button>
   <button class="nav-btn" onclick="mostrarResultado('resF')">🅵 Futuro</button>
+  <button class="nav-btn" onclick="mostrarResultado('resG')">🅵 Examen de Estés</button>
 </div>
   <!-- 🅰 Liquidez -->
 <div id="resA" class="resultado-categoria">
@@ -316,6 +317,46 @@
   <!-- 📊 Gráfico comparativo -->
   <div style="margin-top: 20px;">
   <canvas id="graficoFuturo" height="220"></canvas>
+
+    <!-- 🅶 Pruebas de Estrés -->
+<div id="resG" class="resultado-categoria">
+  <h4>🅶 Evaluación de Pruebas de Estrés</h4>
+  <table class="tabla-resultados">
+    <thead>
+      <tr>
+        <th>Escenario</th>
+        <th>¿Cubre gastos?</th>
+        <th>¿Cubre deudas?</th>
+        <th>¿Sigue ahorrando?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Leve (-10%)</td>
+        <td id="g_gastos_leve">--</td>
+        <td id="g_deuda_leve">--</td>
+        <td id="g_ahorro_leve">--</td>
+      </tr>
+      <tr>
+        <td>Moderado (-30%)</td>
+        <td id="g_gastos_moderado">--</td>
+        <td id="g_deuda_moderado">--</td>
+        <td id="g_ahorro_moderado">--</td>
+      </tr>
+      <tr>
+        <td>Severo (-50%)</td>
+        <td id="g_gastos_severo">--</td>
+        <td id="g_deuda_severo">--</td>
+        <td id="g_ahorro_severo">--</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size: 0.9em; margin-top: 12px;">
+    📝 <strong>Notas:</strong><br>
+    • Simulación basada en caída del 10%, 30%, y 50% de ingresos y activos no líquidos.<br>
+    • Efectivo y equivalentes no se afectan en la simulación.
+  </p>
 </div>
 <!-- ✅ Script externo cargado al final -->
 <script src="script.js"></script>
