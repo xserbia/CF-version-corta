@@ -299,6 +299,7 @@ function calcularResultados(data) {
   mostrarResultadoSeguridad(data);
   mostrarResultadoRiesgo(data);
   mostrarResultadoRetiro(data);
+  mostrarResultadoPruebasEstres(data);
   document.getElementById("resultadosContainer").style.display = "block";
   document.getElementById("navResultados").style.display = "flex";
   mostrarResultado("resA");
@@ -650,7 +651,41 @@ const ctx = canvas.getContext("2d");
     }
   });
 }
-  function calcularYMostrar() {
+
+// ✅ Resultado de Stress test
+function mostrarResultadoPruebasEstres(data) {
+  const efectivo = data.efectivo_similar || 0;
+  const activosNoLiquidos = (data.cuentas_inversion || 0) + (data.cuentas_retiro || 0) + (data.valor_propiedades || 0);
+  const ingreso = data.ingreso_bruto || 0;
+  const gastos = (data.impuestos_anuales || 0) + (data.seguros_anuales || 0) + (data.gastos_diarios || 0);
+  const deuda = data.pago_deudas || 0;
+  const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
+
+  const escenarios = {
+    leve: 0.9,
+    moderado: 0.7,
+    severo: 0.5
+  };
+
+  for (const [nivel, factor] of Object.entries(escenarios)) {
+    const ingresoAjustado = ingreso * factor;
+    const activosAjustados = efectivo + activosNoLiquidos * factor;
+
+    const cubreGastos = ingresoAjustado >= gastos ? "✅" : "❌";
+    const cubreDeuda = ingresoAjustado >= deuda ? "✅" : "❌";
+
+    const ahorroAjustado = ingresoAjustado - gastos - deuda;
+    let evalAhorro = "🚨";
+    if (ahorroAjustado > 0.15 * ingreso) evalAhorro = "✅";
+    else if (ahorroAjustado > 0) evalAhorro = "⚠️";
+
+    document.getElementById(`g_gastos_${nivel}`).textContent = cubreGastos;
+    document.getElementById(`g_deuda_${nivel}`).textContent = cubreDeuda;
+    document.getElementById(`g_ahorro_${nivel}`).textContent = evalAhorro;
+  }
+}
+
+function calcularYMostrar() {
   const data = recolectarDatosFinancieros();
   calcularResultados(data);
 }
