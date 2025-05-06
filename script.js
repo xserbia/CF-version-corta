@@ -653,38 +653,65 @@ const ctx = canvas.getContext("2d");
 }
 
 // ✅ Resultado de Stress test
-function mostrarResultadoPruebasEstres(data) {
-  const efectivo = data.efectivo_similar || 0;
-  const activosNoLiquidos = (data.cuentas_inversion || 0) + (data.cuentas_retiro || 0) + (data.valor_propiedades || 0);
+function mostrarResultadoEstres(data) {
   const ingreso = data.ingreso_bruto || 0;
-  const gastos = (data.impuestos_anuales || 0) + (data.seguros_anuales || 0) + (data.gastos_diarios || 0);
-  const deuda = data.pago_deudas || 0;
   const ahorro = (data.aporte_personal_retiro || 0) + (data.aporte_empleador_retiro || 0) + (data.otros_ahorros || 0);
+  const gastos = (data.impuestos_anuales || 0) + (data.seguros_anuales || 0) + (data.gastos_diarios || 0);
+  const deudas = data.pago_deudas || 0;
+  const efectivo = data.efectivo_similar || 0;
+  const noLiquidos = (data.cuentas_inversion || 0) + (data.valor_propiedades || 0);
 
-  const escenarios = {
-    leve: 0.9,
-    moderado: 0.7,
-    severo: 0.5
-  };
+  const escenarios = [
+    { nombre: "Leve", caida: 0.1 },
+    { nombre: "Moderado", caida: 0.3 },
+    { nombre: "Severo", caida: 0.5 }
+  ];
 
-  for (const [nivel, factor] of Object.entries(escenarios)) {
-    const ingresoAjustado = ingreso * factor;
-    const activosAjustados = efectivo + activosNoLiquidos * factor;
+  let html = `
+    <h4>🅶 Pruebas de Estrés Financieras</h4>
+    <table class="tabla-resultados">
+      <thead>
+        <tr>
+          <th>Escenario</th>
+          <th>¿Cubre gastos?</th>
+          <th>¿Cubre deudas?</th>
+          <th>¿Sigue ahorrando?</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
 
-    const cubreGastos = ingresoAjustado >= gastos ? "✅" : "❌";
-    const cubreDeuda = ingresoAjustado >= deuda ? "✅" : "❌";
+  escenarios.forEach(esc => {
+    const ingresoAjustado = ingreso * (1 - esc.caida);
+    const activosAjustados = efectivo + noLiquidos * (1 - esc.caida);
+    const puedeGastos = ingresoAjustado >= gastos ? "✅" : "❌";
+    const puedeDeuda = ingresoAjustado >= deudas ? "✅" : "❌";
+    const ahorroRestante = ingresoAjustado - gastos - deudas;
+    const evalAhorro = ahorroRestante >= ahorro ? "✅" : ahorroRestante > 0 ? "⚠️" : "🚨";
 
-    const ahorroAjustado = ingresoAjustado - gastos - deuda;
-    let evalAhorro = "🚨";
-    if (ahorroAjustado > 0.15 * ingreso) evalAhorro = "✅";
-    else if (ahorroAjustado > 0) evalAhorro = "⚠️";
+    html += `
+      <tr>
+        <td>${esc.nombre}</td>
+        <td>${puedeGastos}</td>
+        <td>${puedeDeuda}</td>
+        <td>${evalAhorro}</td>
+      </tr>
+    `;
+  });
 
-    document.getElementById(`g_gastos_${nivel}`).textContent = cubreGastos;
-    document.getElementById(`g_deuda_${nivel}`).textContent = cubreDeuda;
-    document.getElementById(`g_ahorro_${nivel}`).textContent = evalAhorro;
-  }
+  html += `
+      </tbody>
+    </table>
+    <p style="font-size: 0.85rem; margin-top: 8px;">
+      ⚠️ Simulación basada en caída del 10%, 30% y 50% de ingresos y activos no líquidos.<br>
+      💡 Efectivo y equivalentes no se afectan en la simulación.
+    </p>
+  `;
+
+  const contenedor = document.getElementById("resG");
+  if (contenedor) contenedor.innerHTML = html;
+  else console.warn("⚠️ El contenedor #resG no existe en el DOM.");
 }
-
 function calcularYMostrar() {
   const data = recolectarDatosFinancieros();
   calcularResultados(data); // ← Esta ya muestra A–F
