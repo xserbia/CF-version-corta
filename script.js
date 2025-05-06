@@ -662,24 +662,10 @@ function mostrarResultadoEstres(data) {
   const noLiquidos = (data.cuentas_inversion || 0) + (data.valor_propiedades || 0);
 
   const escenarios = [
-    { nombre: "Leve", caida: 0.1 },
-    { nombre: "Moderado", caida: 0.3 },
-    { nombre: "Severo", caida: 0.5 }
+    { nombre: "leve", caida: 0.1 },
+    { nombre: "moderado", caida: 0.3 },
+    { nombre: "severo", caida: 0.5 }
   ];
-
-  let html = `
-    <h4>🅶 Pruebas de Estrés Financieras</h4>
-    <table class="tabla-resultados">
-      <thead>
-        <tr>
-          <th>Escenario</th>
-          <th>¿Cubre gastos?</th>
-          <th>¿Cubre deudas?</th>
-          <th>¿Sigue ahorrando?</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
 
   escenarios.forEach(esc => {
     const ingresoAjustado = ingreso * (1 - esc.caida);
@@ -689,28 +675,10 @@ function mostrarResultadoEstres(data) {
     const ahorroRestante = ingresoAjustado - gastos - deudas;
     const evalAhorro = ahorroRestante >= ahorro ? "✅" : ahorroRestante > 0 ? "⚠️" : "🚨";
 
-    html += `
-      <tr>
-        <td>${esc.nombre}</td>
-        <td>${puedeGastos}</td>
-        <td>${puedeDeuda}</td>
-        <td>${evalAhorro}</td>
-      </tr>
-    `;
+    document.getElementById(`g_gastos_${esc.nombre}`).textContent = puedeGastos;
+    document.getElementById(`g_deuda_${esc.nombre}`).textContent = puedeDeuda;
+    document.getElementById(`g_ahorro_${esc.nombre}`).textContent = evalAhorro;
   });
-
-  html += `
-      </tbody>
-    </table>
-    <p style="font-size: 0.85rem; margin-top: 8px;">
-      ⚠️ Simulación basada en caída del 10%, 30% y 50% de ingresos y activos no líquidos.<br>
-      💡 Efectivo y equivalentes no se afectan en la simulación.
-    </p>
-  `;
-
-  const contenedor = document.getElementById("resG");
-  if (contenedor) contenedor.innerHTML = html;
-  else console.warn("⚠️ El contenedor #resG no existe en el DOM.");
 }
 function calcularYMostrar() {
   const data = recolectarDatosFinancieros();
