@@ -354,17 +354,6 @@ button:active {
     border: 0;
   }
 
-  .tabla-resultados thead {
-    display: none;
-  }
-
-  .tabla-resultados tr {
-    display: block;
-    margin-bottom: 16px;
-    border-bottom: 2px solid #ccc;
-    background-color: #fff;
-  }
-
   .tabla-resultados td {
     display: flex;
     justify-content: space-between;
