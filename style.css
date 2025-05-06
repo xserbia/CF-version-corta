@@ -152,7 +152,6 @@ select {
   margin-left: 4px;
 }
 
-/* 📱 Responsive ajustes mejorados */
 @media (max-width: 768px) {
   .top-navigation,
   #navResultados {
@@ -162,6 +161,18 @@ select {
     padding-bottom: 12px;
     gap: 8px;
   }
+
+  /* 👇 Alinea texto de celdas de tabla a la derecha en móviles */
+  .tabla-resultados td,
+  .tabla-resultados th {
+    text-align: right;
+  }
+
+  /* Opcional: Asegurar que data-label también esté alineado a la derecha si usas diseño responsivo con ::before */
+  .tabla-resultados td::before {
+    text-align: right;
+  }
+}
 
   .nav-btn {
     flex: 0 0 auto;
