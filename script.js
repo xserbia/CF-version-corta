@@ -175,7 +175,7 @@ function mostrarResultadoLiquidez(data) {
   const superavit = ingreso - gastoTotal - ahorro;
   const superavitPct = ingreso > 0 ? (superavit / ingreso) * 100 : 0;
   const reservaMeses = gastoTotal > 0 ? (data.efectivo_similar || 0) / (gastoTotal / 12) : 0;
-  const razonCorriente = deuda > 0 ? (data.efectivo_similar || 0) / deuda : 0;
+  const razonCorriente = gastoTotal > 0 ? (data.efectivo_similar || 0) / gastoTotal : 0;
   const capacidad = ingreso > 0 ? ((ahorro + superavit) / ingreso) * 100 : 0;
   const tasaAhorro = ingreso > 0 ? (ahorro / ingreso) * 100 : 0;
 
