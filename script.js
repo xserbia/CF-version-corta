@@ -562,7 +562,8 @@ function mostrarResultadoRetiro(data) {
   const capitalInicial = 
     (data.aporte_personal_retiro || 0) +
     (data.aporte_empleador_retiro || 0) +
-    (data.otros_ahorros || 0);
+    (data.otros_ahorros || 0) +
+    (data.cuentas_retiro || 0);
 
   const ingresoDeseadoAnual = ingresoBruto * reemplazo;
   const ingresoAjustado = ingresoDeseadoAnual * Math.pow(1 + inflacion, añosAcumulacion);
